@@ -1,0 +1,15 @@
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\bin\Debug\net6.0\Kodalib.Interfaces.deps.json
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\bin\Debug\net6.0\Kodalib.Interfaces.dll
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\bin\Debug\net6.0\Kodalib.Interfaces.pdb
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\bin\Debug\net6.0\KodalibApi.Data.dll
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\bin\Debug\net6.0\KodalibApi.Data.pdb
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\Kodalib.Interfaces.csproj.AssemblyReference.cache
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\Kodalib.Interfaces.GeneratedMSBuildEditorConfig.editorconfig
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\Kodalib.Interfaces.AssemblyInfoInputs.cache
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\Kodalib.Interfaces.AssemblyInfo.cs
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\Kodalib.Interfaces.csproj.CoreCompileInputs.cache
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\Kodalib.Interfaces.csproj.CopyComplete
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\Kodalib.Interfaces.dll
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\refint\Kodalib.Interfaces.dll
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\Kodalib.Interfaces.pdb
+C:\Kodalib\KodalibApi\Kodalib.Interfaces\obj\Debug\net6.0\ref\Kodalib.Interfaces.dll
