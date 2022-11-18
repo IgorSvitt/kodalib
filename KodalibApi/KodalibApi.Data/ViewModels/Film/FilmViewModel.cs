@@ -27,4 +27,6 @@ public class FilmViewModels
     public string? YoutubeTrailer { get; set; }
     
     public List<string>? FilmsCountriesList { get; set; }
+    
+    public List<string>? FilmsGenreList { get; set; }
 }

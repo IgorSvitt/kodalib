@@ -1,7 +1,9 @@
 using Kodalib.Interfaces.CountryInterfaces;
 using Kodalib.Interfaces.FilmIntefaces;
+using Kodalib.Interfaces.GenreInterfaces;
 using Kodalib.Repository.CountryRepository;
 using Kodalib.Repository.FilmRepository;
+using Kodalib.Repository.GenreRepository;
 using Kodalib.Service.Implementations;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Context;
@@ -9,10 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
@@ -24,9 +23,11 @@ builder.Services.AddScoped<IFilmService, FilmService>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<IGenreService, GenreService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -40,7 +40,7 @@ public class CountryService: ICountryService
         {
             return new BaseResponce<IEnumerable<CountryViewModel>>()
             {
-                Description = $"[GetFilms] : {ex.Message}"
+                Description = $"[GetCountries] : {ex.Message}"
             };
         }
     }
@@ -66,7 +66,7 @@ public class CountryService: ICountryService
         {
             return new BaseResponce<CountryViewModel>()
             {
-                Description = $"[GetFilms] : {ex.Message}"
+                Description = $"[GetCountry] : {ex.Message}"
             };
         }
     }
@@ -92,7 +92,7 @@ public class CountryService: ICountryService
         {
             return new BaseResponce<Country>()
             {
-                Description = $"[GetFilms] : {ex.Message}"
+                Description = $"[GetCountry] : {ex.Message}"
             };
         }
     }
@@ -120,7 +120,7 @@ public class CountryService: ICountryService
         {
             return new BaseResponce<bool>()
             {
-                Description = $"[GetFilm] : {ex.Message}",
+                Description = $"[GetCountry] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
@@ -149,7 +149,7 @@ public class CountryService: ICountryService
         {
             return new BaseResponce<CountryViewModel>()
             {
-                Description = $"[GetFilm] : {ex.Message}",
+                Description = $"[GetCountry] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

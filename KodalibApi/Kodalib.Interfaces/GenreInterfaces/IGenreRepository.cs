@@ -11,5 +11,5 @@ public interface IGenreRepository: IBaseRepository<Genre>
 
     public Task<GenreViewModel> GetById(int id);
 
-    public Task<List<GenreViewModel>> GetAllCountry();
+    public Task<List<GenreViewModel>> GetAllGenres();
 }

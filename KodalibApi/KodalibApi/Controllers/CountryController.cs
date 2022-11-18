@@ -41,12 +41,12 @@ public class CountryController : ControllerBase
     [HttpPost("CreateCountry")]
     public void CreateCountry(CountryViewModel countryViewModel)
     {
-        var responce = _countryService.CreateCountry(countryViewModel);
+        _countryService.CreateCountry(countryViewModel);
     }
 
     [HttpDelete("DeleteCountry")]
     public void DeleteCountry(int id)
     {
-        var responce = _countryService.DeleteCountry(id);
+        _countryService.DeleteCountry(id);
     }
 }

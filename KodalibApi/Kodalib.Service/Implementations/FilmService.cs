@@ -1,9 +1,11 @@
 ﻿using Kodalib.Interfaces.Base;
 using Kodalib.Interfaces.CountryInterfaces;
 using Kodalib.Interfaces.FilmIntefaces;
+using Kodalib.Interfaces.GenreInterfaces;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
+using KodalibApi.Data.Models.FilmTables;
 using KodalibApi.Data.Responce;
 using KodalibApi.Data.Responce.Enum;
 using KodalibApi.Data.ViewModels.Country;
@@ -16,13 +18,16 @@ public class FilmService : IFilmService
     private readonly IFilmRepository _filmRepository;
     private readonly ApplicationDbContext _context;
     private readonly ICountryRepository _countryRepository;
+    private readonly IGenreRepository _genreRepository;
 
 
-    public FilmService(IFilmRepository filmRepository, ApplicationDbContext context, ICountryRepository countryRepository)
+    public FilmService(IFilmRepository filmRepository, ApplicationDbContext context, ICountryRepository countryRepository,
+        IGenreRepository genreRepository)
     {
         _filmRepository = filmRepository;
         _context = context;
         _countryRepository = countryRepository;
+        _genreRepository = genreRepository;
     }
 
     public IBaseResponce<IEnumerable<FilmViewModels>> GetFilms()
@@ -153,6 +158,27 @@ public class FilmService : IFilmService
                     CountryId = idCountry,
                 };
                 _context.FilmsCountriesEnumerable.Add(filmsCountries);
+                _context.SaveChanges();
+            }
+            
+            foreach (var name in filmViewModels.FilmsGenreList)
+            {
+                var nameGenre = _context.Genres.FirstOrDefault(x => x.Name == name);
+
+                if (nameGenre == null)
+                {
+                    _genreRepository.Create(new Genre{Name = name});
+                    nameGenre = _context.Genres.FirstOrDefault(x => x.Name == name);
+                }
+
+                var idCountry = nameGenre.Id;
+                
+                var filmsGenres = new FilmsGenres()
+                {
+                    FilmsId = film.Id,
+                    GenreId = idCountry,
+                };
+                _context.FilmsGenresEnumerable.Add(filmsGenres);
                 _context.SaveChanges();
             }
             

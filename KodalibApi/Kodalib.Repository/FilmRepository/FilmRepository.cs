@@ -45,7 +45,8 @@ public class FilmRepository: IFilmRepository
             Budget = film.Budget,
             GrossWorldwide = film.GrossWorldwide,
             YoutubeTrailer = film.YoutubeTrailer,
-            FilmsCountriesList = film.CountriesList.Select(n=> n.Country.Name).ToList()
+            FilmsCountriesList = film.CountriesList.Select(n=> n.Country.Name).ToList(),
+            FilmsGenreList = film.GenresList.Select(n => n.Genre.Name).ToList(),
         }).FirstOrDefaultAsync();
     }
     
@@ -64,7 +65,8 @@ public class FilmRepository: IFilmRepository
             Budget = film.Budget,
             GrossWorldwide = film.GrossWorldwide,
             YoutubeTrailer = film.YoutubeTrailer,
-            FilmsCountriesList = film.CountriesList.Select(n => n.Country.Name).ToList()
+            FilmsCountriesList = film.CountriesList.Select(n => n.Country.Name).ToList(),
+            FilmsGenreList = film.GenresList.Select(n => n.Genre.Name).ToList(),
         }).ToListAsync();
     }
 

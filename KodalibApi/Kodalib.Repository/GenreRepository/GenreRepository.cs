@@ -48,19 +48,19 @@ public class GenreRepository: IGenreRepository
 
     public async Task<GenreViewModel> GetById(int id)
     {
-        return await _context.Genres.Where(x => x.Id == id).Select(country => new GenreViewModel()
+        return await _context.Genres.Where(x => x.Id == id).Select(genre => new GenreViewModel()
         {
-            Name = country.Name,
-            FilmTitle = country.FilmsList.Select(n => n.Film.Title).ToList()
+            Name = genre.Name,
+            FilmTitle = genre.FilmsList.Select(n => n.Film.Title).ToList()
         }).FirstOrDefaultAsync();
     }
 
-    public async Task<List<GenreViewModel>> GetAllCountry()
+    public async Task<List<GenreViewModel>> GetAllGenres()
     {
-        return await _context.Genres.Select(country => new GenreViewModel()
+        return await _context.Genres.Select(genre => new GenreViewModel()
         {
-            Name = country.Name,
-            FilmTitle = country.FilmsList.Select(n => n.Film.Title).ToList()
+            Name = genre.Name,
+            FilmTitle = genre.FilmsList.Select(n => n.Film.Title).ToList()
         }).ToListAsync();
     }
 }
