@@ -32,16 +32,16 @@ public class CountryController : ControllerBase
     }
     
     [HttpGet("GetCountryByName/{name}")]
-    public Country GetCountryByName(string name)
+    public CountryViewModel GetCountryByName(string name)
     {
         var responce = _countryService.GetCountryByName(name);
         return responce.Data;
     }
 
     [HttpPost("CreateCountry")]
-    public void CreateCountry(CountryViewModel countryViewModel)
+    public void CreateCountry(string countryViewModelName)
     {
-        _countryService.CreateCountry(countryViewModel);
+        _countryService.CreateCountry(countryViewModelName);
     }
 
     [HttpDelete("DeleteCountry")]

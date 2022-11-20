@@ -8,15 +8,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KodalibApi.Data", "KodalibA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interfaces", "Interfaces", "{6E06DD6E-9721-42E6-AA4E-B476EAE6501C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kodalib.Interfaces", "Kodalib.Interfaces\Kodalib.Interfaces.csproj", "{C615ED6F-E63A-4CBC-BD0B-F7C6E845198C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KodalibApi.Interfaces", "KodalibApi.Interfaces\KodalibApi.Interfaces.csproj", "{C615ED6F-E63A-4CBC-BD0B-F7C6E845198C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{3858C025-CE7B-428F-BBB7-F997FD9171DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kodalib.Repository", "Kodalib.Repository\Kodalib.Repository.csproj", "{5B0925C9-CBB2-4985-979E-A9207A406DBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KodalibApi.Repository", "KodalibApi.Repository\KodalibApi.Repository.csproj", "{5B0925C9-CBB2-4985-979E-A9207A406DBD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{DB303E32-2FED-496E-A525-A9A4440D8278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kodalib.Service", "Kodalib.Service\Kodalib.Service.csproj", "{F9982E72-84A4-4270-92C0-44C4C8682D44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KodalibApi.Service", "KodalibApi.Service\KodalibApi.Service.csproj", "{F9982E72-84A4-4270-92C0-44C4C8682D44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{41F31E0C-2E0E-426F-BB1B-CCB964830323}"
 EndProject

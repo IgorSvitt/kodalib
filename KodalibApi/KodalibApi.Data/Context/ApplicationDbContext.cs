@@ -1,4 +1,5 @@
 ﻿using KodalibApi.Data.Models;
+using KodalibApi.Data.Models.ActorsTables;
 using KodalibApi.Data.Models.FilmTables;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,8 +14,11 @@ public class ApplicationDbContext: DbContext
     public DbSet<Film> Films { get; set; }
     public DbSet<Country> Countries { get; set; }
     public DbSet<Genre> Genres { get; set; }
+    public DbSet<Actor> Actors { get; set; }
     public DbSet<FilmsCountries> FilmsCountriesEnumerable { get; set; }
     public DbSet<FilmsGenres> FilmsGenresEnumerable { get; set; }
+    public DbSet<Character> Characters { get; set; }
+    public DbSet<TopActor> TopActors { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,13 +43,41 @@ public class ApplicationDbContext: DbContext
             .HasKey(t => new {t.FilmsId, t.GenreId});
 
         modelBuilder.Entity<FilmsGenres>()
-            .HasOne(fc => fc.Film)
+            .HasOne(fg => fg.Film)
             .WithMany(f => f.GenresList)
-            .HasForeignKey(fc => fc.FilmsId);
+            .HasForeignKey(fg => fg.FilmsId);
         
         modelBuilder.Entity<FilmsGenres>()
-            .HasOne(fc => fc.Genre)
-            .WithMany(c => c.FilmsList)
-            .HasForeignKey(fc => fc.GenreId);
+            .HasOne(fg => fg.Genre)
+            .WithMany(g => g.FilmsList)
+            .HasForeignKey(fg => fg.GenreId);
+        
+        // ModelBuilder for TopActors
+        modelBuilder.Entity<TopActor>()
+            .HasKey(t => new {t.FilmId, t.ActorId});
+
+        modelBuilder.Entity<TopActor>()
+            .HasOne(fa => fa.Film)
+            .WithMany(f => f.TopActors)
+            .HasForeignKey(fa => fa.FilmId);
+        
+        modelBuilder.Entity<TopActor>()
+            .HasOne(fa => fa.Actor)
+            .WithMany(a => a.TopActors)
+            .HasForeignKey(fa => fa.ActorId);
+        
+        // ModelBuilder for Character
+        modelBuilder.Entity<Character>()
+            .HasKey(t => new {t.FilmId, t.ActorId});
+
+        modelBuilder.Entity<Character>()
+            .HasOne(fa => fa.Film)
+            .WithMany(f => f.Characters)
+            .HasForeignKey(fa => fa.FilmId);
+        
+        modelBuilder.Entity<Character>()
+            .HasOne(fa => fa.Actor)
+            .WithMany(a => a.Films)
+            .HasForeignKey(fa => fa.ActorId);
     }
 }

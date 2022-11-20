@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Kodalib.Service</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\KodalibApi.Interfaces\KodalibApi.Interfaces.csproj" />
+      <ProjectReference Include="..\KodalibApi.Data\KodalibApi.Data.csproj" />
+    </ItemGroup>
+
+</Project>

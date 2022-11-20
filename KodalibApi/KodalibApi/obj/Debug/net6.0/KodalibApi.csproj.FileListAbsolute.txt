@@ -249,9 +249,9 @@ C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\runtimes\unix\lib\net6.0\Syste
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Kodalib.Interfaces.dll
-C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Kodalib.Repository.dll
-C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Kodalib.Service.dll
-C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Kodalib.Interfaces.pdb
-C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Kodalib.Repository.pdb
-C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Kodalib.Service.pdb
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Interfaces.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Repository.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Service.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Interfaces.pdb
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Repository.pdb
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Service.pdb

@@ -3030,47 +3030,6 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
-      "Kodalib.Interfaces/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "KodalibApi.Data": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Kodalib.Interfaces.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Kodalib.Interfaces.dll": {}
-        }
-      },
-      "Kodalib.Repository/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "Kodalib.Interfaces": "1.0.0",
-          "Kodalib.Service": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Kodalib.Repository.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Kodalib.Repository.dll": {}
-        }
-      },
-      "Kodalib.Service/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "Kodalib.Interfaces": "1.0.0",
-          "KodalibApi.Data": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Kodalib.Service.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Kodalib.Service.dll": {}
-        }
-      },
       "KodalibApi.Data/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -3083,6 +3042,47 @@
         },
         "runtime": {
           "bin/placeholder/KodalibApi.Data.dll": {}
+        }
+      },
+      "KodalibApi.Interfaces/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "KodalibApi.Data": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/KodalibApi.Interfaces.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/KodalibApi.Interfaces.dll": {}
+        }
+      },
+      "KodalibApi.Repository/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "KodalibApi.Interfaces": "1.0.0",
+          "KodalibApi.Service": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/KodalibApi.Repository.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/KodalibApi.Repository.dll": {}
+        }
+      },
+      "KodalibApi.Service/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "KodalibApi.Data": "1.0.0",
+          "KodalibApi.Interfaces": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/KodalibApi.Service.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/KodalibApi.Service.dll": {}
         }
       }
     }
@@ -9376,33 +9376,33 @@
         "system.xml.xdocument.nuspec"
       ]
     },
-    "Kodalib.Interfaces/1.0.0": {
-      "type": "project",
-      "path": "../Kodalib.Interfaces/Kodalib.Interfaces.csproj",
-      "msbuildProject": "../Kodalib.Interfaces/Kodalib.Interfaces.csproj"
-    },
-    "Kodalib.Repository/1.0.0": {
-      "type": "project",
-      "path": "../Kodalib.Repository/Kodalib.Repository.csproj",
-      "msbuildProject": "../Kodalib.Repository/Kodalib.Repository.csproj"
-    },
-    "Kodalib.Service/1.0.0": {
-      "type": "project",
-      "path": "../Kodalib.Service/Kodalib.Service.csproj",
-      "msbuildProject": "../Kodalib.Service/Kodalib.Service.csproj"
-    },
     "KodalibApi.Data/1.0.0": {
       "type": "project",
       "path": "../KodalibApi.Data/KodalibApi.Data.csproj",
       "msbuildProject": "../KodalibApi.Data/KodalibApi.Data.csproj"
+    },
+    "KodalibApi.Interfaces/1.0.0": {
+      "type": "project",
+      "path": "../KodalibApi.Interfaces/KodalibApi.Interfaces.csproj",
+      "msbuildProject": "../KodalibApi.Interfaces/KodalibApi.Interfaces.csproj"
+    },
+    "KodalibApi.Repository/1.0.0": {
+      "type": "project",
+      "path": "../KodalibApi.Repository/KodalibApi.Repository.csproj",
+      "msbuildProject": "../KodalibApi.Repository/KodalibApi.Repository.csproj"
+    },
+    "KodalibApi.Service/1.0.0": {
+      "type": "project",
+      "path": "../KodalibApi.Service/KodalibApi.Service.csproj",
+      "msbuildProject": "../KodalibApi.Service/KodalibApi.Service.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Kodalib.Interfaces >= 1.0.0",
-      "Kodalib.Repository >= 1.0.0",
-      "Kodalib.Service >= 1.0.0",
       "KodalibApi.Data >= 1.0.0",
+      "KodalibApi.Interfaces >= 1.0.0",
+      "KodalibApi.Repository >= 1.0.0",
+      "KodalibApi.Service >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 6.0.11",
       "Microsoft.EntityFrameworkCore.Design >= 6.0.11",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.11",
@@ -9436,17 +9436,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Kodalib\\KodalibApi\\Kodalib.Interfaces\\Kodalib.Interfaces.csproj": {
-              "projectPath": "C:\\Kodalib\\KodalibApi\\Kodalib.Interfaces\\Kodalib.Interfaces.csproj"
-            },
-            "C:\\Kodalib\\KodalibApi\\Kodalib.Repository\\Kodalib.Repository.csproj": {
-              "projectPath": "C:\\Kodalib\\KodalibApi\\Kodalib.Repository\\Kodalib.Repository.csproj"
-            },
-            "C:\\Kodalib\\KodalibApi\\Kodalib.Service\\Kodalib.Service.csproj": {
-              "projectPath": "C:\\Kodalib\\KodalibApi\\Kodalib.Service\\Kodalib.Service.csproj"
-            },
             "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\KodalibApi.Data.csproj": {
               "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\KodalibApi.Data.csproj"
+            },
+            "C:\\Kodalib\\KodalibApi\\KodalibApi.Interfaces\\KodalibApi.Interfaces.csproj": {
+              "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Interfaces\\KodalibApi.Interfaces.csproj"
+            },
+            "C:\\Kodalib\\KodalibApi\\KodalibApi.Repository\\KodalibApi.Repository.csproj": {
+              "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Repository\\KodalibApi.Repository.csproj"
+            },
+            "C:\\Kodalib\\KodalibApi\\KodalibApi.Service\\KodalibApi.Service.csproj": {
+              "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Service\\KodalibApi.Service.csproj"
             }
           }
         }

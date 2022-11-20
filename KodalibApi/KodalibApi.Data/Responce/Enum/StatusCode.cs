@@ -4,7 +4,8 @@ public enum StatusCode
 {
     FilmNotFound = 0,
     CountryNotFound = 1,
-    GenreNotFound = 1,
+    GenreNotFound = 2,
+    ActorNotFound = 3,
     OK = 200,
     InternalServerError = 500
 }

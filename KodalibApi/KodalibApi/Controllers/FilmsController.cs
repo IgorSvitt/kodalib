@@ -1,4 +1,4 @@
-﻿using Kodalib.Interfaces.FilmIntefaces;
+﻿using KodalibApi.Interfaces.FilmIntefaces;
 using Kodalib.Repository;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Models;

@@ -1,4 +1,4 @@
-﻿using Kodalib.Interfaces.GenreInterfaces;
+﻿using KodalibApi.Interfaces.GenreInterfaces;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Models;
 using KodalibApi.Data.ViewModels.Genre;
@@ -33,16 +33,16 @@ public class GenreController : ControllerBase
     }
     
     [HttpGet("GetGenreByName/{name}")]
-    public Genre GetCountryByName(string name)
+    public GenreViewModel GetCountryByName(string name)
     {
         var responce = _genreService.GetGenreByName(name);
         return responce.Data;
     }
 
     [HttpPost("CreateGenre")]
-    public void CreateCountry(GenreViewModel countryViewModel)
+    public void CreateCountry(string genreViewModelName)
     {
-        _genreService.CreateGenre(countryViewModel);
+        _genreService.CreateGenre(genreViewModelName);
     }
 
     [HttpDelete("DeleteGenre")]

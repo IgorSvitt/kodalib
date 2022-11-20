@@ -23,9 +23,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Kodalib.Interfaces\Kodalib.Interfaces.csproj" />
-      <ProjectReference Include="..\Kodalib.Repository\Kodalib.Repository.csproj" />
-      <ProjectReference Include="..\Kodalib.Service\Kodalib.Service.csproj" />
+      <ProjectReference Include="..\KodalibApi.Interfaces\KodalibApi.Interfaces.csproj" />
+      <ProjectReference Include="..\KodalibApi.Repository\KodalibApi.Repository.csproj" />
+      <ProjectReference Include="..\KodalibApi.Service\KodalibApi.Service.csproj" />
       <ProjectReference Include="..\KodalibApi.Data\KodalibApi.Data.csproj" />
     </ItemGroup>
 
