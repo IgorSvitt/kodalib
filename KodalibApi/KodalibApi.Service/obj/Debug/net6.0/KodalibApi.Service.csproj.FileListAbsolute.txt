@@ -1,0 +1,17 @@
+C:\Kodalib\KodalibApi\KodalibApi.Service\bin\Debug\net6.0\KodalibApi.Service.deps.json
+C:\Kodalib\KodalibApi\KodalibApi.Service\bin\Debug\net6.0\KodalibApi.Service.dll
+C:\Kodalib\KodalibApi\KodalibApi.Service\bin\Debug\net6.0\KodalibApi.Service.pdb
+C:\Kodalib\KodalibApi\KodalibApi.Service\bin\Debug\net6.0\KodalibApi.Data.dll
+C:\Kodalib\KodalibApi\KodalibApi.Service\bin\Debug\net6.0\KodalibApi.Interfaces.dll
+C:\Kodalib\KodalibApi\KodalibApi.Service\bin\Debug\net6.0\KodalibApi.Interfaces.pdb
+C:\Kodalib\KodalibApi\KodalibApi.Service\bin\Debug\net6.0\KodalibApi.Data.pdb
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\KodalibApi.Service.csproj.AssemblyReference.cache
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\KodalibApi.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\KodalibApi.Service.AssemblyInfoInputs.cache
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\KodalibApi.Service.AssemblyInfo.cs
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\KodalibApi.Service.csproj.CoreCompileInputs.cache
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\KodalibApi.Service.csproj.CopyComplete
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\KodalibApi.Service.dll
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\refint\KodalibApi.Service.dll
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\KodalibApi.Service.pdb
+C:\Kodalib\KodalibApi\KodalibApi.Service\obj\Debug\net6.0\ref\KodalibApi.Service.dll
