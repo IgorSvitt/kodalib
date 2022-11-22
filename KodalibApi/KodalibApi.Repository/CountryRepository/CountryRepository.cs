@@ -2,6 +2,7 @@
 using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
 using KodalibApi.Data.ViewModels.Country;
+using KodalibApi.Data.ViewModels.Film;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kodalib.Repository.CountryRepository;
@@ -26,7 +27,7 @@ public class CountryRepository : ICountryRepository
         return await _context.Countries.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public  Country GetByName(string name)
+    public Country GetByName(string name)
     {
         return  _context.Countries.FirstOrDefault(x => x.Name == name);
     }
@@ -49,19 +50,18 @@ public class CountryRepository : ICountryRepository
 
     public async Task<CountryViewModel> GetByNameFullDescription(string name)
     {
-        var test = _context.Countries.Where(x => x.Name == name).Select(country => new CountryViewModel()
+        var countryViewModel = _context.Countries.Where(x => x.Name == name).Select(country => new CountryViewModel()
         {
             Id = country.Id,
             Name = country.Name,
-            FilmTitle = country.FilmsList.Select(n => n.Film.Title).ToList()
+            FilmTitle = country.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+            {
+                Id = film.FilmsId,
+                Title = film.Film.Title,
+            }).ToList()
         }).FirstOrDefaultAsync();
-
-        if (test == null)
-        {
-            Console.WriteLine("It's null");
-        }
         
-        return await test;
+        return await countryViewModel;
 
     }
 
@@ -71,7 +71,11 @@ public class CountryRepository : ICountryRepository
         {
             Id = country.Id,
             Name = country.Name,
-            FilmTitle = country.FilmsList.Select(n => n.Film.Title).ToList()
+            FilmTitle = country.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+            {
+                Id = film.FilmsId,
+                Title = film.Film.Title,
+            }).ToList()
         }).FirstOrDefaultAsync();
     }
 
@@ -81,7 +85,11 @@ public class CountryRepository : ICountryRepository
         {
             Id = country.Id,
             Name = country.Name,
-            FilmTitle = country.FilmsList.Select(n => n.Film.Title).ToList()
+            FilmTitle = country.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+            {
+                Id = film.FilmsId,
+                Title = film.Film.Title,
+            }).ToList()
         }).ToListAsync();
     }
 }

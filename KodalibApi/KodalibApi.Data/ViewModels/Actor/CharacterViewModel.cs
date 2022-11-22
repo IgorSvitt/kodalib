@@ -4,6 +4,7 @@ namespace KodalibApi.Data.ViewModels.Actor;
 
 public class CharacterViewModel
 {
+    public int? Id { get; set; }
     public string? Role { get; set; }
     
     public string Actor { get; set; }

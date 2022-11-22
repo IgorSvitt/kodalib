@@ -2,6 +2,7 @@
 using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
 using KodalibApi.Data.Models.ActorsTables;
+using KodalibApi.Data.Models.FIlmTables;
 using KodalibApi.Data.ViewModels.Actor;
 using KodalibApi.Data.ViewModels.Film;
 using Microsoft.EntityFrameworkCore;
@@ -56,12 +57,16 @@ public class FilmRepository: IFilmRepository
             FilmsGenreList = film.GenresList.Select(n => n.Genre.Name).ToList(),
             TopActorsList = film.TopActors.Select(character=> new TopActorViewModel()
             {
+                Id = character.ActorId,
                 Actor = character.Actor.Name,
+                ActorImdbId = character.Actor.PersonImdbId
             }).ToList(),
             ActorsList = film.Characters.Select(character=> new CharacterViewModel()
             {
+                Id = character.Actor.Id,
                 Role = character.Role,
                 Actor = character.Actor.Name,
+                ActorImdbId = character.Actor.PersonImdbId
             }).ToList()
         }).FirstOrDefaultAsync();
     }
@@ -85,14 +90,16 @@ public class FilmRepository: IFilmRepository
             FilmsGenreList = film.GenresList.Select(n => n.Genre.Name).ToList(),
             TopActorsList = film.TopActors.Select(character=> new TopActorViewModel()
             {
+                Id = character.ActorId,
                 Actor = character.Actor.Name,
-                ActorImdbId = character.Actor.ActorImdbId
+                ActorImdbId = character.Actor.PersonImdbId
             }).ToList(),
             ActorsList = film.Characters.Select(character=> new CharacterViewModel()
             {
+                Id = character.Actor.Id,
                 Role = character.Role,
                 Actor = character.Actor.Name,
-                ActorImdbId = character.Actor.ActorImdbId
+                ActorImdbId = character.Actor.PersonImdbId
             }).ToList()
         }).ToListAsync();
     }
@@ -127,12 +134,16 @@ public class FilmRepository: IFilmRepository
             FilmsGenreList = film.GenresList.Select(n => n.Genre.Name).ToList(),
             TopActorsList = film.TopActors.Select(character=> new TopActorViewModel()
             {
+                Id = character.ActorId,
                 Actor = character.Actor.Name,
+                ActorImdbId = character.Actor.PersonImdbId
             }).ToList(),
             ActorsList = film.Characters.Select(character=> new CharacterViewModel()
             {
+                Id = character.Actor.Id,
                 Role = character.Role,
                 Actor = character.Actor.Name,
+                ActorImdbId = character.Actor.PersonImdbId
             }).ToList()
         }).FirstOrDefaultAsync();
     }

@@ -22,7 +22,28 @@ namespace KodalibApi.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("KodalibApi.Data.Models.Actor", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.Character", b =>
+                {
+                    b.Property<int>("FilmId")
+                        .HasColumnType("integer")
+                        .HasColumnName("film_id");
+
+                    b.Property<int>("ActorId")
+                        .HasColumnType("integer")
+                        .HasColumnName("actors_id");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("text")
+                        .HasColumnName("role");
+
+                    b.HasKey("FilmId", "ActorId");
+
+                    b.HasIndex("ActorId");
+
+                    b.ToTable("character");
+                });
+
+            modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,11 +51,6 @@ namespace KodalibApi.Data.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ActorImdbId")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("actors_imdb_id");
 
                     b.Property<string>("BirthDate")
                         .HasColumnType("text")
@@ -57,9 +73,10 @@ namespace KodalibApi.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("PersonImdbId")
+                        .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("roles");
+                        .HasColumnName("person_imdb_id");
 
                     b.Property<string>("Summary")
                         .HasColumnType("text")
@@ -70,25 +87,40 @@ namespace KodalibApi.Data.Migrations
                     b.ToTable("actors");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.Character", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.Role", b =>
                 {
-                    b.Property<int>("FilmId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("film_id");
+                        .HasColumnName("id");
 
-                    b.Property<int>("ActorId")
-                        .HasColumnType("integer")
-                        .HasColumnName("actors_id");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Role")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("role");
+                        .HasColumnName("name");
 
-                    b.HasKey("FilmId", "ActorId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ActorId");
+                    b.ToTable("role");
+                });
 
-                    b.ToTable("character");
+            modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.RolePerson", b =>
+                {
+                    b.Property<int>("PersonId")
+                        .HasColumnType("integer")
+                        .HasColumnName("person_id");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("role_id");
+
+                    b.HasKey("PersonId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("role_person");
                 });
 
             modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.TopActor", b =>
@@ -127,7 +159,7 @@ namespace KodalibApi.Data.Migrations
                     b.ToTable("countries");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.Film", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.FIlmTables.Film", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -187,7 +219,7 @@ namespace KodalibApi.Data.Migrations
                     b.ToTable("films");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.FilmsCountries", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.FIlmTables.FilmsCountries", b =>
                 {
                     b.Property<int>("FilmsId")
                         .HasColumnType("integer")
@@ -242,13 +274,13 @@ namespace KodalibApi.Data.Migrations
 
             modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.Character", b =>
                 {
-                    b.HasOne("KodalibApi.Data.Models.Actor", "Actor")
+                    b.HasOne("KodalibApi.Data.Models.ActorsTables.Person", "Actor")
                         .WithMany("Films")
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KodalibApi.Data.Models.Film", "Film")
+                    b.HasOne("KodalibApi.Data.Models.FIlmTables.Film", "Film")
                         .WithMany("Characters")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -259,15 +291,34 @@ namespace KodalibApi.Data.Migrations
                     b.Navigation("Film");
                 });
 
+            modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.RolePerson", b =>
+                {
+                    b.HasOne("KodalibApi.Data.Models.ActorsTables.Person", "Person")
+                        .WithMany("Role")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KodalibApi.Data.Models.ActorsTables.Role", "Role")
+                        .WithMany("Persons")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.TopActor", b =>
                 {
-                    b.HasOne("KodalibApi.Data.Models.Actor", "Actor")
+                    b.HasOne("KodalibApi.Data.Models.ActorsTables.Person", "Actor")
                         .WithMany("TopActors")
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KodalibApi.Data.Models.Film", "Film")
+                    b.HasOne("KodalibApi.Data.Models.FIlmTables.Film", "Film")
                         .WithMany("TopActors")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -278,7 +329,7 @@ namespace KodalibApi.Data.Migrations
                     b.Navigation("Film");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.FilmsCountries", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.FIlmTables.FilmsCountries", b =>
                 {
                     b.HasOne("KodalibApi.Data.Models.Country", "Country")
                         .WithMany("FilmsList")
@@ -286,7 +337,7 @@ namespace KodalibApi.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KodalibApi.Data.Models.Film", "Film")
+                    b.HasOne("KodalibApi.Data.Models.FIlmTables.Film", "Film")
                         .WithMany("CountriesList")
                         .HasForeignKey("FilmsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -299,7 +350,7 @@ namespace KodalibApi.Data.Migrations
 
             modelBuilder.Entity("KodalibApi.Data.Models.FilmTables.FilmsGenres", b =>
                 {
-                    b.HasOne("KodalibApi.Data.Models.Film", "Film")
+                    b.HasOne("KodalibApi.Data.Models.FIlmTables.Film", "Film")
                         .WithMany("GenresList")
                         .HasForeignKey("FilmsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -316,11 +367,18 @@ namespace KodalibApi.Data.Migrations
                     b.Navigation("Genre");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.Actor", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.Person", b =>
                 {
                     b.Navigation("Films");
 
+                    b.Navigation("Role");
+
                     b.Navigation("TopActors");
+                });
+
+            modelBuilder.Entity("KodalibApi.Data.Models.ActorsTables.Role", b =>
+                {
+                    b.Navigation("Persons");
                 });
 
             modelBuilder.Entity("KodalibApi.Data.Models.Country", b =>
@@ -328,7 +386,7 @@ namespace KodalibApi.Data.Migrations
                     b.Navigation("FilmsList");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.Film", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.FIlmTables.Film", b =>
                 {
                     b.Navigation("Characters");
 

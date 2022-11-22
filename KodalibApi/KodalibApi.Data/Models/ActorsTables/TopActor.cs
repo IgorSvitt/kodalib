@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using KodalibApi.Data.Models.FIlmTables;
 
 namespace KodalibApi.Data.Models.ActorsTables;
 
@@ -11,7 +12,7 @@ public class TopActor
     [Column("actors_id")]
     public int ActorId { get; set; }
     
-    public Actor Actor { get; set; }
+    public Person Actor { get; set; }
 
     public Film Film { get; set; }
 }

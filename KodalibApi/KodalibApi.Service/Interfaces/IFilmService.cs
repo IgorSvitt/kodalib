@@ -1,5 +1,6 @@
 ﻿using KodalibApi.Interfaces.Base;
 using KodalibApi.Data.Models;
+using KodalibApi.Data.Models.FIlmTables;
 using KodalibApi.Data.Responce;
 using KodalibApi.Data.ViewModels.Film;
 

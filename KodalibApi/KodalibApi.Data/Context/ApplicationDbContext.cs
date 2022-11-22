@@ -1,6 +1,7 @@
 ﻿using KodalibApi.Data.Models;
 using KodalibApi.Data.Models.ActorsTables;
 using KodalibApi.Data.Models.FilmTables;
+using KodalibApi.Data.Models.FIlmTables;
 using Microsoft.EntityFrameworkCore;
 
 namespace KodalibApi.Data.Context;
@@ -14,11 +15,15 @@ public class ApplicationDbContext: DbContext
     public DbSet<Film> Films { get; set; }
     public DbSet<Country> Countries { get; set; }
     public DbSet<Genre> Genres { get; set; }
-    public DbSet<Actor> Actors { get; set; }
+    public DbSet<Person> Actors { get; set; }
+
+    public DbSet<Role> Roles { get; set; }
     public DbSet<FilmsCountries> FilmsCountriesEnumerable { get; set; }
     public DbSet<FilmsGenres> FilmsGenresEnumerable { get; set; }
     public DbSet<Character> Characters { get; set; }
     public DbSet<TopActor> TopActors { get; set; }
+
+    public DbSet<RolePerson> RolePersons { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -79,5 +84,33 @@ public class ApplicationDbContext: DbContext
             .HasOne(fa => fa.Actor)
             .WithMany(a => a.Films)
             .HasForeignKey(fa => fa.ActorId);
+        
+        // ModelBuilder for RolePerson
+        modelBuilder.Entity<RolePerson>()
+            .HasKey(t => new {t.PersonId, t.RoleId});
+
+        modelBuilder.Entity<RolePerson>()
+            .HasOne(rp => rp.Person)
+            .WithMany(p => p.Role)
+            .HasForeignKey(rp => rp.PersonId);
+        
+        modelBuilder.Entity<RolePerson>()
+            .HasOne(rp => rp.Role)
+            .WithMany(r => r.Persons)
+            .HasForeignKey(fa => fa.RoleId);
+        
+        // // ModelBuilder for Writer
+        // modelBuilder.Entity<FilmsWriters>()
+        //     .HasKey(t => new {t.FilmId, t.WriterId});
+        //
+        // modelBuilder.Entity<FilmsWriters>()
+        //     .HasOne(fw => fw.Film)
+        //     .WithMany(f => f.WritersList)
+        //     .HasForeignKey(fw => fw.FilmId);
+        //
+        // modelBuilder.Entity<FilmsWriters>()
+        //     .HasOne(fw => fw.Writer)
+        //     .WithMany(w => w.Films)
+        //     .HasForeignKey(fw => fw.WriterId);
     }
 }

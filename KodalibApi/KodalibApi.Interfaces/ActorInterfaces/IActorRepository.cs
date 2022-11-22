@@ -1,17 +1,18 @@
 ﻿using KodalibApi.Data.Models;
+using KodalibApi.Data.Models.ActorsTables;
 using KodalibApi.Data.ViewModels.Actor;
 using KodalibApi.Interfaces.Base;
 
 namespace KodalibApi.Interfaces.ActorInterfaces;
 
-public interface IActorRepository: IBaseRepository<Actor>
+public interface IActorRepository: IBaseRepository<Person>
 {
-    Task<ActorViewModel> GetByIdFullDescription(int id);
+    Task<PersonViewModel> GetByIdFullDescription(int id);
 
-    Task<List<ActorViewModel>> GetAllActors();
+    Task<List<PersonViewModel>> GetAllActors();
     
-    Task<ActorViewModel> GetByImdbIdFullDescription(string name);
+    Task<PersonViewModel> GetByImdbIdFullDescription(string name);
     
-    Task<Actor> GetByImdbId(string imdbId);
+    Person GetByImdbId(string imdbId);
     
 }

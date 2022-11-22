@@ -5,13 +5,13 @@ namespace Kodalib.Service.Interfaces;
 
 public interface IActorService
 {
-    IBaseResponce<IEnumerable<ActorViewModel>> GetActors();
+    IBaseResponce<IEnumerable<PersonViewModel>> GetActors();
 
-    IBaseResponce<ActorViewModel> GetActor(int id);
+    IBaseResponce<PersonViewModel> GetActor(int id);
     
-    IBaseResponce<List<ActorViewModel>> GetActorByName(string name);
+    IBaseResponce<List<PersonViewModel>> GetActorByName(string name);
 
     IBaseResponce<bool> DeleteActor(int id);
 
-    IBaseResponce<ActorViewModel> CreateActor(ActorViewModel actorViewModelName);
+    IBaseResponce<PersonViewModel> CreateActor(PersonViewModel actorViewModelName);
 }

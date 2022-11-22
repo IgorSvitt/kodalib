@@ -7,6 +7,7 @@ using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
 using KodalibApi.Data.Models.ActorsTables;
 using KodalibApi.Data.Models.FilmTables;
+using KodalibApi.Data.Models.FIlmTables;
 using KodalibApi.Data.Responce;
 using KodalibApi.Data.Responce.Enum;
 using KodalibApi.Data.ViewModels.Country;
@@ -194,12 +195,12 @@ public class FilmService : IFilmService
             }
             foreach (var name in filmViewModels.ActorsList)
             {
-                var nameActor = _context.Actors.FirstOrDefault(x => x.ActorImdbId == name.ActorImdbId);
+                var nameActor = _context.Actors.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
 
                 if (nameActor == null)
                 {
-                    _actorRepository.Create(new Actor(){Name = name.Actor, ActorImdbId = name.ActorImdbId});
-                    nameActor = _context.Actors.FirstOrDefault(x => x.ActorImdbId == name.ActorImdbId);
+                    _actorRepository.Create(new Person(){Name = name.Actor, PersonImdbId = name.ActorImdbId});
+                    nameActor = _context.Actors.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
                 }
 
                 var idActors = nameActor.Id;
@@ -216,7 +217,7 @@ public class FilmService : IFilmService
             
             foreach (var name in filmViewModels.TopActorsList)
             {
-                var nameActor = _context.Actors.FirstOrDefault(x => x.ActorImdbId == name.ActorImdbId);
+                var nameActor = _context.Actors.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
 
                 var idActors = nameActor.Id;
                 

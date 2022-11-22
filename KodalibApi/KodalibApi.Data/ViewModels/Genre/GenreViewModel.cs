@@ -1,4 +1,6 @@
-﻿namespace KodalibApi.Data.ViewModels.Genre;
+﻿using KodalibApi.Data.ViewModels.Film;
+
+namespace KodalibApi.Data.ViewModels.Genre;
 
 public class GenreViewModel
 {
@@ -6,5 +8,5 @@ public class GenreViewModel
     
     public string? Name { get; set; }
     
-    public List<string>? FilmTitle { get; set; }
+    public List<FilmIdAndTitleViewModel>? FilmTitle { get; set; }
 }

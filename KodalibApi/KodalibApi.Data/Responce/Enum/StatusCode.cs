@@ -6,6 +6,7 @@ public enum StatusCode
     CountryNotFound = 1,
     GenreNotFound = 2,
     ActorNotFound = 3,
+    RoleNotFound = 4,
     OK = 200,
     InternalServerError = 500
 }

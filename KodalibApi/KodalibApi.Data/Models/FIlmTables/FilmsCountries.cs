@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace KodalibApi.Data.Models;
+namespace KodalibApi.Data.Models.FIlmTables;
 
 
 [Table("films_countries")]

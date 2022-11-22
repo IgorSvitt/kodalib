@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using KodalibApi.Data.Models.FIlmTables;
 
 namespace KodalibApi.Data.Models.FilmTables;
 

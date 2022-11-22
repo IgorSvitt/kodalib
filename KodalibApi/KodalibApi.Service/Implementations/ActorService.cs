@@ -1,26 +1,33 @@
 ﻿using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
+using KodalibApi.Data.Models.ActorsTables;
 using KodalibApi.Data.Responce;
 using KodalibApi.Data.Responce.Enum;
 using KodalibApi.Data.ViewModels.Actor;
 using KodalibApi.Interfaces.ActorInterfaces;
+using KodalibApi.Interfaces.RoleInterface;
 
 namespace Kodalib.Service.Implementations;
 
 public class ActorService: IActorService
 {
     private readonly IActorRepository _actorRepository;
+    private readonly IRoleRepository _roleRepository;
+    private readonly ApplicationDbContext _context;
 
-    public ActorService(IActorRepository actorRepository)
+    public ActorService(IActorRepository actorRepository, IRoleRepository roleRepository,
+        ApplicationDbContext context)
     {
         _actorRepository = actorRepository;
+        _roleRepository = roleRepository;
+        _context = context;
     }
     
     
-    public IBaseResponce<IEnumerable<ActorViewModel>> GetActors()
+    public IBaseResponce<IEnumerable<PersonViewModel>> GetActors()
     {
-        var baseResponce = new BaseResponce<IEnumerable<ActorViewModel>>();
+        var baseResponce = new BaseResponce<IEnumerable<PersonViewModel>>();
 
         try
         {
@@ -40,16 +47,16 @@ public class ActorService: IActorService
         }
         catch (Exception ex)
         {
-            return new BaseResponce<IEnumerable<ActorViewModel>>()
+            return new BaseResponce<IEnumerable<PersonViewModel>>()
             {
                 Description = $"[GetActor] : {ex.Message}"
             };
         }
     }
 
-    public IBaseResponce<ActorViewModel> GetActor(int id)
+    public IBaseResponce<PersonViewModel> GetActor(int id)
     {
-        var baseResponce = new BaseResponce<ActorViewModel>();
+        var baseResponce = new BaseResponce<PersonViewModel>();
 
         try
         {
@@ -66,14 +73,14 @@ public class ActorService: IActorService
         }
         catch (Exception ex)
         {
-            return new BaseResponce<ActorViewModel>()
+            return new BaseResponce<PersonViewModel>()
             {
                 Description = $"[GetActor] : {ex.Message}"
             };
         }
     }
 
-    public IBaseResponce<List<ActorViewModel>> GetActorByName(string name)
+    public IBaseResponce<List<PersonViewModel>> GetActorByName(string name)
     {
         throw new NotImplementedException();
     }
@@ -107,9 +114,9 @@ public class ActorService: IActorService
         }
     }
 
-    public IBaseResponce<ActorViewModel> CreateActor(ActorViewModel actorViewModel)
+    public IBaseResponce<PersonViewModel> CreateActor(PersonViewModel actorViewModel)
     {
-        var baseResponce = new BaseResponce<ActorViewModel>();
+        var baseResponce = new BaseResponce<PersonViewModel>();
 
         try
         {
@@ -120,12 +127,11 @@ public class ActorService: IActorService
                 throw new Exception("Film is exist");
             }
 
-            var actor = new Actor()
+            var actor = new Person()
             {
                 Id = actorViewModel.Id,
-                ActorImdbId = actorViewModel.ImdbId,
+                PersonImdbId = actorViewModel.ImdbId,
                 Name = actorViewModel.Name,
-                Role = actorViewModel.Role,
                 Image = actorViewModel.Image,
                 Summary = actorViewModel.Summary,
                 BirthDate = actorViewModel.BirthDate,
@@ -133,10 +139,31 @@ public class ActorService: IActorService
                 Height = actorViewModel.Height,
             };
             _actorRepository.Create(actor);
+            
+            foreach (var name in actorViewModel.Role)
+            {
+                var nameActor = _roleRepository.GetByName(name);
+
+                if (nameActor == null)
+                {
+                    _roleRepository.Create(new Role(){Name = name});
+                    nameActor = _roleRepository.GetByName(name);
+                }
+
+                var idRole = nameActor.Id;
+                
+                var rolePerson = new RolePerson()
+                {
+                    PersonId = actor.Id,
+                    RoleId = idRole,
+                };
+                _context.RolePersons.Add(rolePerson);
+                _context.SaveChanges();
+            }
         }
         catch (Exception ex)
         {
-            return new BaseResponce<ActorViewModel>()
+            return new BaseResponce<PersonViewModel>()
             {
                 Description = $"[GetFilm] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError

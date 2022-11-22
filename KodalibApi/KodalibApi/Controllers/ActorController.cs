@@ -16,14 +16,14 @@ public class ActorController : ControllerBase
     }
     
     [HttpGet("GetActors",Name = "GetActors")]
-    public IEnumerable<ActorViewModel> GetActors()
+    public IEnumerable<PersonViewModel> GetActors()
     {
         var responce = _actorService.GetActors();
         return responce.Data;
     }
 
     [HttpGet("GetActor/{id}",Name = "GetActor")]
-    public ActorViewModel GetActor(int id)
+    public PersonViewModel GetActor(int id)
     {
         var responce = _actorService.GetActor(id);
 
@@ -37,7 +37,7 @@ public class ActorController : ControllerBase
     }
 
     [HttpPost("CreateActor", Name = "CreateActor")]
-    public void CreateActor(ActorViewModel filmViewModels)
+    public void CreateActor(PersonViewModel filmViewModels)
     {
         _actorService.CreateActor(filmViewModels);
     }

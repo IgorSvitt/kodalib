@@ -1,6 +1,7 @@
 ﻿using KodalibApi.Interfaces.GenreInterfaces;
 using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
+using KodalibApi.Data.ViewModels.Film;
 using KodalibApi.Data.ViewModels.Genre;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,7 +53,11 @@ public class GenreRepository: IGenreRepository
         {
             Id = genre.Id,
             Name = genre.Name,
-            FilmTitle = genre.FilmsList.Select(n => n.Film.Title).ToList()
+            FilmTitle = genre.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+            {
+                Id = film.FilmsId,
+                Title = film.Film.Title,
+            }).ToList()
         }).FirstOrDefaultAsync();
     }
 
@@ -62,7 +67,11 @@ public class GenreRepository: IGenreRepository
         {
             Id = genre.Id,
             Name = genre.Name,
-            FilmTitle = genre.FilmsList.Select(n => n.Film.Title).ToList()
+            FilmTitle = genre.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+            {
+                Id = film.FilmsId,
+                Title = film.Film.Title,
+            }).ToList()
         }).FirstOrDefaultAsync();
     }
 
@@ -72,7 +81,11 @@ public class GenreRepository: IGenreRepository
         {
             Id = genre.Id,
             Name = genre.Name,
-            FilmTitle = genre.FilmsList.Select(n => n.Film.Title).ToList()
+            FilmTitle = genre.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+            {
+                Id = film.FilmsId,
+                Title = film.Film.Title,
+            }).ToList()
         }).ToListAsync();
     }
 }

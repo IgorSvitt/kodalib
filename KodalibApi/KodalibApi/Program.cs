@@ -5,10 +5,12 @@ using KodalibApi.Interfaces.GenreInterfaces;
 using Kodalib.Repository.CountryRepository;
 using Kodalib.Repository.FilmRepository;
 using Kodalib.Repository.GenreRepository;
+using Kodalib.Repository.RoleRepository;
 using Kodalib.Service.Implementations;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Context;
 using KodalibApi.Interfaces.ActorInterfaces;
+using KodalibApi.Interfaces.RoleInterface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,8 +30,11 @@ builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 
-builder.Services.AddScoped<IActorRepository, ActorRepository>();
+builder.Services.AddScoped<IActorRepository, PersonRepository>();
 builder.Services.AddScoped<IActorService, ActorService>();
+
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 var app = builder.Build();
 

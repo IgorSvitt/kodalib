@@ -11,12 +11,10 @@ namespace Kodalib.Service.Implementations;
 public class CountryService: ICountryService
 {
     private readonly ICountryRepository _countryRepository;
-    private readonly ApplicationDbContext _context;
 
-    public CountryService(ICountryRepository countryRepository, ApplicationDbContext context)
+    public CountryService(ICountryRepository countryRepository)
     {
         _countryRepository = countryRepository;
-        _context = context;
     }
     
     public IBaseResponce<IEnumerable<CountryViewModel>> GetCountries()
@@ -135,10 +133,9 @@ public class CountryService: ICountryService
 
         try
         {
-            //var countryName = _countryRepository.GetByName(countryViewModelName);
-            var country2 = _context.Countries.FirstOrDefault(x => x.Name == countryViewModelName);
+            var countryName = _countryRepository.GetByName(countryViewModelName);
 
-            if (country2 != null)
+            if (countryName != null)
             {
                 baseResponce.StatusCode = StatusCode.InternalServerError;
                 return baseResponce;
