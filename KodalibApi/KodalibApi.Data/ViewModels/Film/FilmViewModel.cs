@@ -1,5 +1,4 @@
 ﻿using KodalibApi.Data.Models;
-using KodalibApi.Data.Models.ActorsTables;
 using KodalibApi.Data.ViewModels.Actor;
 
 namespace KodalibApi.Data.ViewModels.Film;
@@ -34,4 +33,6 @@ public class FilmViewModels
     public List<CharacterViewModel>? ActorsList { get; set; }
     
     public List<TopActorViewModel>? TopActorsList { get; set; }
+    
+    public List<WriterViewModel>? WritersList { get; set; }
 }

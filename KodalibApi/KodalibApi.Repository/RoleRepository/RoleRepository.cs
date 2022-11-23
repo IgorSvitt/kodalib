@@ -1,5 +1,5 @@
 ﻿using KodalibApi.Data.Context;
-using KodalibApi.Data.Models.ActorsTables;
+using KodalibApi.Data.Models.PeopleTables;
 using KodalibApi.Data.ViewModels.Actor;
 using KodalibApi.Data.ViewModels.People;
 using KodalibApi.Interfaces.RoleInterface;

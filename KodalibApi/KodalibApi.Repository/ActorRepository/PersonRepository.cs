@@ -1,15 +1,15 @@
 ﻿using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
-using KodalibApi.Data.Models.ActorsTables;
+using KodalibApi.Data.Models.PeopleTables;
 using KodalibApi.Data.ViewModels.Actor;
 using KodalibApi.Data.ViewModels.Film;
-using KodalibApi.Interfaces.ActorInterfaces;
 using KodalibApi.Interfaces.Base;
+using KodalibApi.Interfaces.PeopleInterface;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kodalib.Repository.ActorRepository;
 
-public class PersonRepository: IActorRepository
+public class PersonRepository: IPersonRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -20,28 +20,28 @@ public class PersonRepository: IActorRepository
     
     public void Create(Person entity)
     {
-        _context.Actors.Add(entity);
+        _context.Persons.Add(entity);
         Save();
     }
     
     public Person GetByName(string name)
     {
-        return  _context.Actors.FirstOrDefault(x => x.Name == name);
+        return  _context.Persons.FirstOrDefault(x => x.Name == name);
     }
 
     public async Task<Person> GetById(int id)
     {
-        return await _context.Actors.FirstOrDefaultAsync(x => x.Id == id);
+        return await _context.Persons.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<Person>> Select()
     {
-        return await _context.Actors.ToListAsync();
+        return await _context.Persons.ToListAsync();
     }
 
     public void Delete(Person entity)
     {
-        _context.Actors.Remove(entity);
+        _context.Persons.Remove(entity);
         Save();
     }
 
@@ -52,18 +52,18 @@ public class PersonRepository: IActorRepository
 
     public async Task<PersonViewModel> GetByIdFullDescription(int id)
     {
-        return await _context.Actors.Where(x => x.Id == id).Select(actor => new PersonViewModel()
+        return await _context.Persons.Where(x => x.Id == id).Select(person => new PersonViewModel()
         {
-            Id = actor.Id,
-            ImdbId = actor.PersonImdbId,
-            Name = actor.Name,
-            Role = actor.Role.Select(n => n.Role.Name).ToList(),
-            Image = actor.Image,
-            Summary = actor.Summary,
-            BirthDate = actor.BirthDate,
-            DeathDate = actor.DeathDate,
-            Height = actor.Height,
-            Films = actor.Films.Select(film => new FilmIdAndTitleViewModel()
+            Id = person.Id,
+            ImdbId = person.PersonImdbId,
+            Name = person.Name,
+            Role = person.Role.Select(n => n.Role.Name).ToList(),
+            Image = person.Image,
+            Summary = person.Summary,
+            BirthDate = person.BirthDate,
+            DeathDate = person.DeathDate,
+            Height = person.Height,
+            Films = person.Films.Select(film => new FilmIdAndTitleViewModel()
             {
                 Id = film.FilmId,
                 Title = film.Film.Title,
@@ -71,20 +71,20 @@ public class PersonRepository: IActorRepository
         }).FirstOrDefaultAsync();
     }
 
-    public async Task<List<PersonViewModel>> GetAllActors()
+    public async Task<List<PersonViewModel>> GetAllPeople()
     {
-        return await _context.Actors.Select(actor => new PersonViewModel()
+        return await _context.Persons.Select(person => new PersonViewModel()
         {
-            Id = actor.Id,
-            ImdbId = actor.PersonImdbId,
-            Name = actor.Name,
-            Role = actor.Role.Select(n => n.Role.Name).ToList(),
-            Image = actor.Image,
-            Summary = actor.Summary,
-            BirthDate = actor.BirthDate,
-            DeathDate = actor.DeathDate,
-            Height = actor.Height,
-            Films = actor.Films.Select(film => new FilmIdAndTitleViewModel()
+            Id = person.Id,
+            ImdbId = person.PersonImdbId,
+            Name = person.Name,
+            Role = person.Role.Select(n => n.Role.Name).ToList(),
+            Image = person.Image,
+            Summary = person.Summary,
+            BirthDate = person.BirthDate,
+            DeathDate = person.DeathDate,
+            Height = person.Height,
+            Films = person.Films.Select(film => new FilmIdAndTitleViewModel()
             {
                 Id = film.FilmId,
                 Title = film.Film.Title,
@@ -94,24 +94,24 @@ public class PersonRepository: IActorRepository
 
     public Person GetByImdbId(string imadbId)
     {
-        return _context.Actors.FirstOrDefault(x => x.PersonImdbId == imadbId);
+        return _context.Persons.FirstOrDefault(x => x.PersonImdbId == imadbId);
     }
     
 
     public async Task<PersonViewModel> GetByImdbIdFullDescription(string name)
     {
-        return await _context.Actors.Where(x => x.Name == name).Select(actor => new PersonViewModel()
+        return await _context.Persons.Where(x => x.Name == name).Select(person => new PersonViewModel()
         {
-            Id = actor.Id,
-            ImdbId = actor.PersonImdbId,
-            Name = actor.Name,
-            Role = actor.Role.Select(n => n.Role.Name).ToList(),
-            Image = actor.Image,
-            Summary = actor.Summary,
-            BirthDate = actor.BirthDate,
-            DeathDate = actor.DeathDate,
-            Height = actor.Height,
-            Films = actor.Films.Select(film => new FilmIdAndTitleViewModel()
+            Id = person.Id,
+            ImdbId = person.PersonImdbId,
+            Name = person.Name,
+            Role = person.Role.Select(n => n.Role.Name).ToList(),
+            Image = person.Image,
+            Summary = person.Summary,
+            BirthDate = person.BirthDate,
+            DeathDate = person.DeathDate,
+            Height = person.Height,
+            Films = person.Films.Select(film => new FilmIdAndTitleViewModel()
             {
                 Id = film.FilmId,
                 Title = film.Film.Title,

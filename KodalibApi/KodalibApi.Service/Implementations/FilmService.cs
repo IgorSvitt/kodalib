@@ -5,14 +5,14 @@ using KodalibApi.Interfaces.GenreInterfaces;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
-using KodalibApi.Data.Models.ActorsTables;
 using KodalibApi.Data.Models.FilmTables;
 using KodalibApi.Data.Models.FIlmTables;
+using KodalibApi.Data.Models.PeopleTables;
 using KodalibApi.Data.Responce;
 using KodalibApi.Data.Responce.Enum;
 using KodalibApi.Data.ViewModels.Country;
 using KodalibApi.Data.ViewModels.Film;
-using KodalibApi.Interfaces.ActorInterfaces;
+using KodalibApi.Interfaces.PeopleInterface;
 
 namespace Kodalib.Service.Implementations;
 
@@ -22,11 +22,11 @@ public class FilmService : IFilmService
     private readonly ApplicationDbContext _context;
     private readonly ICountryRepository _countryRepository;
     private readonly IGenreRepository _genreRepository;
-    private readonly IActorRepository _actorRepository;
+    private readonly IPersonRepository _actorRepository;
 
 
     public FilmService(IFilmRepository filmRepository, ApplicationDbContext context, ICountryRepository countryRepository,
-        IGenreRepository genreRepository, IActorRepository actorRepository)
+        IGenreRepository genreRepository, IPersonRepository actorRepository)
     {
         _filmRepository = filmRepository;
         _context = context;
@@ -195,12 +195,12 @@ public class FilmService : IFilmService
             }
             foreach (var name in filmViewModels.ActorsList)
             {
-                var nameActor = _context.Actors.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
+                var nameActor = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
 
                 if (nameActor == null)
                 {
                     _actorRepository.Create(new Person(){Name = name.Actor, PersonImdbId = name.ActorImdbId});
-                    nameActor = _context.Actors.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
+                    nameActor = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
                 }
 
                 var idActors = nameActor.Id;
@@ -217,7 +217,7 @@ public class FilmService : IFilmService
             
             foreach (var name in filmViewModels.TopActorsList)
             {
-                var nameActor = _context.Actors.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
+                var nameActor = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
 
                 var idActors = nameActor.Id;
                 
@@ -227,6 +227,27 @@ public class FilmService : IFilmService
                     ActorId = idActors,
                 };
                 _context.TopActors.Add(filmsActors);
+                _context.SaveChanges();
+            }
+            
+            foreach (var name in filmViewModels.WritersList)
+            {
+                var nameWriter = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.WriterImdbId);
+
+                if (nameWriter == null)
+                {
+                    _actorRepository.Create(new Person(){Name = name.Writer, PersonImdbId = name.WriterImdbId});
+                    nameWriter = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.WriterImdbId);
+                }
+                
+                var idWriter = nameWriter.Id;
+                
+                var filmsWriter = new WritersFilms()
+                {
+                    FilmId = film.Id,
+                    WriterId = idWriter,
+                };
+                _context.WritersFilmsEnumerable.Add(filmsWriter);
                 _context.SaveChanges();
             }
             

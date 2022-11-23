@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace KodalibApi.Data.Models.ActorsTables;
+namespace KodalibApi.Data.Models.PeopleTables;
 
 [Table("role_person")]
 public class RolePerson

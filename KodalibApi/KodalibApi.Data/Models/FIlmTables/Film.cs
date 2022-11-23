@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using KodalibApi.Data.Models.ActorsTables;
 using KodalibApi.Data.Models.FilmTables;
+using KodalibApi.Data.Models.PeopleTables;
 
 namespace KodalibApi.Data.Models.FIlmTables;
 
@@ -69,4 +69,6 @@ public class Film
 
     // List of characters by film
     public List<Character>? Characters { get; set; }
+
+    public List<WritersFilms> WritersList { get; set; }
 }

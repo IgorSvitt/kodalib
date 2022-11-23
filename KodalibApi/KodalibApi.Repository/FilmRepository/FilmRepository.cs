@@ -1,7 +1,6 @@
 ﻿using KodalibApi.Interfaces.FilmIntefaces;
 using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
-using KodalibApi.Data.Models.ActorsTables;
 using KodalibApi.Data.Models.FIlmTables;
 using KodalibApi.Data.ViewModels.Actor;
 using KodalibApi.Data.ViewModels.Film;
@@ -67,7 +66,13 @@ public class FilmRepository: IFilmRepository
                 Role = character.Role,
                 Actor = character.Actor.Name,
                 ActorImdbId = character.Actor.PersonImdbId
-            }).ToList()
+            }).ToList(),
+            WritersList = film.WritersList.Select(character=> new WriterViewModel()
+            {
+                Id = character.WriterId,
+                Writer = character.Writer.Name,
+                WriterImdbId = character.Writer.PersonImdbId
+            }).ToList(),
         }).FirstOrDefaultAsync();
     }
     
@@ -100,7 +105,14 @@ public class FilmRepository: IFilmRepository
                 Role = character.Role,
                 Actor = character.Actor.Name,
                 ActorImdbId = character.Actor.PersonImdbId
-            }).ToList()
+            }).ToList(),
+            WritersList = film.WritersList.Select(character=> new WriterViewModel()
+            {
+                Id = character.WriterId,
+                Writer = character.Writer.Name,
+                WriterImdbId = character.Writer.PersonImdbId
+            }).ToList(),
+            
         }).ToListAsync();
     }
 
@@ -144,7 +156,14 @@ public class FilmRepository: IFilmRepository
                 Role = character.Role,
                 Actor = character.Actor.Name,
                 ActorImdbId = character.Actor.PersonImdbId
-            }).ToList()
+            }).ToList(),
+            WritersList = film.WritersList.Select(character=> new WriterViewModel()
+            {
+                Id = character.WriterId,
+                Writer = character.Writer.Name,
+                WriterImdbId = character.Writer.PersonImdbId
+            }).ToList(),
+            
         }).FirstOrDefaultAsync();
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Kodalib.Service.Interfaces;
-using KodalibApi.Data.Models.ActorsTables;
+using KodalibApi.Data.Models.PeopleTables;
 using KodalibApi.Data.Responce;
 using KodalibApi.Data.Responce.Enum;
 using KodalibApi.Data.ViewModels.People;

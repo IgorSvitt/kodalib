@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace KodalibApi.Data.Models.ActorsTables;
+namespace KodalibApi.Data.Models.PeopleTables;
 
-[Table("actors")]
+[Table("person")]
 public class Person
 {
     [Key]
@@ -38,4 +38,6 @@ public class Person
     public List<Character>? Films { get; set; }
     
     public List<RolePerson>? Role { get; set; }
+    
+    public List<WritersFilms>? WritersFilms { get; set; }
 }

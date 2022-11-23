@@ -9,7 +9,7 @@ using Kodalib.Repository.RoleRepository;
 using Kodalib.Service.Implementations;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Context;
-using KodalibApi.Interfaces.ActorInterfaces;
+using KodalibApi.Interfaces.PeopleInterface;
 using KodalibApi.Interfaces.RoleInterface;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,8 +30,8 @@ builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 
-builder.Services.AddScoped<IActorRepository, PersonRepository>();
-builder.Services.AddScoped<IActorService, ActorService>();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+builder.Services.AddScoped<IPersonService, PersonService>();
 
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();

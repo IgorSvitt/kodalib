@@ -1,45 +1,45 @@
 ﻿using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
-using KodalibApi.Data.Models.ActorsTables;
+using KodalibApi.Data.Models.PeopleTables;
 using KodalibApi.Data.Responce;
 using KodalibApi.Data.Responce.Enum;
 using KodalibApi.Data.ViewModels.Actor;
-using KodalibApi.Interfaces.ActorInterfaces;
+using KodalibApi.Interfaces.PeopleInterface;
 using KodalibApi.Interfaces.RoleInterface;
 
 namespace Kodalib.Service.Implementations;
 
-public class ActorService: IActorService
+public class PersonService: IPersonService
 {
-    private readonly IActorRepository _actorRepository;
+    private readonly IPersonRepository _personRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly ApplicationDbContext _context;
 
-    public ActorService(IActorRepository actorRepository, IRoleRepository roleRepository,
+    public PersonService(IPersonRepository personRepository, IRoleRepository roleRepository,
         ApplicationDbContext context)
     {
-        _actorRepository = actorRepository;
+        _personRepository = personRepository;
         _roleRepository = roleRepository;
         _context = context;
     }
     
     
-    public IBaseResponce<IEnumerable<PersonViewModel>> GetActors()
+    public IBaseResponce<IEnumerable<PersonViewModel>> GetPeople()
     {
         var baseResponce = new BaseResponce<IEnumerable<PersonViewModel>>();
 
         try
         {
-            var actors = _actorRepository.GetAllActors();
-            if (actors.Result.Count == 0)
+            var person = _personRepository.GetAllPeople();
+            if (person.Result.Count == 0)
             {
-                baseResponce.Description = "Actors 0 elements";
+                baseResponce.Description = "Person 0 elements";
                 baseResponce.StatusCode = StatusCode.OK;
                 return baseResponce;
             }
 
-            baseResponce.Data = actors.Result;
+            baseResponce.Data = person.Result;
             baseResponce.StatusCode = StatusCode.OK;
 
 
@@ -49,58 +49,58 @@ public class ActorService: IActorService
         {
             return new BaseResponce<IEnumerable<PersonViewModel>>()
             {
-                Description = $"[GetActor] : {ex.Message}"
+                Description = $"[GetPerson] : {ex.Message}"
             };
         }
     }
 
-    public IBaseResponce<PersonViewModel> GetActor(int id)
+    public IBaseResponce<PersonViewModel> GetPerson(int id)
     {
         var baseResponce = new BaseResponce<PersonViewModel>();
 
         try
         {
-            var actor = _actorRepository.GetByIdFullDescription(id);
-            if (actor == null)
+            var person = _personRepository.GetByIdFullDescription(id);
+            if (person == null)
             {
-                baseResponce.Description = "Actor not found";
-                baseResponce.StatusCode = StatusCode.ActorNotFound;
+                baseResponce.Description = "Person not found";
+                baseResponce.StatusCode = StatusCode.PersonNotFound;
                 return baseResponce;
             }
 
-            baseResponce.Data = actor.Result;
+            baseResponce.Data = person.Result;
             return baseResponce;
         }
         catch (Exception ex)
         {
             return new BaseResponce<PersonViewModel>()
             {
-                Description = $"[GetActor] : {ex.Message}"
+                Description = $"[GetPerson] : {ex.Message}"
             };
         }
     }
 
-    public IBaseResponce<List<PersonViewModel>> GetActorByName(string name)
+    public IBaseResponce<List<PersonViewModel>> GetPersonByName(string name)
     {
         throw new NotImplementedException();
     }
 
-    public IBaseResponce<bool> DeleteActor(int id)
+    public IBaseResponce<bool> DeletePerson(int id)
     {
         var baseResponse = new BaseResponce<bool>();
 
         try
         {
-            var actor = _actorRepository.GetById(id);
-            if (actor == null)
+            var person = _personRepository.GetById(id);
+            if (person == null)
             {
-                baseResponse.Description = "Actor not found";
-                baseResponse.StatusCode = StatusCode.ActorNotFound;
+                baseResponse.Description = "Person not found";
+                baseResponse.StatusCode = StatusCode.PersonNotFound;
                 baseResponse.Data = false;
                 return baseResponse;
             }
 
-            _actorRepository.Delete(actor.Result);
+            _personRepository.Delete(person.Result);
             baseResponse.Data = true;
             return baseResponse;
         }
@@ -108,53 +108,53 @@ public class ActorService: IActorService
         {
             return new BaseResponce<bool>()
             {
-                Description = $"[GetActor] : {ex.Message}",
+                Description = $"[GetPerson] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
     }
 
-    public IBaseResponce<PersonViewModel> CreateActor(PersonViewModel actorViewModel)
+    public IBaseResponce<PersonViewModel> CreatePerson(PersonViewModel personViewModel)
     {
         var baseResponce = new BaseResponce<PersonViewModel>();
 
         try
         {
-            var actorImdbId = _actorRepository.GetByImdbId(actorViewModel.ImdbId);
+            var personImdbId = _personRepository.GetByImdbId(personViewModel.ImdbId);
 
-            if (actorImdbId != null)
+            if (personImdbId != null)
             {
                 throw new Exception("Film is exist");
             }
 
-            var actor = new Person()
+            var person = new Person()
             {
-                Id = actorViewModel.Id,
-                PersonImdbId = actorViewModel.ImdbId,
-                Name = actorViewModel.Name,
-                Image = actorViewModel.Image,
-                Summary = actorViewModel.Summary,
-                BirthDate = actorViewModel.BirthDate,
-                DeathDate = actorViewModel.DeathDate,
-                Height = actorViewModel.Height,
+                Id = personViewModel.Id,
+                PersonImdbId = personViewModel.ImdbId,
+                Name = personViewModel.Name,
+                Image = personViewModel.Image,
+                Summary = personViewModel.Summary,
+                BirthDate = personViewModel.BirthDate,
+                DeathDate = personViewModel.DeathDate,
+                Height = personViewModel.Height,
             };
-            _actorRepository.Create(actor);
+            _personRepository.Create(person);
             
-            foreach (var name in actorViewModel.Role)
+            foreach (var name in personViewModel.Role)
             {
-                var nameActor = _roleRepository.GetByName(name);
+                var role = _roleRepository.GetByName(name);
 
-                if (nameActor == null)
+                if (role == null)
                 {
                     _roleRepository.Create(new Role(){Name = name});
-                    nameActor = _roleRepository.GetByName(name);
+                    role = _roleRepository.GetByName(name);
                 }
 
-                var idRole = nameActor.Id;
+                var idRole = role.Id;
                 
                 var rolePerson = new RolePerson()
                 {
-                    PersonId = actor.Id,
+                    PersonId = person.Id,
                     RoleId = idRole,
                 };
                 _context.RolePersons.Add(rolePerson);
@@ -165,7 +165,7 @@ public class ActorService: IActorService
         {
             return new BaseResponce<PersonViewModel>()
             {
-                Description = $"[GetFilm] : {ex.Message}",
+                Description = $"[GetPerson] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

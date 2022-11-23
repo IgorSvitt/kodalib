@@ -1,4 +1,4 @@
-﻿using KodalibApi.Data.Models.ActorsTables;
+﻿using KodalibApi.Data.Models.PeopleTables;
 using KodalibApi.Data.ViewModels.People;
 using KodalibApi.Interfaces.Base;
 

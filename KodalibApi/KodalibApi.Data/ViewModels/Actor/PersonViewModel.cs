@@ -1,4 +1,5 @@
-﻿using KodalibApi.Data.ViewModels.Film;
+﻿using KodalibApi.Data.Models.PeopleTables;
+using KodalibApi.Data.ViewModels.Film;
 
 namespace KodalibApi.Data.ViewModels.Actor;
 
