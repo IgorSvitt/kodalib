@@ -70,5 +70,7 @@ public class Film
     // List of characters by film
     public List<Character>? Characters { get; set; }
 
-    public List<WritersFilms> WritersList { get; set; }
+    public List<Writers> WritersList { get; set; }
+    
+    public List<Director> DirectorsList { get; set; }
 }

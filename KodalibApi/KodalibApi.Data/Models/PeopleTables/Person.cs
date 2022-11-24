@@ -39,5 +39,7 @@ public class Person
     
     public List<RolePerson>? Role { get; set; }
     
-    public List<WritersFilms>? WritersFilms { get; set; }
+    public List<Writers>? Writers { get; set; }
+    
+    public List<Director>? Directors { get; set; }
 }

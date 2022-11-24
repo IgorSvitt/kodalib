@@ -21,7 +21,8 @@ public class ApplicationDbContext: DbContext
     public DbSet<FilmsGenres> FilmsGenresEnumerable { get; set; }
     public DbSet<Character> Characters { get; set; }
     public DbSet<TopActor> TopActors { get; set; }
-    public DbSet<WritersFilms> WritersFilmsEnumerable { get; set; }
+    public DbSet<Writers> Writers { get; set; }
+    public DbSet<Director> Directors { get; set; }
     public DbSet<RolePerson> RolePersons { get; set; }
 
 
@@ -99,17 +100,31 @@ public class ApplicationDbContext: DbContext
             .HasForeignKey(fa => fa.RoleId);
         
         // ModelBuilder for Writer
-        modelBuilder.Entity<WritersFilms>()
+        modelBuilder.Entity<Writers>()
             .HasKey(t => new {t.FilmId, t.WriterId});
         
-        modelBuilder.Entity<WritersFilms>()
+        modelBuilder.Entity<Writers>()
             .HasOne(fw => fw.Film)
             .WithMany(f => f.WritersList)
             .HasForeignKey(fw => fw.FilmId);
         
-        modelBuilder.Entity<WritersFilms>()
-            .HasOne(fw => fw.Writer)
-            .WithMany(w => w.WritersFilms)
+        modelBuilder.Entity<Writers>()
+            .HasOne(fw => fw.WriterPerson)
+            .WithMany(w => w.Writers)
             .HasForeignKey(fw => fw.WriterId);
+
+        // ModelBuilder for Director
+        modelBuilder.Entity<Director>()
+            .HasKey(t => new {t.FilmId, t.DirectorId});
+        
+        modelBuilder.Entity<Director>()
+            .HasOne(fd => fd.Film)
+            .WithMany(f => f.DirectorsList)
+            .HasForeignKey(fd => fd.FilmId);
+        
+        modelBuilder.Entity<Director>()
+            .HasOne(fd => fd.DirectorPerson)
+            .WithMany(d => d.Directors)
+            .HasForeignKey(fd => fd.DirectorId);
     }
 }

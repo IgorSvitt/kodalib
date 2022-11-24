@@ -70,8 +70,14 @@ public class FilmRepository: IFilmRepository
             WritersList = film.WritersList.Select(character=> new WriterViewModel()
             {
                 Id = character.WriterId,
-                Writer = character.Writer.Name,
-                WriterImdbId = character.Writer.PersonImdbId
+                Writer = character.WriterPerson.Name,
+                WriterImdbId = character.WriterPerson.PersonImdbId
+            }).ToList(),
+            DirectorList = film.DirectorsList.Select(character=> new DirectorViewModel()
+            {
+                Id = character.DirectorId,
+                Director = character.DirectorPerson.Name,
+                DirectorImdbId = character.DirectorPerson.PersonImdbId
             }).ToList(),
         }).FirstOrDefaultAsync();
     }
@@ -109,8 +115,14 @@ public class FilmRepository: IFilmRepository
             WritersList = film.WritersList.Select(character=> new WriterViewModel()
             {
                 Id = character.WriterId,
-                Writer = character.Writer.Name,
-                WriterImdbId = character.Writer.PersonImdbId
+                Writer = character.WriterPerson.Name,
+                WriterImdbId = character.WriterPerson.PersonImdbId
+            }).ToList(),
+            DirectorList = film.DirectorsList.Select(character=> new DirectorViewModel()
+            {
+                Id = character.DirectorId,
+                Director = character.DirectorPerson.Name,
+                DirectorImdbId = character.DirectorPerson.PersonImdbId
             }).ToList(),
             
         }).ToListAsync();
@@ -160,8 +172,14 @@ public class FilmRepository: IFilmRepository
             WritersList = film.WritersList.Select(character=> new WriterViewModel()
             {
                 Id = character.WriterId,
-                Writer = character.Writer.Name,
-                WriterImdbId = character.Writer.PersonImdbId
+                Writer = character.WriterPerson.Name,
+                WriterImdbId = character.WriterPerson.PersonImdbId
+            }).ToList(),
+            DirectorList = film.DirectorsList.Select(character=> new DirectorViewModel()
+            {
+                Id = character.DirectorId,
+                Director = character.DirectorPerson.Name,
+                DirectorImdbId = character.DirectorPerson.PersonImdbId
             }).ToList(),
             
         }).FirstOrDefaultAsync();

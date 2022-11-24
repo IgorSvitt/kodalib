@@ -35,4 +35,6 @@ public class FilmViewModels
     public List<TopActorViewModel>? TopActorsList { get; set; }
     
     public List<WriterViewModel>? WritersList { get; set; }
+    
+    public List<DirectorViewModel>? DirectorList { get; set; }
 }

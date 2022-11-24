@@ -242,12 +242,33 @@ public class FilmService : IFilmService
                 
                 var idWriter = nameWriter.Id;
                 
-                var filmsWriter = new WritersFilms()
+                var filmsWriter = new Writers()
                 {
                     FilmId = film.Id,
                     WriterId = idWriter,
                 };
-                _context.WritersFilmsEnumerable.Add(filmsWriter);
+                _context.Writers.Add(filmsWriter);
+                _context.SaveChanges();
+            }
+            
+            foreach (var name in filmViewModels.DirectorList)
+            {
+                var nameDirector = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.DirectorImdbId);
+
+                if (nameDirector == null)
+                {
+                    _actorRepository.Create(new Person(){Name = name.Director, PersonImdbId = name.DirectorImdbId});
+                    nameDirector = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.DirectorImdbId);
+                }
+                
+                var idWriter = nameDirector.Id;
+                
+                var filmsDirector = new Director()
+                {
+                    FilmId = film.Id,
+                    DirectorId = idWriter,
+                };
+                _context.Directors.Add(filmsDirector);
                 _context.SaveChanges();
             }
             
