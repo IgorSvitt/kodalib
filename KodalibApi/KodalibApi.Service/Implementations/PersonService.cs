@@ -10,7 +10,7 @@ using KodalibApi.Interfaces.RoleInterface;
 
 namespace Kodalib.Service.Implementations;
 
-public class PersonService: IPersonService
+public class PersonService : IPersonService
 {
     private readonly IPersonRepository _personRepository;
     private readonly IRoleRepository _roleRepository;
@@ -23,8 +23,8 @@ public class PersonService: IPersonService
         _roleRepository = roleRepository;
         _context = context;
     }
-    
-    
+
+
     public IBaseResponce<IEnumerable<PersonViewModel>> GetPeople()
     {
         var baseResponce = new BaseResponce<IEnumerable<PersonViewModel>>();
@@ -124,7 +124,7 @@ public class PersonService: IPersonService
 
             if (personImdbId != null)
             {
-                throw new Exception("Film is exist");
+                throw new Exception("Person is exist");
             }
 
             var person = new Person()
@@ -139,19 +139,75 @@ public class PersonService: IPersonService
                 Height = personViewModel.Height,
             };
             _personRepository.Create(person);
-            
+
             foreach (var name in personViewModel.Role)
             {
                 var role = _roleRepository.GetByName(name);
 
                 if (role == null)
                 {
-                    _roleRepository.Create(new Role(){Name = name});
+                    _roleRepository.Create(new Role() {Name = name});
                     role = _roleRepository.GetByName(name);
                 }
 
                 var idRole = role.Id;
-                
+
+                var rolePerson = new RolePerson()
+                {
+                    PersonId = person.Id,
+                    RoleId = idRole,
+                };
+                _context.RolePersons.Add(rolePerson);
+                _context.SaveChanges();
+            }
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponce<PersonViewModel>()
+            {
+                Description = $"[GetPerson] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+
+        return baseResponce;
+    }
+
+    public IBaseResponce<PersonViewModel> UpdatePerson(int id, PersonViewModel personViewModel)
+    {
+        var baseResponce = new BaseResponce<PersonViewModel>();
+
+        try
+        {
+            var person = _personRepository.GetById(id);
+
+            if (person == null)
+            {
+                CreatePerson(personViewModel);
+                return baseResponce;
+            }
+
+            person.Result.PersonImdbId = personViewModel.ImdbId;
+            person.Result.Name = personViewModel.Name;
+            person.Result.Image = personViewModel.Image;
+            person.Result.Summary = personViewModel.Summary;
+            person.Result.BirthDate = personViewModel.BirthDate;
+            person.Result.DeathDate = personViewModel.DeathDate;
+            person.Result.Height = personViewModel.Height;
+            _personRepository.Update(person.Result);
+
+            foreach (var name in personViewModel.Role)
+            {
+                var role = _roleRepository.GetByName(name);
+
+                if (role == null)
+                {
+                    _roleRepository.Create(new Role() {Name = name});
+                    role = _roleRepository.GetByName(name);
+                }
+
+                var idRole = role.Id;
+
                 var rolePerson = new RolePerson()
                 {
                     PersonId = person.Id,

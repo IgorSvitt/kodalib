@@ -48,6 +48,11 @@ public class RoleRepository: IRoleRepository
         _context.SaveChanges();
     }
 
+    public void Update(Role entity)
+    {
+        _context.Roles.Update(entity);
+    }
+
     public async Task<RoleViewModel> GetByNameFullDescription(string name)
     {
         return await _context.Roles.Where(x => x.Name == name).Select(role => new RoleViewModel()

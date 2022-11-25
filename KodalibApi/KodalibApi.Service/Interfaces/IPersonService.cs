@@ -14,4 +14,6 @@ public interface IPersonService
     IBaseResponce<bool> DeletePerson(int id);
 
     IBaseResponce<PersonViewModel> CreatePerson(PersonViewModel personViewModelName);
+
+    IBaseResponce<PersonViewModel> UpdatePerson(int id, PersonViewModel personViewModel);
 }

@@ -157,4 +157,33 @@ public class CountryService: ICountryService
 
         return baseResponce;
     }
+
+    public IBaseResponce<CountryViewModel> UpdateCountry(int id, CountryViewModel countryViewModel)
+    {
+        var baseResponce = new BaseResponce<CountryViewModel>();
+
+        try
+        {
+            var country = _countryRepository.GetById(id);
+
+            if (country == null)
+            {
+                CreateCountry(countryViewModel.Name);
+                return baseResponce;
+            }
+
+            country.Result.Name = countryViewModel.Name;
+            _countryRepository.Update(country.Result);
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponce<CountryViewModel>()
+            {
+                Description = $"[GetCountry] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+
+        return baseResponce;
+    }
 }

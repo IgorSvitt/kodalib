@@ -22,4 +22,6 @@ public interface IFilmService
 
     // Create a movie
     IBaseResponce<Film> CreateFilm(FilmViewModels filmViewModels);
+
+    IBaseResponce<FilmViewModels> UpdateFilm(int id, FilmViewModels filmViewModels);
 }

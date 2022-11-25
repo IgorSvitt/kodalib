@@ -6,6 +6,7 @@ using KodalibApi.Data.Responce;
 using KodalibApi.Data.Responce.Enum;
 using KodalibApi.Data.ViewModels.Country;
 using KodalibApi.Data.ViewModels.Genre;
+using KodalibApi.Interfaces.Base;
 
 namespace Kodalib.Service.Implementations;
 
@@ -159,4 +160,33 @@ public class GenreService: IGenreService
 
         return baseResponce;
     }
+
+    public IBaseResponce<GenreViewModel> UpdateGenre(int id, GenreViewModel genreViewModel)
+    {
+        var baseResponce = new BaseResponce<GenreViewModel>();
+
+        try
+        {
+            var genre = _genreRepository.GetById(id);
+
+            if (genre == null)
+            {
+                CreateGenre(genreViewModel.Name);
+                return baseResponce;
+            }
+
+            genre.Result.Name = genreViewModel.Name;
+            _genreRepository.Create(genre.Result);
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponce<GenreViewModel>()
+            {
+                Description = $"[GetCountry] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+
+        return baseResponce;
+    } 
 }

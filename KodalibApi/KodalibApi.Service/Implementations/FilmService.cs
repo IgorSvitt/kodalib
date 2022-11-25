@@ -25,7 +25,8 @@ public class FilmService : IFilmService
     private readonly IPersonRepository _actorRepository;
 
 
-    public FilmService(IFilmRepository filmRepository, ApplicationDbContext context, ICountryRepository countryRepository,
+    public FilmService(IFilmRepository filmRepository, ApplicationDbContext context,
+        ICountryRepository countryRepository,
         IGenreRepository genreRepository, IPersonRepository actorRepository)
     {
         _filmRepository = filmRepository;
@@ -136,7 +137,7 @@ public class FilmService : IFilmService
             {
                 throw new Exception("Film is exist");
             }
-                
+
             var film = new Film()
             {
                 ImdbId = filmViewModels.ImdbId,
@@ -158,12 +159,12 @@ public class FilmService : IFilmService
 
                 if (nameCountry == null)
                 {
-                    _countryRepository.Create(new Country{Name = name});
+                    _countryRepository.Create(new Country {Name = name});
                     nameCountry = _countryRepository.GetByName(name);
                 }
 
                 var idCountry = nameCountry.Id;
-                
+
                 var filmsCountries = new FilmsCountries()
                 {
                     FilmsId = film.Id,
@@ -172,19 +173,19 @@ public class FilmService : IFilmService
                 _context.FilmsCountriesEnumerable.Add(filmsCountries);
                 _context.SaveChanges();
             }
-            
+
             foreach (var name in filmViewModels.FilmsGenreList)
             {
                 var nameGenre = _genreRepository.GetByName(name);
 
                 if (nameGenre == null)
                 {
-                    _genreRepository.Create(new Genre{Name = name});
+                    _genreRepository.Create(new Genre {Name = name});
                     nameGenre = _genreRepository.GetByName(name);
                 }
 
                 var idCountry = nameGenre.Id;
-                
+
                 var filmsGenres = new FilmsGenres()
                 {
                     FilmsId = film.Id,
@@ -193,18 +194,19 @@ public class FilmService : IFilmService
                 _context.FilmsGenresEnumerable.Add(filmsGenres);
                 _context.SaveChanges();
             }
+
             foreach (var name in filmViewModels.ActorsList)
             {
                 var nameActor = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
 
                 if (nameActor == null)
                 {
-                    _actorRepository.Create(new Person(){Name = name.Actor, PersonImdbId = name.ActorImdbId});
+                    _actorRepository.Create(new Person() {Name = name.Actor, PersonImdbId = name.ActorImdbId});
                     nameActor = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
                 }
 
                 var idActors = nameActor.Id;
-                
+
                 var filmsActors = new Character()
                 {
                     FilmId = film.Id,
@@ -214,13 +216,13 @@ public class FilmService : IFilmService
                 _context.Characters.Add(filmsActors);
                 _context.SaveChanges();
             }
-            
+
             foreach (var name in filmViewModels.TopActorsList)
             {
                 var nameActor = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
 
                 var idActors = nameActor.Id;
-                
+
                 var filmsActors = new TopActor()
                 {
                     FilmId = film.Id,
@@ -229,19 +231,19 @@ public class FilmService : IFilmService
                 _context.TopActors.Add(filmsActors);
                 _context.SaveChanges();
             }
-            
+
             foreach (var name in filmViewModels.WritersList)
             {
                 var nameWriter = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.WriterImdbId);
 
                 if (nameWriter == null)
                 {
-                    _actorRepository.Create(new Person(){Name = name.Writer, PersonImdbId = name.WriterImdbId});
+                    _actorRepository.Create(new Person() {Name = name.Writer, PersonImdbId = name.WriterImdbId});
                     nameWriter = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.WriterImdbId);
                 }
-                
+
                 var idWriter = nameWriter.Id;
-                
+
                 var filmsWriter = new Writers()
                 {
                     FilmId = film.Id,
@@ -250,19 +252,19 @@ public class FilmService : IFilmService
                 _context.Writers.Add(filmsWriter);
                 _context.SaveChanges();
             }
-            
+
             foreach (var name in filmViewModels.DirectorList)
             {
                 var nameDirector = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.DirectorImdbId);
 
                 if (nameDirector == null)
                 {
-                    _actorRepository.Create(new Person(){Name = name.Director, PersonImdbId = name.DirectorImdbId});
+                    _actorRepository.Create(new Person() {Name = name.Director, PersonImdbId = name.DirectorImdbId});
                     nameDirector = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.DirectorImdbId);
                 }
-                
+
                 var idWriter = nameDirector.Id;
-                
+
                 var filmsDirector = new Director()
                 {
                     FilmId = film.Id,
@@ -271,11 +273,168 @@ public class FilmService : IFilmService
                 _context.Directors.Add(filmsDirector);
                 _context.SaveChanges();
             }
-            
         }
         catch (Exception ex)
         {
             return new BaseResponce<Film>()
+            {
+                Description = $"[GetFilm] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+
+        return baseResponce;
+    }
+
+    public IBaseResponce<FilmViewModels> UpdateFilm(int id, FilmViewModels filmViewModels)
+    {
+        var baseResponce = new BaseResponce<FilmViewModels>();
+
+        try
+        {
+            var film = _filmRepository.GetById(id);
+
+            if (film == null)
+            {
+                CreateFilm(filmViewModels);
+                return baseResponce;
+            }
+
+            film.Result.Title = filmViewModels.Title;
+            film.Result.Poster = filmViewModels.Poster;
+            film.Result.Year = filmViewModels.Year;
+            film.Result.Duration = filmViewModels.Duration;
+            film.Result.Plot = filmViewModels.Plot;
+            film.Result.ImdbRating = filmViewModels.ImdbRating;
+            film.Result.Budget = filmViewModels.Budget;
+            film.Result.GrossWorldwide = filmViewModels.GrossWorldwide;
+            film.Result.YoutubeTrailer = filmViewModels.YoutubeTrailer;
+            _filmRepository.Update(film.Result);
+
+            foreach (var name in filmViewModels.FilmsCountriesList)
+            {
+                var nameCountry = _countryRepository.GetByName(name);
+
+                if (nameCountry == null)
+                {
+                    _countryRepository.Create(new Country {Name = name});
+                    nameCountry = _countryRepository.GetByName(name);
+                }
+
+                var idCountry = nameCountry.Id;
+
+                var filmsCountries = new FilmsCountries()
+                {
+                    FilmsId = film.Id,
+                    CountryId = idCountry,
+                };
+                _context.FilmsCountriesEnumerable.Add(filmsCountries);
+                _context.SaveChanges();
+            }
+
+            foreach (var name in filmViewModels.FilmsGenreList)
+            {
+                var nameGenre = _genreRepository.GetByName(name);
+
+                if (nameGenre == null)
+                {
+                    _genreRepository.Create(new Genre {Name = name});
+                    nameGenre = _genreRepository.GetByName(name);
+                }
+
+                var idCountry = nameGenre.Id;
+
+                var filmsGenres = new FilmsGenres()
+                {
+                    FilmsId = film.Id,
+                    GenreId = idCountry,
+                };
+                _context.FilmsGenresEnumerable.Add(filmsGenres);
+                _context.SaveChanges();
+            }
+
+            foreach (var name in filmViewModels.ActorsList)
+            {
+                var nameActor = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
+
+                if (nameActor == null)
+                {
+                    _actorRepository.Create(new Person() {Name = name.Actor, PersonImdbId = name.ActorImdbId});
+                    nameActor = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
+                }
+
+                var idActors = nameActor.Id;
+
+                var filmsActors = new Character()
+                {
+                    FilmId = film.Id,
+                    ActorId = idActors,
+                    Role = name.Role
+                };
+                _context.Characters.Add(filmsActors);
+                _context.SaveChanges();
+            }
+
+            foreach (var name in filmViewModels.TopActorsList)
+            {
+                var nameActor = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.ActorImdbId);
+
+                var idActors = nameActor.Id;
+
+                var filmsActors = new TopActor()
+                {
+                    FilmId = film.Id,
+                    ActorId = idActors,
+                };
+                _context.TopActors.Add(filmsActors);
+                _context.SaveChanges();
+            }
+
+            foreach (var name in filmViewModels.WritersList)
+            {
+                var nameWriter = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.WriterImdbId);
+
+                if (nameWriter == null)
+                {
+                    _actorRepository.Create(new Person() {Name = name.Writer, PersonImdbId = name.WriterImdbId});
+                    nameWriter = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.WriterImdbId);
+                }
+
+                var idWriter = nameWriter.Id;
+
+                var filmsWriter = new Writers()
+                {
+                    FilmId = film.Id,
+                    WriterId = idWriter,
+                };
+                _context.Writers.Add(filmsWriter);
+                _context.SaveChanges();
+            }
+
+            foreach (var name in filmViewModels.DirectorList)
+            {
+                var nameDirector = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.DirectorImdbId);
+
+                if (nameDirector == null)
+                {
+                    _actorRepository.Create(new Person() {Name = name.Director, PersonImdbId = name.DirectorImdbId});
+                    nameDirector = _context.Persons.FirstOrDefault(x => x.PersonImdbId == name.DirectorImdbId);
+                }
+
+                var idWriter = nameDirector.Id;
+
+                var filmsDirector = new Director()
+                {
+                    FilmId = film.Id,
+                    DirectorId = idWriter,
+                };
+                _context.Directors.Add(filmsDirector);
+                _context.SaveChanges();
+            }
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponce<FilmViewModels>()
             {
                 Description = $"[GetFilm] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError

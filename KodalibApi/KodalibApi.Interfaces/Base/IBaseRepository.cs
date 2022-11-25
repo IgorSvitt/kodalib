@@ -14,4 +14,6 @@ public interface IBaseRepository<T>
 
     void Save();
 
+    void Update(T entity);
+
 }

@@ -49,4 +49,10 @@ public class CountryController : ControllerBase
     {
         _countryService.DeleteCountry(id);
     }
+
+    [HttpPut("UpdateCountry")]
+    public void UpdateCountry(int id, CountryViewModel countryViewModel)
+    {
+        _countryService.UpdateCountry(id, countryViewModel);
+    }
 }

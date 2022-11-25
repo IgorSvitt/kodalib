@@ -48,6 +48,12 @@ public class CountryRepository : ICountryRepository
         _context.SaveChanges();
     }
 
+    public void Update(Country entity)
+    {
+        _context.Countries.Update(entity);
+        Save();
+    }
+
     public async Task<CountryViewModel> GetByNameFullDescription(string name)
     {
         var countryViewModel = _context.Countries.Where(x => x.Name == name).Select(country => new CountryViewModel()

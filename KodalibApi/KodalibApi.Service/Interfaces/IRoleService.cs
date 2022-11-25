@@ -1,5 +1,6 @@
 ﻿using KodalibApi.Data.Responce;
 using KodalibApi.Data.ViewModels.People;
+using KodalibApi.Interfaces.Base;
 
 namespace Kodalib.Service.Interfaces;
 
@@ -13,5 +14,7 @@ public interface IRoleService
 
     IBaseResponce<bool> DeleteRole(int id);
 
-    IBaseResponce<RoleViewModel> CreateRole(string countryViewModelName);
+    IBaseResponce<RoleViewModel> CreateRole(string roleViewModel);
+
+    IBaseResponce<RoleViewModel> UpdateRole(int id, RoleViewModel roleViewModel);
 }

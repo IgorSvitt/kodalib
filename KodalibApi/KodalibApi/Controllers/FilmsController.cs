@@ -44,4 +44,10 @@ public class FilmsController : ControllerBase
     {
         _filmService.CreateFilm(filmViewModels);
     }
+
+    [HttpPut("UpdateFilm", Name = "UpdateFilm")]
+    public void UpdateFilm(int id, FilmViewModels filmViewModels)
+    {
+        _filmService.UpdateFilm(id, filmViewModels);
+    }
 }

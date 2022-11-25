@@ -50,6 +50,12 @@ public class PersonRepository: IPersonRepository
         _context.SaveChanges();
     }
 
+    public void Update(Person entity)
+    {
+        _context.Persons.Update(entity);
+        Save();
+    }
+
     public async Task<PersonViewModel> GetByIdFullDescription(int id)
     {
         return await _context.Persons.Where(x => x.Id == id).Select(person => new PersonViewModel()

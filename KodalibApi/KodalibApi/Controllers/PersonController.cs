@@ -23,7 +23,7 @@ public class PersonController : ControllerBase
     }
 
     [HttpGet("GetPerson/{id}",Name = "GetPerson")]
-    public PersonViewModel GetActor(int id)
+    public PersonViewModel GetPerson(int id)
     {
         var responce = _personService.GetPerson(id);
 
@@ -31,15 +31,21 @@ public class PersonController : ControllerBase
     }
 
     [HttpDelete("DeletePerson", Name = "DeletePerson")]
-    public void DeleteActor(int id)
+    public void DeletePerson(int id)
     {
         _personService.DeletePerson(id);
     }
 
     [HttpPost("CreatePerson", Name = "CreatePerson")]
-    public void CreateActor(PersonViewModel filmViewModels)
+    public void CreatePerson(PersonViewModel filmViewModels)
     {
         _personService.CreatePerson(filmViewModels);
+    }
+
+    [HttpPut("UpdatePerson", Name = "UpdatePerson")]
+    public void UpdatePerson(int id, PersonViewModel personViewModel)
+    {
+        _personService.UpdatePerson(id, personViewModel);
     }
 
 }

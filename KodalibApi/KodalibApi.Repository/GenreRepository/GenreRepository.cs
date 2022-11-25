@@ -47,6 +47,11 @@ public class GenreRepository: IGenreRepository
         _context.SaveChanges();
     }
 
+    public void Update(Genre entity)
+    {
+        _context.Genres.Update(entity);
+    }
+
     public async Task<GenreViewModel> GetByNameFullDescription(string name)
     {
         return await _context.Genres.Where(x => x.Name == name).Select(genre => new GenreViewModel()

@@ -16,4 +16,6 @@ public interface ICountryService
     IBaseResponce<bool> DeleteCountry(int id);
 
     IBaseResponce<CountryViewModel> CreateCountry(string countryViewModelName);
+
+    IBaseResponce<CountryViewModel> UpdateCountry(int id, CountryViewModel countryViewModel);
 }

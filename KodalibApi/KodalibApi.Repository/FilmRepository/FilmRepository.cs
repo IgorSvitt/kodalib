@@ -139,6 +139,11 @@ public class FilmRepository: IFilmRepository
         _context.SaveChanges();
     }
 
+    public void Update(Film entity)
+    {
+        _context.Films.Update(entity);
+    }
+
     public async Task<FilmViewModels> GetByTitleFullDescription(string title)
     {
         return await _context.Films.Where(n=> n.Title == title).Select(film => new FilmViewModels()

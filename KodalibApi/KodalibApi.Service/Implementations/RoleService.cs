@@ -126,13 +126,13 @@ public class RoleService: IRoleService
         }
     }
 
-    public IBaseResponce<RoleViewModel> CreateRole(string countryViewModelName)
+    public IBaseResponce<RoleViewModel> CreateRole(string roleViewModel)
     {
         var baseResponce = new BaseResponce<RoleViewModel>();
 
         try
         {
-            var roleName = _roleRepository.GetByName(countryViewModelName);
+            var roleName = _roleRepository.GetByName(roleViewModel);
 
             if (roleName != null)
             {
@@ -141,9 +141,38 @@ public class RoleService: IRoleService
             }
             var role = new Role()
             {
-                Name = countryViewModelName,
+                Name = roleViewModel,
             };
             _roleRepository.Create(role);
+        }
+        catch (Exception ex)
+        {
+            return new BaseResponce<RoleViewModel>()
+            {
+                Description = $"[GetCountry] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+
+        return baseResponce;
+    }
+
+    public IBaseResponce<RoleViewModel> UpdateRole(int id, RoleViewModel roleViewModel)
+    {
+        var baseResponce = new BaseResponce<RoleViewModel>();
+
+        try
+        {
+            var role = _roleRepository.GetById(id);
+
+            if (role == null)
+            {
+                CreateRole(roleViewModel.Name);
+                return baseResponce;
+            }
+
+            role.Result.Name = roleViewModel.Name;
+            _roleRepository.Update(role.Result);
         }
         catch (Exception ex)
         {

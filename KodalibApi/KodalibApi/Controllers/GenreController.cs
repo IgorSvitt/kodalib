@@ -50,4 +50,10 @@ public class GenreController : ControllerBase
     {
         _genreService.DeleteGenre(id);
     }
+
+    [HttpPut("UpdateGenre", Name = "UpdateGenre")]
+    public void UpdateGenre(int id, GenreViewModel genreViewModel)
+    {
+        _genreService.UpdateGenre(id, genreViewModel);
+    }
 }
