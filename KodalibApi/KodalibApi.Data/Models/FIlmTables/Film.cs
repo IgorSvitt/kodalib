@@ -40,11 +40,11 @@ public class Film
 
     // IMDb rating of film
     [Column("imdb_rating")]
-    public short? ImdbRating { get; set; }
+    public string? ImdbRating { get; set; }
     
     // Kodalib rating of film
     [Column("kodalib_rating")]
-    public short? KodalibRating { get; set; }
+    public string? KodalibRating { get; set; }
 
     // Budget of film
     [Column("budget")]
@@ -57,6 +57,9 @@ public class Film
     // Link of Youtube Trailer by film 
     [Column("youtube_trailer")]
     public string? YoutubeTrailer { get; set; }
+    
+    [Column("ThumbnailUrl")]
+    public string? ThumbnailUrl { get; set; }
     
     // List of countries by film
     public List<FilmsCountries>? CountriesList { get; set; } 

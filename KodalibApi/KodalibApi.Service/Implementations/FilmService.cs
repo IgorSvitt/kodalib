@@ -150,17 +150,18 @@ public class FilmService : IFilmService
                 Budget = filmViewModels.Budget,
                 GrossWorldwide = filmViewModels.GrossWorldwide,
                 YoutubeTrailer = filmViewModels.YoutubeTrailer,
+                ThumbnailUrl = filmViewModels.ThumbnailUrl,
             };
             _filmRepository.Create(film);
 
-            foreach (var name in filmViewModels.FilmsCountriesList)
+            foreach (var country in filmViewModels.FilmsCountriesList)
             {
-                var nameCountry = _countryRepository.GetByName(name);
+                var nameCountry = _context.Countries.FirstOrDefault(x => x.Name == country.Name);
 
                 if (nameCountry == null)
                 {
-                    _countryRepository.Create(new Country {Name = name});
-                    nameCountry = _countryRepository.GetByName(name);
+                    _countryRepository.Create(new Country {Name = country.Name});
+                    nameCountry = _countryRepository.GetByName(country.Name);
                 }
 
                 var idCountry = nameCountry.Id;
@@ -174,14 +175,14 @@ public class FilmService : IFilmService
                 _context.SaveChanges();
             }
 
-            foreach (var name in filmViewModels.FilmsGenreList)
+            foreach (var genre in filmViewModels.FilmsGenreList)
             {
-                var nameGenre = _genreRepository.GetByName(name);
+                var nameGenre = _context.Genres.FirstOrDefault(x => x.Name == genre.Name);
 
                 if (nameGenre == null)
                 {
-                    _genreRepository.Create(new Genre {Name = name});
-                    nameGenre = _genreRepository.GetByName(name);
+                    _genreRepository.Create(new Genre {Name = genre.Name});
+                    nameGenre = _genreRepository.GetByName(genre.Name);
                 }
 
                 var idCountry = nameGenre.Id;
@@ -313,12 +314,12 @@ public class FilmService : IFilmService
 
             foreach (var name in filmViewModels.FilmsCountriesList)
             {
-                var nameCountry = _countryRepository.GetByName(name);
+                var nameCountry = _countryRepository.GetByName(name.Name);
 
                 if (nameCountry == null)
                 {
-                    _countryRepository.Create(new Country {Name = name});
-                    nameCountry = _countryRepository.GetByName(name);
+                    _countryRepository.Create(new Country {Name = name.Name});
+                    nameCountry = _countryRepository.GetByName(name.Name);
                 }
 
                 var idCountry = nameCountry.Id;
@@ -334,12 +335,12 @@ public class FilmService : IFilmService
 
             foreach (var name in filmViewModels.FilmsGenreList)
             {
-                var nameGenre = _genreRepository.GetByName(name);
+                var nameGenre = _genreRepository.GetByName(name.Name);
 
                 if (nameGenre == null)
                 {
-                    _genreRepository.Create(new Genre {Name = name});
-                    nameGenre = _genreRepository.GetByName(name);
+                    _genreRepository.Create(new Genre {Name = name.Name});
+                    nameGenre = _genreRepository.GetByName(name.Name);
                 }
 
                 var idCountry = nameGenre.Id;

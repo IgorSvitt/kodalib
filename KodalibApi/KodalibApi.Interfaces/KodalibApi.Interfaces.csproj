@@ -10,4 +10,8 @@
       <ProjectReference Include="..\KodalibApi.Data\KodalibApi.Data.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Moqqer" Version="2.0.111" />
+    </ItemGroup>
+
 </Project>

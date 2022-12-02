@@ -1,5 +1,7 @@
 ﻿using KodalibApi.Data.Models;
 using KodalibApi.Data.ViewModels.Actor;
+using KodalibApi.Data.ViewModels.Country;
+using KodalibApi.Data.ViewModels.Genre;
 
 namespace KodalibApi.Data.ViewModels.Film;
 
@@ -9,7 +11,7 @@ public class FilmViewModels
     public string ImdbId { get; set; }
 
     public string Title { get; set; }
-
+    
     public string? Poster { get; set; }
 
     public short? Year { get; set; }
@@ -18,7 +20,7 @@ public class FilmViewModels
 
     public string? Plot { get; set; }
 
-    public short? ImdbRating { get; set; }
+    public string? ImdbRating { get; set; }
 
     public string? Budget { get; set; }
     
@@ -26,9 +28,11 @@ public class FilmViewModels
     
     public string? YoutubeTrailer { get; set; }
     
-    public List<string>? FilmsCountriesList { get; set; }
+    public string? ThumbnailUrl { get; set; }
     
-    public List<string>? FilmsGenreList { get; set; }
+    public List<CountryViewModel>? FilmsCountriesList { get; set; }
+    
+    public List<GenreViewModel>? FilmsGenreList { get; set; }
 
     public List<CharacterViewModel>? ActorsList { get; set; }
     
@@ -37,4 +41,5 @@ public class FilmViewModels
     public List<WriterViewModel>? WritersList { get; set; }
     
     public List<DirectorViewModel>? DirectorList { get; set; }
+    
 }

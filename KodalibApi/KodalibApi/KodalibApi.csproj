@@ -18,11 +18,13 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+        <PackageReference Include="Moqqer" Version="2.0.111" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\KodalibApi.DataInfill\KodalibApi.DataInfill.csproj" />
       <ProjectReference Include="..\KodalibApi.Interfaces\KodalibApi.Interfaces.csproj" />
       <ProjectReference Include="..\KodalibApi.Repository\KodalibApi.Repository.csproj" />
       <ProjectReference Include="..\KodalibApi.Service\KodalibApi.Service.csproj" />

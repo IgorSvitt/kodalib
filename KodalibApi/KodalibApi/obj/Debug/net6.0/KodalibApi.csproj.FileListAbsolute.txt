@@ -255,3 +255,9 @@ C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Service.dll
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Interfaces.pdb
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Repository.pdb
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Service.pdb
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Castle.Core.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Moq.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Moqqer.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\IMDbApiLib.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.DataInfill.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.DataInfill.pdb

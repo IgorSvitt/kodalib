@@ -3,7 +3,9 @@ using KodalibApi.Data.Context;
 using KodalibApi.Data.Models;
 using KodalibApi.Data.Models.FIlmTables;
 using KodalibApi.Data.ViewModels.Actor;
+using KodalibApi.Data.ViewModels.Country;
 using KodalibApi.Data.ViewModels.Film;
+using KodalibApi.Data.ViewModels.Genre;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kodalib.Repository.FilmRepository;
@@ -52,8 +54,15 @@ public class FilmRepository: IFilmRepository
             Budget = film.Budget,
             GrossWorldwide = film.GrossWorldwide,
             YoutubeTrailer = film.YoutubeTrailer,
-            FilmsCountriesList = film.CountriesList.Select(n=> n.Country.Name).ToList(),
-            FilmsGenreList = film.GenresList.Select(n => n.Genre.Name).ToList(),
+            ThumbnailUrl = film.ThumbnailUrl,
+            FilmsCountriesList = film.CountriesList.Select(n => new CountryViewModel()
+            {
+                Name = n.Country.Name
+            }).ToList(),
+            FilmsGenreList = film.GenresList.Select(n => new GenreViewModel()
+            {
+                Name = n.Genre.Name
+            }).ToList(),
             TopActorsList = film.TopActors.Select(character=> new TopActorViewModel()
             {
                 Id = character.ActorId,
@@ -97,8 +106,15 @@ public class FilmRepository: IFilmRepository
             Budget = film.Budget,
             GrossWorldwide = film.GrossWorldwide,
             YoutubeTrailer = film.YoutubeTrailer,
-            FilmsCountriesList = film.CountriesList.Select(n => n.Country.Name).ToList(),
-            FilmsGenreList = film.GenresList.Select(n => n.Genre.Name).ToList(),
+            ThumbnailUrl = film.ThumbnailUrl,
+            FilmsCountriesList = film.CountriesList.Select(n => new CountryViewModel()
+            {
+                Name = n.Country.Name
+            }).ToList(),
+            FilmsGenreList = film.GenresList.Select(n => new GenreViewModel()
+            {
+                Name = n.Genre.Name
+            }).ToList(),
             TopActorsList = film.TopActors.Select(character=> new TopActorViewModel()
             {
                 Id = character.ActorId,
@@ -159,8 +175,15 @@ public class FilmRepository: IFilmRepository
             Budget = film.Budget,
             GrossWorldwide = film.GrossWorldwide,
             YoutubeTrailer = film.YoutubeTrailer,
-            FilmsCountriesList = film.CountriesList.Select(n=> n.Country.Name).ToList(),
-            FilmsGenreList = film.GenresList.Select(n => n.Genre.Name).ToList(),
+            ThumbnailUrl = film.ThumbnailUrl,
+            FilmsCountriesList = film.CountriesList.Select(n => new CountryViewModel()
+            {
+                Name = n.Country.Name
+            }).ToList(),
+            FilmsGenreList = film.GenresList.Select(n => new GenreViewModel()
+            {
+                Name = n.Genre.Name
+            }).ToList(),
             TopActorsList = film.TopActors.Select(character=> new TopActorViewModel()
             {
                 Id = character.ActorId,

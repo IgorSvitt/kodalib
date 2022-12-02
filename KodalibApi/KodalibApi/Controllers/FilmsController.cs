@@ -3,6 +3,7 @@ using Kodalib.Repository;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Models;
 using KodalibApi.Data.ViewModels.Film;
+using KodalibApi.DataInfill.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KodalibApi.Controllers;
@@ -12,10 +13,12 @@ namespace KodalibApi.Controllers;
 public class FilmsController : ControllerBase
 {
     private readonly IFilmService _filmService;
+    private readonly IFilmDataInfill _dataInfill;
 
-    public FilmsController(IFilmService filmService)
+    public FilmsController(IFilmService filmService, IFilmDataInfill dataInfill)
     {
         _filmService = filmService;
+        _dataInfill = dataInfill;
     }
 
     [HttpGet("GetFilms",Name = "GetFilms")]
@@ -49,5 +52,11 @@ public class FilmsController : ControllerBase
     public void UpdateFilm(int id, FilmViewModels filmViewModels)
     {
         _filmService.UpdateFilm(id, filmViewModels);
+    }
+    
+    [HttpPost("createNewFilmWithApi", Name = "createNewFilmWithApi")]
+    public void CreateWithApi([FromBody]List<string> id)
+    {
+        _dataInfill.Create(id);
     }
 }
