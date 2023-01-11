@@ -10,18 +10,18 @@ public class PersonController : ControllerBase
 {
     private readonly IPersonService _personService;
 
-    public PersonController(IPersonService actorService)
+    public PersonController(IPersonService personService)
     {
-        _personService = actorService;
+        _personService = personService;
     }
-    
-    [HttpGet("GetPersons",Name = "GetPersons")]
-    public IEnumerable<PersonViewModel> GetPerson()
+
+    [HttpGet("GetPeople",Name = "GetPeople")]
+    public IEnumerable<PersonViewModel> GetPeople()
     {
         var responce = _personService.GetPeople();
         return responce.Data;
     }
-
+    
     [HttpGet("GetPerson/{id}",Name = "GetPerson")]
     public PersonViewModel GetPerson(int id)
     {

@@ -7,7 +7,7 @@ using KodalibApi.Interfaces.RoleInterface;
 
 namespace Kodalib.Service.Implementations;
 
-public class RoleService: IRoleService
+public class RoleService : IRoleService
 {
     private readonly IRoleRepository _roleRepository;
 
@@ -15,7 +15,7 @@ public class RoleService: IRoleService
     {
         _roleRepository = roleService;
     }
-    
+
     public IBaseResponce<IEnumerable<RoleViewModel>> GetRoles()
     {
         var baseResponce = new BaseResponce<IEnumerable<RoleViewModel>>();
@@ -139,6 +139,7 @@ public class RoleService: IRoleService
                 baseResponce.StatusCode = StatusCode.InternalServerError;
                 return baseResponce;
             }
+
             var role = new Role()
             {
                 Name = roleViewModel,
@@ -165,7 +166,7 @@ public class RoleService: IRoleService
         {
             var role = _roleRepository.GetById(id);
 
-            if (role == null)
+            if (role.Result == null)
             {
                 CreateRole(roleViewModel.Name);
                 return baseResponce;

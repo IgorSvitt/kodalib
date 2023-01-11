@@ -120,9 +120,9 @@ public class PersonService : IPersonService
 
         try
         {
-            var personImdbId = _personRepository.GetByImdbId(personViewModel.ImdbId);
+            var personImdbId = _personRepository.GetById(personViewModel.Id);
 
-            if (personImdbId != null)
+            if (personImdbId.Result != null)
             {
                 throw new Exception("Person is exist");
             }
@@ -130,19 +130,18 @@ public class PersonService : IPersonService
             var person = new Person()
             {
                 Id = personViewModel.Id,
-                PersonImdbId = personViewModel.ImdbId,
+                PersonKinopoiskId = personViewModel.KinopoiskId,
                 Name = personViewModel.Name,
                 Image = personViewModel.Image,
                 Summary = personViewModel.Summary,
                 BirthDate = personViewModel.BirthDate,
                 DeathDate = personViewModel.DeathDate,
-                Height = personViewModel.Height,
             };
             _personRepository.Create(person);
 
             foreach (var name in personViewModel.Role)
             {
-                var role = _roleRepository.GetByName(name);
+                Role role = _roleRepository.GetByName(name);
 
                 if (role == null)
                 {
@@ -150,13 +149,14 @@ public class PersonService : IPersonService
                     role = _roleRepository.GetByName(name);
                 }
 
-                var idRole = role.Id;
+                int idRole = role.Id;
 
-                var rolePerson = new RolePerson()
+                RolePerson rolePerson = new RolePerson()
                 {
                     PersonId = person.Id,
                     RoleId = idRole,
                 };
+
                 _context.RolePersons.Add(rolePerson);
                 _context.SaveChanges();
             }
@@ -181,20 +181,29 @@ public class PersonService : IPersonService
         {
             var person = _personRepository.GetById(id);
 
-            if (person == null)
+            if (person.Result == null)
             {
                 CreatePerson(personViewModel);
                 return baseResponce;
             }
 
-            person.Result.PersonImdbId = personViewModel.ImdbId;
+            person.Result.PersonKinopoiskId = personViewModel.KinopoiskId;
             person.Result.Name = personViewModel.Name;
             person.Result.Image = personViewModel.Image;
             person.Result.Summary = personViewModel.Summary;
             person.Result.BirthDate = personViewModel.BirthDate;
             person.Result.DeathDate = personViewModel.DeathDate;
-            person.Result.Height = personViewModel.Height;
             _personRepository.Update(person.Result);
+
+            var actorRoles = _context.RolePersons.Where(x => x.PersonId == id);
+            
+            foreach (var role in actorRoles)
+            {
+                _context.RolePersons.Remove(role);
+
+            }
+            
+            _context.SaveChanges();
 
             foreach (var name in personViewModel.Role)
             {
@@ -206,19 +215,19 @@ public class PersonService : IPersonService
                     role = _roleRepository.GetByName(name);
                 }
 
-                var idRole = role.Id;
-
                 var rolePerson = new RolePerson()
                 {
-                    PersonId = person.Id,
-                    RoleId = idRole,
+                    PersonId = id,
+                    RoleId = role.Id,
                 };
+                
                 _context.RolePersons.Add(rolePerson);
                 _context.SaveChanges();
             }
+            
         }
         catch (Exception ex)
-        {
+        { 
             return new BaseResponce<PersonViewModel>()
             {
                 Description = $"[GetPerson] : {ex.Message}",

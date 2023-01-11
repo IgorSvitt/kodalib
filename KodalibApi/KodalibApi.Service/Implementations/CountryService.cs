@@ -8,7 +8,7 @@ using KodalibApi.Data.ViewModels.Country;
 
 namespace Kodalib.Service.Implementations;
 
-public class CountryService: ICountryService
+public class CountryService : ICountryService
 {
     private readonly ICountryRepository _countryRepository;
 
@@ -16,7 +16,7 @@ public class CountryService: ICountryService
     {
         _countryRepository = countryRepository;
     }
-    
+
     public IBaseResponce<IEnumerable<CountryViewModel>> GetCountries()
     {
         var baseResponce = new BaseResponce<IEnumerable<CountryViewModel>>();
@@ -140,6 +140,7 @@ public class CountryService: ICountryService
                 baseResponce.StatusCode = StatusCode.InternalServerError;
                 return baseResponce;
             }
+
             var country = new Country()
             {
                 Name = countryViewModelName,

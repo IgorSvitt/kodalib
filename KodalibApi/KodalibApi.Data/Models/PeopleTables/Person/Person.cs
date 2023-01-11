@@ -10,11 +10,11 @@ public class Person
     [Column("id")]
     public int Id { get; set; }
     
-    [Column("person_imdb_id")]
-    public string PersonImdbId { get; set; }
+    [Column("person_kinopoisk_id")]
+    public string? PersonKinopoiskId { get; set; }
     
     [Column("name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [Column("image")]
     public string? Image { get; set; }
@@ -27,9 +27,6 @@ public class Person
 
     [Column("death_date")]
     public string? DeathDate { get; set; }
-    
-    [Column("height")]
-    public string? Height { get; set; }
 
     // List of top actors in films by actors
     public List<TopActor>? TopActors { get; set; }

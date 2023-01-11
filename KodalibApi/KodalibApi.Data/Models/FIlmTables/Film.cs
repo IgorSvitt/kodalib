@@ -15,12 +15,18 @@ public class Film
     public int Id { get; set; }
     
     // IMDb Id of film
-    [Column("imdb_id")]
-    public string ImdbId { get; set; }
+    [Column("kinopoisk_id")]
+    public string? KinopoiskId { get; set; }
 
     // Title of film
     [Column("title")]
     public string Title { get; set; }
+    
+    [Column("org_title")]
+    public string? OriginalTitle { get; set; }
+    
+    [Column("link_video")] 
+    public string LinkVideo { get; set; }
 
     // Link of poster by film
     [Column("poster")]
@@ -39,20 +45,12 @@ public class Film
     public string? Plot { get; set; }
 
     // IMDb rating of film
-    [Column("imdb_rating")]
-    public string? ImdbRating { get; set; }
+    [Column("kinopoisk_rating")]
+    public string? KinopoiskRating { get; set; }
     
     // Kodalib rating of film
     [Column("kodalib_rating")]
     public string? KodalibRating { get; set; }
-
-    // Budget of film
-    [Column("budget")]
-    public string? Budget { get; set; }
-
-    // Gross worldwide of film
-    [Column("gross_worldwide")]
-    public string? GrossWorldwide { get; set; }
 
     // Link of Youtube Trailer by film 
     [Column("youtube_trailer")]
@@ -76,4 +74,5 @@ public class Film
     public List<Writers> WritersList { get; set; }
     
     public List<Director> DirectorsList { get; set; }
+    
 }

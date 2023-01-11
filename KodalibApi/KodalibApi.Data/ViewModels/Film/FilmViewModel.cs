@@ -7,8 +7,8 @@ namespace KodalibApi.Data.ViewModels.Film;
 
 public class FilmViewModels
 {
-    public int Id { get; set; }
-    public string ImdbId { get; set; }
+    public int? Id { get; set; }
+    public string? KinopoiskId { get; set; }
 
     public string Title { get; set; }
     
@@ -20,19 +20,19 @@ public class FilmViewModels
 
     public string? Plot { get; set; }
 
-    public string? ImdbRating { get; set; }
+    public string? KinopoiskRating { get; set; }
+    
+    public string? KodalibRating { get; set; }
 
-    public string? Budget { get; set; }
-    
-    public string? GrossWorldwide { get; set; }
-    
     public string? YoutubeTrailer { get; set; }
     
     public string? ThumbnailUrl { get; set; }
     
-    public List<CountryViewModel>? FilmsCountriesList { get; set; }
+    public string LinkVideo { get; set; }
     
-    public List<GenreViewModel>? FilmsGenreList { get; set; }
+    public List<CountryNameViewModel>? FilmsCountriesList { get; set; }
+    
+    public List<GenreNameViewModel>? FilmsGenreList { get; set; }
 
     public List<CharacterViewModel>? ActorsList { get; set; }
     

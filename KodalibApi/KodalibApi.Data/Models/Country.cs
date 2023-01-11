@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using KodalibApi.Data.Models.FIlmTables;
+using KodalibApi.Data.Models.SeriesTable;
 
 namespace KodalibApi.Data.Models;
 
@@ -18,4 +19,6 @@ public class Country
     
     // List of films by country
     public List<FilmsCountries>? FilmsList { get; set; }
+    
+    public List<SeriesCountries>? SeriesList { get; set; }
 }

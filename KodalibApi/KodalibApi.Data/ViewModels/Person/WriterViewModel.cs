@@ -3,7 +3,7 @@
 public class WriterViewModel
 {
     public int? Id { get; set; }
-    public string Writer { get; set; }
+    public string? Name { get; set; }
 
-    public string WriterImdbId { get; set; }
+    public string? WriterKinopoiskId { get; set; }
 }

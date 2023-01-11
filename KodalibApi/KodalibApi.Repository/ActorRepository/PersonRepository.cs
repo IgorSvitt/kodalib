@@ -61,14 +61,13 @@ public class PersonRepository: IPersonRepository
         return await _context.Persons.Where(x => x.Id == id).Select(person => new PersonViewModel()
         {
             Id = person.Id,
-            ImdbId = person.PersonImdbId,
+            KinopoiskId = person.PersonKinopoiskId,
             Name = person.Name,
             Role = person.Role.Select(n => n.Role.Name).ToList(),
             Image = person.Image,
             Summary = person.Summary,
             BirthDate = person.BirthDate,
             DeathDate = person.DeathDate,
-            Height = person.Height,
             Films = person.Films.Select(film => new FilmIdAndTitleViewModel()
             {
                 Id = film.FilmId,
@@ -82,14 +81,13 @@ public class PersonRepository: IPersonRepository
         return await _context.Persons.Select(person => new PersonViewModel()
         {
             Id = person.Id,
-            ImdbId = person.PersonImdbId,
+            KinopoiskId = person.PersonKinopoiskId,
             Name = person.Name,
             Role = person.Role.Select(n => n.Role.Name).ToList(),
             Image = person.Image,
             Summary = person.Summary,
             BirthDate = person.BirthDate,
             DeathDate = person.DeathDate,
-            Height = person.Height,
             Films = person.Films.Select(film => new FilmIdAndTitleViewModel()
             {
                 Id = film.FilmId,
@@ -100,7 +98,7 @@ public class PersonRepository: IPersonRepository
 
     public Person GetByImdbId(string imadbId)
     {
-        return _context.Persons.FirstOrDefault(x => x.PersonImdbId == imadbId);
+        return _context.Persons.FirstOrDefault(x => x.PersonKinopoiskId == imadbId);
     }
     
 
@@ -109,14 +107,13 @@ public class PersonRepository: IPersonRepository
         return await _context.Persons.Where(x => x.Name == name).Select(person => new PersonViewModel()
         {
             Id = person.Id,
-            ImdbId = person.PersonImdbId,
+            KinopoiskId = person.PersonKinopoiskId,
             Name = person.Name,
             Role = person.Role.Select(n => n.Role.Name).ToList(),
             Image = person.Image,
             Summary = person.Summary,
             BirthDate = person.BirthDate,
             DeathDate = person.DeathDate,
-            Height = person.Height,
             Films = person.Films.Select(film => new FilmIdAndTitleViewModel()
             {
                 Id = film.FilmId,

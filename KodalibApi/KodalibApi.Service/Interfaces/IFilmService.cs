@@ -21,7 +21,11 @@ public interface IFilmService
     IBaseResponce<bool> DeleteFilms(int id);
 
     // Create a movie
+
     IBaseResponce<Film> CreateFilm(FilmViewModels filmViewModels);
+    
+    IBaseResponce<Film> CreateFilms(List<FilmViewModels> filmViewModels);
+    
 
     IBaseResponce<FilmViewModels> UpdateFilm(int id, FilmViewModels filmViewModels);
 }

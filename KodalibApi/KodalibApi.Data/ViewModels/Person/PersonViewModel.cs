@@ -7,9 +7,9 @@ public class PersonViewModel
 {
     public int Id { get; set; }
     
-    public string ImdbId { get; set; }
+    public string? KinopoiskId { get; set; }
     
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public List<string>? Role { get; set; }
 
@@ -20,8 +20,6 @@ public class PersonViewModel
     public string? BirthDate { get; set; }
 
     public string? DeathDate { get; set; }
-    
-    public string? Height { get; set; }
 
     public List<FilmIdAndTitleViewModel>? Films { get; set; }
 }

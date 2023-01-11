@@ -44,49 +44,48 @@ public class FilmRepository: IFilmRepository
         return await _context.Films.Where(n=> n.Id == id).Select(film => new FilmViewModels()
         {
             Id = film.Id,
-            ImdbId = film.ImdbId,
+            KinopoiskId = film.KinopoiskId,
             Title = film.Title,
+            LinkVideo = film.LinkVideo,
             Poster = film.Poster,
             Year = film.Year,
             Duration = film.Duration,
             Plot = film.Plot,
-            ImdbRating =film.ImdbRating,
-            Budget = film.Budget,
-            GrossWorldwide = film.GrossWorldwide,
+            KinopoiskRating =film.KinopoiskRating,
             YoutubeTrailer = film.YoutubeTrailer,
             ThumbnailUrl = film.ThumbnailUrl,
-            FilmsCountriesList = film.CountriesList.Select(n => new CountryViewModel()
+            FilmsCountriesList = film.CountriesList.Select(n => new CountryNameViewModel()
             {
                 Name = n.Country.Name
             }).ToList(),
-            FilmsGenreList = film.GenresList.Select(n => new GenreViewModel()
+            FilmsGenreList = film.GenresList.Select(n => new GenreNameViewModel()
             {
                 Name = n.Genre.Name
             }).ToList(),
             TopActorsList = film.TopActors.Select(character=> new TopActorViewModel()
             {
                 Id = character.ActorId,
-                Actor = character.Actor.Name,
-                ActorImdbId = character.Actor.PersonImdbId
+                Name = character.Actor.Name,
+                ActorKinopoiskId = character.Actor.PersonKinopoiskId
             }).ToList(),
             ActorsList = film.Characters.Select(character=> new CharacterViewModel()
             {
                 Id = character.Actor.Id,
                 Role = character.Role,
-                Actor = character.Actor.Name,
-                ActorImdbId = character.Actor.PersonImdbId
+                Name = character.Actor.Name,
+                ActorKinopoiskId = character.Actor.PersonKinopoiskId
             }).ToList(),
             WritersList = film.WritersList.Select(character=> new WriterViewModel()
             {
                 Id = character.WriterId,
-                Writer = character.WriterPerson.Name,
-                WriterImdbId = character.WriterPerson.PersonImdbId
+                Name = character.WriterPerson.Name,
+                WriterKinopoiskId = character.WriterPerson.PersonKinopoiskId
             }).ToList(),
             DirectorList = film.DirectorsList.Select(character=> new DirectorViewModel()
             {
                 Id = character.DirectorId,
-                Director = character.DirectorPerson.Name,
-                DirectorImdbId = character.DirectorPerson.PersonImdbId
+                Name = character.DirectorPerson.Name,
+                DirectorKinopoiskId = character.DirectorPerson.PersonKinopoiskId
             }).ToList(),
         }).FirstOrDefaultAsync();
     }
@@ -96,49 +95,48 @@ public class FilmRepository: IFilmRepository
         return await _context.Films.Select(film => new FilmViewModels()
         {
             Id = film.Id,
-            ImdbId = film.ImdbId,
+            KinopoiskId = film.KinopoiskId,
             Title = film.Title,
+            LinkVideo = film.LinkVideo,
             Poster = film.Poster,
             Year = film.Year,
             Duration = film.Duration,
             Plot = film.Plot,
-            ImdbRating = film.ImdbRating,
-            Budget = film.Budget,
-            GrossWorldwide = film.GrossWorldwide,
+            KinopoiskRating = film.KinopoiskRating,
             YoutubeTrailer = film.YoutubeTrailer,
             ThumbnailUrl = film.ThumbnailUrl,
-            FilmsCountriesList = film.CountriesList.Select(n => new CountryViewModel()
+            FilmsCountriesList = film.CountriesList.Select(n => new CountryNameViewModel()
             {
                 Name = n.Country.Name
             }).ToList(),
-            FilmsGenreList = film.GenresList.Select(n => new GenreViewModel()
+            FilmsGenreList = film.GenresList.Select(n => new GenreNameViewModel()
             {
                 Name = n.Genre.Name
             }).ToList(),
             TopActorsList = film.TopActors.Select(character=> new TopActorViewModel()
             {
                 Id = character.ActorId,
-                Actor = character.Actor.Name,
-                ActorImdbId = character.Actor.PersonImdbId
+                Name = character.Actor.Name,
+                ActorKinopoiskId = character.Actor.PersonKinopoiskId
             }).ToList(),
             ActorsList = film.Characters.Select(character=> new CharacterViewModel()
             {
                 Id = character.Actor.Id,
                 Role = character.Role,
-                Actor = character.Actor.Name,
-                ActorImdbId = character.Actor.PersonImdbId
+                Name = character.Actor.Name,
+                ActorKinopoiskId = character.Actor.PersonKinopoiskId
             }).ToList(),
             WritersList = film.WritersList.Select(character=> new WriterViewModel()
             {
                 Id = character.WriterId,
-                Writer = character.WriterPerson.Name,
-                WriterImdbId = character.WriterPerson.PersonImdbId
+                Name = character.WriterPerson.Name,
+                WriterKinopoiskId = character.WriterPerson.PersonKinopoiskId
             }).ToList(),
             DirectorList = film.DirectorsList.Select(character=> new DirectorViewModel()
             {
                 Id = character.DirectorId,
-                Director = character.DirectorPerson.Name,
-                DirectorImdbId = character.DirectorPerson.PersonImdbId
+                Name = character.DirectorPerson.Name,
+                DirectorKinopoiskId = character.DirectorPerson.PersonKinopoiskId
             }).ToList(),
             
         }).ToListAsync();
@@ -158,6 +156,7 @@ public class FilmRepository: IFilmRepository
     public void Update(Film entity)
     {
         _context.Films.Update(entity);
+        Save();
     }
 
     public async Task<FilmViewModels> GetByTitleFullDescription(string title)
@@ -165,49 +164,48 @@ public class FilmRepository: IFilmRepository
         return await _context.Films.Where(n=> n.Title == title).Select(film => new FilmViewModels()
         {
             Id = film.Id,
-            ImdbId = film.ImdbId,
+            KinopoiskId = film.KinopoiskId,
             Title = film.Title,
+            LinkVideo = film.LinkVideo,
             Poster = film.Poster,
             Year = film.Year,
             Duration = film.Duration,
             Plot = film.Plot,
-            ImdbRating =film.ImdbRating,
-            Budget = film.Budget,
-            GrossWorldwide = film.GrossWorldwide,
+            KinopoiskRating =film.KinopoiskRating,
             YoutubeTrailer = film.YoutubeTrailer,
             ThumbnailUrl = film.ThumbnailUrl,
-            FilmsCountriesList = film.CountriesList.Select(n => new CountryViewModel()
+            FilmsCountriesList = film.CountriesList.Select(n => new CountryNameViewModel()
             {
                 Name = n.Country.Name
             }).ToList(),
-            FilmsGenreList = film.GenresList.Select(n => new GenreViewModel()
+            FilmsGenreList = film.GenresList.Select(n => new GenreNameViewModel()
             {
                 Name = n.Genre.Name
             }).ToList(),
             TopActorsList = film.TopActors.Select(character=> new TopActorViewModel()
             {
                 Id = character.ActorId,
-                Actor = character.Actor.Name,
-                ActorImdbId = character.Actor.PersonImdbId
+                Name = character.Actor.Name,
+                ActorKinopoiskId = character.Actor.PersonKinopoiskId
             }).ToList(),
             ActorsList = film.Characters.Select(character=> new CharacterViewModel()
             {
                 Id = character.Actor.Id,
                 Role = character.Role,
-                Actor = character.Actor.Name,
-                ActorImdbId = character.Actor.PersonImdbId
+                Name = character.Actor.Name,
+                ActorKinopoiskId = character.Actor.PersonKinopoiskId
             }).ToList(),
             WritersList = film.WritersList.Select(character=> new WriterViewModel()
             {
                 Id = character.WriterId,
-                Writer = character.WriterPerson.Name,
-                WriterImdbId = character.WriterPerson.PersonImdbId
+                Name = character.WriterPerson.Name,
+                WriterKinopoiskId = character.WriterPerson.PersonKinopoiskId
             }).ToList(),
             DirectorList = film.DirectorsList.Select(character=> new DirectorViewModel()
             {
                 Id = character.DirectorId,
-                Director = character.DirectorPerson.Name,
-                DirectorImdbId = character.DirectorPerson.PersonImdbId
+                Name = character.DirectorPerson.Name,
+                DirectorKinopoiskId = character.DirectorPerson.PersonKinopoiskId
             }).ToList(),
             
         }).FirstOrDefaultAsync();

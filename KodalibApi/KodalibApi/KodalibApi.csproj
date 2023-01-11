@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.11" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.11">
           <PrivateAssets>all</PrivateAssets>
@@ -24,7 +25,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\KodalibApi.DataInfill\KodalibApi.DataInfill.csproj" />
       <ProjectReference Include="..\KodalibApi.Interfaces\KodalibApi.Interfaces.csproj" />
       <ProjectReference Include="..\KodalibApi.Repository\KodalibApi.Repository.csproj" />
       <ProjectReference Include="..\KodalibApi.Service\KodalibApi.Service.csproj" />

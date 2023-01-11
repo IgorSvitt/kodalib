@@ -10,16 +10,15 @@ using KodalibApi.Interfaces.Base;
 
 namespace Kodalib.Service.Implementations;
 
-public class GenreService: IGenreService
+public class GenreService : IGenreService
 {
-
     private readonly IGenreRepository _genreRepository;
 
     public GenreService(IGenreRepository genreRepository, ApplicationDbContext context)
     {
         _genreRepository = genreRepository;
     }
-    
+
     public IBaseResponce<IEnumerable<GenreViewModel>> GetGenres()
     {
         var baseResponce = new BaseResponce<IEnumerable<GenreViewModel>>();
@@ -143,6 +142,7 @@ public class GenreService: IGenreService
                 baseResponce.StatusCode = StatusCode.InternalServerError;
                 return baseResponce;
             }
+
             var genre = new Genre()
             {
                 Name = genreViewModelName,
@@ -188,5 +188,5 @@ public class GenreService: IGenreService
         }
 
         return baseResponce;
-    } 
+    }
 }

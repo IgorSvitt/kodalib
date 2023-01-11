@@ -17,4 +17,5 @@ public class BaseResponce<T>: IBaseResponce<T>
 public interface IBaseResponce<T>
 {
     T Data { get; }
+    StatusCode StatusCode { get; set; }
 }
