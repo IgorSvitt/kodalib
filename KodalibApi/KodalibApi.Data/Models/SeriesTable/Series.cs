@@ -66,14 +66,14 @@ public class Series
     public List<SeriesGenres>? GenresList { get; set; }
     
     // List of actors by film
-    public List<>? TopActors { get; set; }
+    public List<TopActor>? TopActors { get; set; }
 
     // List of characters by film
-    public List<>? Characters { get; set; }
+    public List<Character>? Characters { get; set; }
 
-    public List<> WritersList { get; set; }
+    public List<Writers> WritersList { get; set; }
     
-    public List<> DirectorsList { get; set; }
+    public List<Director> DirectorsList { get; set; }
 
-    public List<> Seasons { get; set; }
+    public List<Season> Seasons { get; set; }
 }
