@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using KodalibApi.Data.Models.FilmTables;
 using KodalibApi.Data.Models.FIlmTables;
 using KodalibApi.Data.Models.PeopleTables;
+using KodalibApi.Data.Models.PeopleTables.SeriesPeople;
 
 namespace KodalibApi.Data.Models.SeriesTable;
 
@@ -24,9 +25,6 @@ public class Series
     
     [Column("org_title")]
     public string? OriginalTitle { get; set; }
-    
-    [Column("link_video")] 
-    public string LinkVideo { get; set; }
 
     // Link of poster by film
     [Column("poster")]
@@ -64,16 +62,13 @@ public class Series
     
     // List of genres by film
     public List<SeriesGenres>? GenresList { get; set; }
-    
-    // List of actors by film
-    public List<TopActor>? TopActors { get; set; }
 
     // List of characters by film
-    public List<Character>? Characters { get; set; }
+    public List<CharacterSeries>? Characters { get; set; }
 
-    public List<Writers> WritersList { get; set; }
+    public List<WriterSeries>? WritersList { get; set; }
     
-    public List<Director> DirectorsList { get; set; }
+    public List<DirectorSeries>? DirectorsList { get; set; }
 
     public List<Season> Seasons { get; set; }
 }

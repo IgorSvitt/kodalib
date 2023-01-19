@@ -11,6 +11,6 @@ public interface IFilmRepository: IBaseRepository<Film>
 
     Task<List<FilmViewModels>> GetAllFilms();
     
-    Task<FilmViewModels> GetByTitleFullDescription(string id);
+    Task<FilmViewModels> GetByTitleFullDescription(string title);
     
 }

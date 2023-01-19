@@ -2,6 +2,7 @@
 using KodalibApi.Data.Models.FilmTables;
 using KodalibApi.Data.Models.FIlmTables;
 using KodalibApi.Data.Models.PeopleTables;
+using KodalibApi.Data.Models.PeopleTables.SeriesPeople;
 using KodalibApi.Data.Models.SeriesTable;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,11 @@ public class ApplicationDbContext : DbContext
     public DbSet<Series> Series { get; set; }
     public DbSet<Season> Seasons { get; set; }
     public DbSet<Episodes> Episodes { get; set; }
+    public DbSet<SeriesCountries> SeriesCountries { get; set; }
+    public DbSet<SeriesGenres> SeriesGenres { get; set; }
+    public DbSet<CharacterSeries> CharacterSeries { get; set; }
+    public DbSet<DirectorSeries> DirectorSeries { get; set; }
+    public DbSet<WriterSeries> WriterSeries { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -169,5 +175,44 @@ public class ApplicationDbContext : DbContext
             .HasOne(fg => fg.Genre)
             .WithMany(g => g.SeriesList)
             .HasForeignKey(fg => fg.GenreId);
+        
+        modelBuilder.Entity<CharacterSeries>()
+            .HasKey(t => new {t.SeriesId, t.ActorId});
+
+        modelBuilder.Entity<CharacterSeries>()
+            .HasOne(c => c.Series)
+            .WithMany(s => s.Characters)
+            .HasForeignKey(c => c.SeriesId);
+
+        modelBuilder.Entity<CharacterSeries>()
+            .HasOne(c => c.Actor)
+            .WithMany(p => p.Series)
+            .HasForeignKey(c => c.ActorId);
+
+        modelBuilder.Entity<WriterSeries>()
+            .HasKey(t => new {t.SeriesId, t.WriterId});
+
+        modelBuilder.Entity<WriterSeries>()
+            .HasOne(sw => sw.Series)
+            .WithMany(s => s.WritersList)
+            .HasForeignKey(sw => sw.SeriesId);
+
+        modelBuilder.Entity<WriterSeries>()
+            .HasOne(fw => fw.WriterPerson)
+            .WithMany(w => w.WriterSeries)
+            .HasForeignKey(fw => fw.WriterId);
+        
+        modelBuilder.Entity<DirectorSeries>()
+            .HasKey(t => new {t.SeriesId, t.DirectorId});
+
+        modelBuilder.Entity<DirectorSeries>()
+            .HasOne(fd => fd.Series)
+            .WithMany(f => f.DirectorsList)
+            .HasForeignKey(fd => fd.SeriesId);
+
+        modelBuilder.Entity<DirectorSeries>()
+            .HasOne(fd => fd.DirectorPerson)
+            .WithMany(d => d.DirectorSeries)
+            .HasForeignKey(fd => fd.DirectorId);
     }
 }

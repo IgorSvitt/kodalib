@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using KodalibApi.Data.Models.PeopleTables.SeriesPeople;
+using KodalibApi.Data.Models.SeriesTable;
 
 namespace KodalibApi.Data.Models.PeopleTables;
 
@@ -39,4 +41,10 @@ public class Person
     public List<Writers>? Writers { get; set; }
     
     public List<Director>? Directors { get; set; }
+    
+    public List<CharacterSeries>? Series { get; set; }
+    public List<WriterSeries>? WriterSeries { get; set; }
+    public List<DirectorSeries>? DirectorSeries { get; set; }
+    
+    
 }

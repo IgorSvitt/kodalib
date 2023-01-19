@@ -300,16 +300,16 @@ public class FilmService : IFilmService
         return baseResponce;
     }
     
-    public IBaseResponce<Film> CreateFilms(List<FilmViewModels> filmViewModel)
+    public IBaseResponce<Film> CreateFilms(List<FilmViewModels> filmViewModelsList)
     {
         var baseResponce = new BaseResponce<Film>();
 
         try
         {
-            foreach (var filmViewModels in filmViewModel)
+            foreach (var filmViewModel in filmViewModelsList)
 
             {
-                var filmImdbId = _context.Films.FirstOrDefault(x => x.KinopoiskId == filmViewModels.KinopoiskId);
+                var filmImdbId = _context.Films.FirstOrDefault(x => x.KinopoiskId == filmViewModel.KinopoiskId);
 
                 if (filmImdbId != null)
                 {
@@ -318,21 +318,21 @@ public class FilmService : IFilmService
 
                 var film = new Film()
                 {
-                    KinopoiskId = filmViewModels.KinopoiskId,
-                    Title = filmViewModels.Title,
-                    Poster = filmViewModels.Poster,
-                    LinkVideo = filmViewModels.LinkVideo,
-                    Year = filmViewModels.Year,
-                    Duration = filmViewModels.Duration,
-                    Plot = filmViewModels.Plot,
-                    KinopoiskRating = filmViewModels.KinopoiskRating,
-                    YoutubeTrailer = filmViewModels.YoutubeTrailer,
-                    ThumbnailUrl = filmViewModels.ThumbnailUrl,
+                    KinopoiskId = filmViewModel.KinopoiskId,
+                    Title = filmViewModel.Title,
+                    Poster = filmViewModel.Poster,
+                    LinkVideo = filmViewModel.LinkVideo,
+                    Year = filmViewModel.Year,
+                    Duration = filmViewModel.Duration,
+                    Plot = filmViewModel.Plot,
+                    KinopoiskRating = filmViewModel.KinopoiskRating,
+                    YoutubeTrailer = filmViewModel.YoutubeTrailer,
+                    ThumbnailUrl = filmViewModel.ThumbnailUrl,
                 };
                 _filmRepository.Create(film);
                 
-                if (filmViewModels.FilmsCountriesList != null)
-                    foreach (var country in filmViewModels.FilmsCountriesList)
+                if (filmViewModel.FilmsCountriesList != null)
+                    foreach (var country in filmViewModel.FilmsCountriesList)
                     {
                         var nameCountry = _context.Countries.FirstOrDefault(x => x.Name == country.Name);
                 
@@ -353,8 +353,8 @@ public class FilmService : IFilmService
                         _context.SaveChanges();
                     }
                 
-                if (filmViewModels.FilmsGenreList != null)
-                    foreach (var genre in filmViewModels.FilmsGenreList)
+                if (filmViewModel.FilmsGenreList != null)
+                    foreach (var genre in filmViewModel.FilmsGenreList)
                     {
                         var nameGenre = _context.Genres.FirstOrDefault(x => x.Name == genre.Name);
                 
@@ -375,8 +375,8 @@ public class FilmService : IFilmService
                         _context.SaveChanges();
                     }
                 
-                if (filmViewModels.ActorsList != null)
-                    foreach (var name in filmViewModels.ActorsList)
+                if (filmViewModel.ActorsList != null)
+                    foreach (var name in filmViewModel.ActorsList)
                     {
                         var nameActor =
                             _context.Persons.FirstOrDefault(x => x.PersonKinopoiskId == name.ActorKinopoiskId);
@@ -401,8 +401,8 @@ public class FilmService : IFilmService
                         _context.SaveChanges();
                     }
                 
-                if (filmViewModels.TopActorsList != null)
-                    foreach (var name in filmViewModels.TopActorsList)
+                if (filmViewModel.TopActorsList != null)
+                    foreach (var name in filmViewModel.TopActorsList)
                     {
                         var nameActor =
                             _context.Persons.FirstOrDefault(x => x.PersonKinopoiskId == name.ActorKinopoiskId);
@@ -418,8 +418,8 @@ public class FilmService : IFilmService
                         _context.SaveChanges();
                     }
                 
-                if (filmViewModels.WritersList != null)
-                    foreach (var name in filmViewModels.WritersList)
+                if (filmViewModel.WritersList != null)
+                    foreach (var name in filmViewModel.WritersList)
                     {
                         var nameWriter =
                             _context.Persons.FirstOrDefault(x => x.PersonKinopoiskId == name.WriterKinopoiskId);
@@ -443,8 +443,8 @@ public class FilmService : IFilmService
                         _context.SaveChanges();
                     }
                 
-                if (filmViewModels.DirectorList != null)
-                    foreach (var name in filmViewModels.DirectorList)
+                if (filmViewModel.DirectorList != null)
+                    foreach (var name in filmViewModel.DirectorList)
                     {
                         var nameDirector =
                             _context.Persons.FirstOrDefault(x => x.PersonKinopoiskId == name.DirectorKinopoiskId);

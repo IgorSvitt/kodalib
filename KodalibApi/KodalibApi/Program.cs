@@ -6,9 +6,11 @@ using Kodalib.Repository.CountryRepository;
 using Kodalib.Repository.FilmRepository;
 using Kodalib.Repository.GenreRepository;
 using Kodalib.Repository.RoleRepository;
+using Kodalib.Repository.SeriesRepository;
 using Kodalib.Service.Implementations;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Context;
+using KodalibApi.Interfaces;
 using KodalibApi.Interfaces.PeopleInterface;
 using KodalibApi.Interfaces.RoleInterface;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +40,9 @@ builder.Services.AddScoped<IPersonService, PersonService>();
 
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+
+builder.Services.AddScoped<ISeriesRepository, SeriesRepository>();
+builder.Services.AddScoped<ISeriesService, SeriesService>();
 
 var app = builder.Build();
 

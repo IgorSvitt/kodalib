@@ -7,6 +7,7 @@ public enum StatusCode
     GenreNotFound = 2,
     PersonNotFound = 3,
     RoleNotFound = 4,
+    SeriesNotFound = 5,
     OK = 200,
     InternalServerError = 500
 }
