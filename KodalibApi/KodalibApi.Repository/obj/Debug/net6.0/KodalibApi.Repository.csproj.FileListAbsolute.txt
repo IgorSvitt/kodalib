@@ -1,12 +1,10 @@
 C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Repository.deps.json
 C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Repository.dll
 C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Repository.pdb
-C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Data.dll
 C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Interfaces.dll
 C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Service.dll
 C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Interfaces.pdb
 C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Service.pdb
-C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Data.pdb
 C:\Kodalib\KodalibApi\KodalibApi.Repository\obj\Debug\net6.0\KodalibApi.Repository.csproj.AssemblyReference.cache
 C:\Kodalib\KodalibApi\KodalibApi.Repository\obj\Debug\net6.0\KodalibApi.Repository.GeneratedMSBuildEditorConfig.editorconfig
 C:\Kodalib\KodalibApi\KodalibApi.Repository\obj\Debug\net6.0\KodalibApi.Repository.AssemblyInfoInputs.cache
@@ -17,3 +15,7 @@ C:\Kodalib\KodalibApi\KodalibApi.Repository\obj\Debug\net6.0\KodalibApi.Reposito
 C:\Kodalib\KodalibApi\KodalibApi.Repository\obj\Debug\net6.0\refint\KodalibApi.Repository.dll
 C:\Kodalib\KodalibApi\KodalibApi.Repository\obj\Debug\net6.0\KodalibApi.Repository.pdb
 C:\Kodalib\KodalibApi\KodalibApi.Repository\obj\Debug\net6.0\ref\KodalibApi.Repository.dll
+C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Dal.dll
+C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Domain.dll
+C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Dal.pdb
+C:\Kodalib\KodalibApi\KodalibApi.Repository\bin\Debug\net6.0\KodalibApi.Domain.pdb

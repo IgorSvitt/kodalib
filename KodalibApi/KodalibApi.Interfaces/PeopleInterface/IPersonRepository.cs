@@ -1,4 +1,5 @@
 ﻿using KodalibApi.Data.Models.PeopleTables;
+using KodalibApi.Data.ViewModels;
 using KodalibApi.Data.ViewModels.Actor;
 using KodalibApi.Interfaces.Base;
 
@@ -6,12 +7,11 @@ namespace KodalibApi.Interfaces.PeopleInterface;
 
 public interface IPersonRepository: IBaseRepository<Person>
 {
-    Task<PersonViewModel> GetByIdFullDescription(int id);
+    Task<PersonViewModel> GetPersonById(int id, CancellationToken cancellationToken);
+    
+    Task<PersonViewModel?> GetPersonByName(string person,CancellationToken cancellationToken);
+    Task<IdViewModel?> GetPersonIdByName(string person,CancellationToken cancellationToken);
 
-    Task<List<PersonViewModel>> GetAllPeople();
-    
-    Task<PersonViewModel> GetByImdbIdFullDescription(string name);
-    
-    Person GetByImdbId(string imdbId);
-    
+    Task<IdViewModel> CreatePerson(string person, CancellationToken cancellationToken);
+
 }

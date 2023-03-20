@@ -1,0 +1,14 @@
+C:\Kodalib\KodalibApi\KodalibApi.Domain\bin\Debug\net6.0\KodalibApi.Domain.deps.json
+C:\Kodalib\KodalibApi\KodalibApi.Domain\bin\Debug\net6.0\KodalibApi.Domain.runtimeconfig.json
+C:\Kodalib\KodalibApi\KodalibApi.Domain\bin\Debug\net6.0\KodalibApi.Domain.dll
+C:\Kodalib\KodalibApi\KodalibApi.Domain\bin\Debug\net6.0\KodalibApi.Domain.pdb
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\KodalibApi.Domain.csproj.AssemblyReference.cache
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\KodalibApi.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\KodalibApi.Domain.AssemblyInfoInputs.cache
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\KodalibApi.Domain.AssemblyInfo.cs
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\KodalibApi.Domain.csproj.CoreCompileInputs.cache
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\KodalibApi.Domain.dll
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\refint\KodalibApi.Domain.dll
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\KodalibApi.Domain.pdb
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\KodalibApi.Domain.genruntimeconfig.cache
+C:\Kodalib\KodalibApi\KodalibApi.Domain\obj\Debug\net6.0\ref\KodalibApi.Domain.dll

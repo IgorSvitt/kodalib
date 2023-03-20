@@ -4,14 +4,14 @@
     "C:\\Kodalib\\KodalibApi\\KodalibApi.Interfaces\\KodalibApi.Interfaces.csproj": {}
   },
   "projects": {
-    "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\KodalibApi.Data.csproj": {
+    "C:\\Kodalib\\KodalibApi\\KodalibApi.Domain\\KodalibApi.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\KodalibApi.Data.csproj",
-        "projectName": "KodalibApi.Data",
-        "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\KodalibApi.Data.csproj",
+        "projectUniqueName": "C:\\Kodalib\\KodalibApi\\KodalibApi.Domain\\KodalibApi.Domain.csproj",
+        "projectName": "KodalibApi.Domain",
+        "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Domain\\KodalibApi.Domain.csproj",
         "packagesPath": "C:\\Users\\Igor\\.nuget\\packages\\",
-        "outputPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\obj\\",
+        "outputPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Igor\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -108,8 +108,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\KodalibApi.Data.csproj": {
-                "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\KodalibApi.Data.csproj"
+              "C:\\Kodalib\\KodalibApi\\KodalibApi.Domain\\KodalibApi.Domain.csproj": {
+                "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Domain\\KodalibApi.Domain.csproj"
               }
             }
           }

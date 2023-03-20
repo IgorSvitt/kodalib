@@ -1811,7 +1811,21 @@
           "lib/netstandard1.3/System.Xml.XmlDocument.dll": {}
         }
       },
-      "KodalibApi.Data/1.0.0": {
+      "KodalibApi.Dal/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "KodalibApi.Domain": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.11"
+        },
+        "compile": {
+          "bin/placeholder/KodalibApi.Dal.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/KodalibApi.Dal.dll": {}
+        }
+      },
+      "KodalibApi.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
@@ -1821,17 +1835,17 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "6.0.7"
         },
         "compile": {
-          "bin/placeholder/KodalibApi.Data.dll": {}
+          "bin/placeholder/KodalibApi.Domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/KodalibApi.Data.dll": {}
+          "bin/placeholder/KodalibApi.Domain.dll": {}
         }
       },
       "KodalibApi.Interfaces/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "KodalibApi.Data": "1.0.0",
+          "KodalibApi.Domain": "1.0.0",
           "Moqqer": "2.0.111"
         },
         "compile": {
@@ -5971,10 +5985,15 @@
         "system.xml.xmldocument.nuspec"
       ]
     },
-    "KodalibApi.Data/1.0.0": {
+    "KodalibApi.Dal/1.0.0": {
       "type": "project",
-      "path": "../KodalibApi.Data/KodalibApi.Data.csproj",
-      "msbuildProject": "../KodalibApi.Data/KodalibApi.Data.csproj"
+      "path": "../KodalibApi.Dal/KodalibApi.Dal.csproj",
+      "msbuildProject": "../KodalibApi.Dal/KodalibApi.Dal.csproj"
+    },
+    "KodalibApi.Domain/1.0.0": {
+      "type": "project",
+      "path": "../KodalibApi.Domain/KodalibApi.Domain.csproj",
+      "msbuildProject": "../KodalibApi.Domain/KodalibApi.Domain.csproj"
     },
     "KodalibApi.Interfaces/1.0.0": {
       "type": "project",
@@ -5984,7 +6003,8 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "KodalibApi.Data >= 1.0.0",
+      "KodalibApi.Dal >= 1.0.0",
+      "KodalibApi.Domain >= 1.0.0",
       "KodalibApi.Interfaces >= 1.0.0",
       "Moqqer >= 2.0.111"
     ]
@@ -6014,8 +6034,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\KodalibApi.Data.csproj": {
-              "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Data\\KodalibApi.Data.csproj"
+            "C:\\Kodalib\\KodalibApi\\KodalibApi.Dal\\KodalibApi.Dal.csproj": {
+              "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Dal\\KodalibApi.Dal.csproj"
+            },
+            "C:\\Kodalib\\KodalibApi\\KodalibApi.Domain\\KodalibApi.Domain.csproj": {
+              "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Domain\\KodalibApi.Domain.csproj"
             },
             "C:\\Kodalib\\KodalibApi\\KodalibApi.Interfaces\\KodalibApi.Interfaces.csproj": {
               "projectPath": "C:\\Kodalib\\KodalibApi\\KodalibApi.Interfaces\\KodalibApi.Interfaces.csproj"

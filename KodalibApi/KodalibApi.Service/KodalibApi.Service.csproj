@@ -8,8 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\KodalibApi.Dal\KodalibApi.Dal.csproj" />
       <ProjectReference Include="..\KodalibApi.Interfaces\KodalibApi.Interfaces.csproj" />
-      <ProjectReference Include="..\KodalibApi.Data\KodalibApi.Data.csproj" />
+      <ProjectReference Include="..\KodalibApi.Domain\KodalibApi.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using KodalibApi.Data.Models;
-using KodalibApi.Data.Responce;
+using KodalibApi.Data.ViewModels;
 using KodalibApi.Data.ViewModels.Genre;
 using KodalibApi.Interfaces.Base;
 
@@ -7,9 +7,11 @@ namespace KodalibApi.Interfaces.GenreInterfaces;
 
 public interface IGenreRepository: IBaseRepository<Genre>
 {
-    public Task<GenreViewModel> GetByNameFullDescription(string name);
+    Task<List<GenreViewModel>> GetGenres(CancellationToken cancellationToken);
+    
+    Task<GenreViewModel?> GetGenreByName(string genre,CancellationToken cancellationToken);
+    
+    Task<IdViewModel?> GetGenreIdByName(string genre,CancellationToken cancellationToken);
 
-    public Task<GenreViewModel> GetByIdFullDescription(int id);
-
-    public Task<List<GenreViewModel>> GetAllGenres();
+    Task<IdViewModel> CreateGenre(string genre, CancellationToken cancellationToken);
 }

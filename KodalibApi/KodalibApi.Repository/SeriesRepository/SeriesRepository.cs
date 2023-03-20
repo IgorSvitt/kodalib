@@ -1,5 +1,8 @@
-﻿using KodalibApi.Data.Context;
+﻿using GenelogyApi.Domain.ViewModels.Pages;
+using KodalibApi.Dal.Context;
+using KodalibApi.Data.Models.PeopleTables.SeriesPeople;
 using KodalibApi.Data.Models.SeriesTable;
+using KodalibApi.Data.ViewModels;
 using KodalibApi.Data.ViewModels.Actor;
 using KodalibApi.Data.ViewModels.Country;
 using KodalibApi.Data.ViewModels.Genre;
@@ -23,17 +26,7 @@ public class SeriesRepository: ISeriesRepository
         _context.Series.Add(entity);
         Save();
     }
-
-    public async Task<Series> GetById(int id)
-    {
-        return await _context.Series.FirstOrDefaultAsync(x => x.Id == id);
-    }
-
-    public Series GetByName(string name)
-    {
-        return  _context.Series.FirstOrDefault(x => x.Title == name);
-    }
-
+    
     public async Task<List<Series>> Select()
     {
         return await _context.Series.ToListAsync();
@@ -56,53 +49,9 @@ public class SeriesRepository: ISeriesRepository
         Save();
     }
 
-    public async Task<SeriesViewModel> GetByIdFullDescription(int id)
+    public async Task<PagedList<SeriesViewModel>> GetSeries(PageParameters pageParameters, CancellationToken cancellationToken)
     {
-        return await _context.Series.Where(n=> n.Id == id).Select(series => new SeriesViewModel()
-        {
-            Id = series.Id,
-            KinopoiskId = series.KinopoiskId,
-            Title = series.Title,
-            Poster = series.Poster,
-            Year = series.Year,
-            Duration = series.Duration,
-            Plot = series.Plot,
-            KinopoiskRating =series.KinopoiskRating,
-            YoutubeTrailer = series.YoutubeTrailer,
-            ThumbnailUrl = series.ThumbnailUrl,
-            SeriesCountriesList = series.CountriesList.Select(n => new CountryNameViewModel()
-            {
-                Name = n.Country.Name
-            }).ToList(),
-            SeriesGenreList = series.GenresList.Select(n => new GenreNameViewModel()
-            {
-                Name = n.Genre.Name
-            }).ToList(),
-            ActorsList = series.Characters.Select(character=> new CharacterViewModel()
-            {
-                Id = character.Actor.Id,
-                Role = character.Role,
-                Name = character.Actor.Name,
-                ActorKinopoiskId = character.Actor.PersonKinopoiskId
-            }).ToList(),
-            WritersList = series.WritersList.Select(character=> new WriterViewModel()
-            {
-                Id = character.WriterId,
-                Name = character.WriterPerson.Name,
-                WriterKinopoiskId = character.WriterPerson.PersonKinopoiskId
-            }).ToList(),
-            DirectorList = series.DirectorsList.Select(character=> new DirectorViewModel()
-            {
-                Id = character.DirectorId,
-                Name = character.DirectorPerson.Name,
-                DirectorKinopoiskId = character.DirectorPerson.PersonKinopoiskId
-            }).ToList(),
-        }).FirstOrDefaultAsync();
-    }
-
-    public async Task<List<SeriesViewModel>> GetAllSeries()
-    {
-        return await _context.Series.Select(series => new SeriesViewModel()
+        return await PagedList<SeriesViewModel>.ToPagedList(_context.Series.Select(series => new SeriesViewModel()
         {
             Id = series.Id,
             KinopoiskId = series.KinopoiskId,
@@ -113,41 +62,39 @@ public class SeriesRepository: ISeriesRepository
             Plot = series.Plot,
             KinopoiskRating = series.KinopoiskRating,
             YoutubeTrailer = series.YoutubeTrailer,
-            ThumbnailUrl = series.ThumbnailUrl,
-            SeriesCountriesList = series.CountriesList.Select(n => new CountryNameViewModel()
+            Countries = series.Countries.Select(c => new CountryViewModel()
             {
-                Name = n.Country.Name
+                Id = c.Country.Id,
+                Name = c.Country.Name
             }).ToList(),
-            SeriesGenreList = series.GenresList.Select(n => new GenreNameViewModel()
+            Genres = series.Genres.Select(g => new GenreViewModel()
             {
-                Name = n.Genre.Name
+                Id = g.GenreId,
+                Name = g.Genre.Name
             }).ToList(),
-            ActorsList = series.Characters.Select(character=> new CharacterViewModel()
+            Actors = series.Characters.Select(character=> new CharacterViewModel()
             {
                 Id = character.Actor.Id,
-                Role = character.Role,
                 Name = character.Actor.Name,
-                ActorKinopoiskId = character.Actor.PersonKinopoiskId
             }).ToList(),
-            WritersList = series.WritersList.Select(character=> new WriterViewModel()
+            Writers = series.Writers.Select(character=> new CharacterViewModel()
             {
-                Id = character.WriterId,
+                Id = character.WriterPerson.Id,
                 Name = character.WriterPerson.Name,
-                WriterKinopoiskId = character.WriterPerson.PersonKinopoiskId
             }).ToList(),
-            DirectorList = series.DirectorsList.Select(character=> new DirectorViewModel()
+            Directors = series.Directors.Select(character=> new CharacterViewModel()
             {
-                Id = character.DirectorId,
+                Id = character.DirectorPerson.Id,
                 Name = character.DirectorPerson.Name,
-                DirectorKinopoiskId = character.DirectorPerson.PersonKinopoiskId
             }).ToList(),
-            
-        }).ToListAsync();
+        }), pageParameters.PageNumber, pageParameters.PageSize, cancellationToken);
     }
 
-    public async Task<SeriesViewModel> GetByTitleFullDescription(string title)
+    public async Task<SeriesViewModel> GetSeriesById(int id, CancellationToken cancellationToken)
     {
-        return await _context.Films.Where(n=> n.Title == title).Select(series => new SeriesViewModel()
+        return await _context.Series
+            .Where(x => x.Id == id)
+            .Select(series => new SeriesViewModel()
         {
             Id = series.Id,
             KinopoiskId = series.KinopoiskId,
@@ -156,37 +103,91 @@ public class SeriesRepository: ISeriesRepository
             Year = series.Year,
             Duration = series.Duration,
             Plot = series.Plot,
-            KinopoiskRating =series.KinopoiskRating,
+            KinopoiskRating = series.KinopoiskRating,
             YoutubeTrailer = series.YoutubeTrailer,
-            ThumbnailUrl = series.ThumbnailUrl,
-            SeriesCountriesList = series.CountriesList.Select(n => new CountryNameViewModel()
+            Countries = series.Countries.Select(c => new CountryViewModel()
             {
-                Name = n.Country.Name
+                Id = c.Country.Id,
+                Name = c.Country.Name
             }).ToList(),
-            SeriesGenreList = series.GenresList.Select(n => new GenreNameViewModel()
+            Genres = series.Genres.Select(g => new GenreViewModel()
             {
-                Name = n.Genre.Name
+                Id = g.GenreId,
+                Name = g.Genre.Name
             }).ToList(),
-            ActorsList = series.Characters.Select(character=> new CharacterViewModel()
+            Actors = series.Characters.Select(character=> new CharacterViewModel()
             {
                 Id = character.Actor.Id,
-                Role = character.Role,
                 Name = character.Actor.Name,
-                ActorKinopoiskId = character.Actor.PersonKinopoiskId
             }).ToList(),
-            WritersList = series.WritersList.Select(character=> new WriterViewModel()
+            Writers = series.Writers.Select(character=> new CharacterViewModel()
             {
-                Id = character.WriterId,
+                Id = character.WriterPerson.Id,
                 Name = character.WriterPerson.Name,
-                WriterKinopoiskId = character.WriterPerson.PersonKinopoiskId
             }).ToList(),
-            DirectorList = series.DirectorsList.Select(character=> new DirectorViewModel()
+            Directors = series.Directors.Select(character=> new CharacterViewModel()
             {
-                Id = character.DirectorId,
+                Id = character.DirectorPerson.Id,
                 Name = character.DirectorPerson.Name,
-                DirectorKinopoiskId = character.DirectorPerson.PersonKinopoiskId
             }).ToList(),
-            
-        }).FirstOrDefaultAsync();
+        }).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<IdViewModel> CreateSeries(SeriesViewModel series, CancellationToken cancellationToken)
+    {
+        var data = new Series()
+        {
+            Title = series.Title,
+            Duration = series.Duration,
+            KinopoiskRating = series.KinopoiskRating,
+            Plot = series.Plot,
+            Poster = series.Poster,
+            Year = series.Year,
+            KinopoiskId = series.KinopoiskId,
+            YoutubeTrailer = series.YoutubeTrailer,
+            CountRate = 0,
+            Countries = series.Countries.Select(c => new SeriesCountries()
+            {
+                CountryId = c.Id
+            }).ToList(),
+            Genres = series.Genres.Select(g => new SeriesGenres()
+            {
+                GenreId = g.Id
+            }).ToList(),
+            Directors = series.Directors.Select(d => new DirectorSeries()
+            {
+                DirectorId = d.Id
+            }).ToList(),
+            Writers = series.Writers.Select(w => new WriterSeries()
+            {
+                WriterId = w.Id
+            }).ToList(),
+            Characters = series.Actors.Select(a => new CharacterSeries()
+            {
+                ActorId = a.Id
+            }).ToList(),
+            Voiceovers = series.Voiceovers.Select(v => new SeriesVoiceover()
+            {
+                VoiceoverId = v.Id,
+                CountSeasons = v.CountSeasons,
+                CountEpisodes = v.CountSeasons,
+                Seasons = v.Seasons.Select(x => new Season()
+                {
+                    NumberSeason = x.NumberSeason,
+                    Episodes = x.Episodes.Select(e => new Episodes()
+                    {
+                        Image = e.Image,
+                        NumberEpisode = e.NumberEpisode,
+                        VideoLink = e.VideoLink
+                    }).ToList()
+                }).ToList()
+            }).ToList(),
+        };
+
+        await _context.Series.AddAsync(data, cancellationToken);
+
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return new IdViewModel() {Id = data.Id};
     }
 }

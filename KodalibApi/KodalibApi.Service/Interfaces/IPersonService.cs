@@ -1,19 +1,9 @@
-﻿using KodalibApi.Data.Responce;
+﻿using KodalibApi.Data.Response;
 using KodalibApi.Data.ViewModels.Actor;
 
 namespace Kodalib.Service.Interfaces;
 
 public interface IPersonService
 {
-    IBaseResponce<IEnumerable<PersonViewModel>> GetPeople();
-
-    IBaseResponce<PersonViewModel> GetPerson(int id);
-    
-    IBaseResponce<List<PersonViewModel>> GetPersonByName(string name);
-
-    IBaseResponce<bool> DeletePerson(int id);
-
-    IBaseResponce<PersonViewModel> CreatePerson(PersonViewModel personViewModelName);
-
-    IBaseResponce<PersonViewModel> UpdatePerson(int id, PersonViewModel personViewModel);
+    Task<IBaseResponse> GetPerson(int id, CancellationToken cancellationToken);
 }

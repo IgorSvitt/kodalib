@@ -1,13 +1,14 @@
 ﻿using Kodalib.Service.Interfaces;
-using KodalibApi.Data.Models;
-using KodalibApi.Data.ViewModels.Country;
+using KodalibApi.Data.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KodalibApi.Controllers;
 
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/countries")]
+[Produces("application/json")]
+[Consumes("application/json")] 
 public class CountryController : ControllerBase
 {
     private readonly ICountryService _countryService;
@@ -17,42 +18,10 @@ public class CountryController : ControllerBase
         _countryService = countryService;
     }
     
-    [HttpGet("GetCountries")]
-    public IEnumerable<CountryViewModel> GetCountries()
+    [HttpGet(Name = "GetCountries")]
+    public async Task<IBaseResponse> GetCountries()
     {
-        var responce = _countryService.GetCountries();
-        return responce.Data;
-    }
-    
-    [HttpGet("GetCountry/{id}")]
-    public CountryViewModel GetCountry(int id)
-    {
-        var responce = _countryService.GetCountry(id);
-        return responce.Data;
-    }
-    
-    [HttpGet("GetCountryByName/{name}")]
-    public CountryViewModel GetCountryByName(string name)
-    {
-        var responce = _countryService.GetCountryByName(name);
-        return responce.Data;
-    }
-
-    [HttpPost("CreateCountry")]
-    public void CreateCountry(string countryViewModelName)
-    {
-        _countryService.CreateCountry(countryViewModelName);
-    }
-
-    [HttpDelete("DeleteCountry")]
-    public void DeleteCountry(int id)
-    {
-        _countryService.DeleteCountry(id);
-    }
-
-    [HttpPut("UpdateCountry")]
-    public void UpdateCountry(int id, CountryViewModel countryViewModel)
-    {
-        _countryService.UpdateCountry(id, countryViewModel);
+        var response = await _countryService.GetCountries(HttpContext.RequestAborted);
+        return response;
     }
 }

@@ -5,14 +5,14 @@ using KodalibApi.Interfaces.GenreInterfaces;
 using Kodalib.Repository.CountryRepository;
 using Kodalib.Repository.FilmRepository;
 using Kodalib.Repository.GenreRepository;
-using Kodalib.Repository.RoleRepository;
 using Kodalib.Repository.SeriesRepository;
+using Kodalib.Repository.VoiceoverRepository;
 using Kodalib.Service.Implementations;
 using Kodalib.Service.Interfaces;
-using KodalibApi.Data.Context;
+using KodalibApi.Dal.Context;
 using KodalibApi.Interfaces;
 using KodalibApi.Interfaces.PeopleInterface;
-using KodalibApi.Interfaces.RoleInterface;
+using KodalibApi.Interfaces.Voiceover;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,11 +38,10 @@ builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IPersonService, PersonService>();
 
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<IRoleService, RoleService>();
-
 builder.Services.AddScoped<ISeriesRepository, SeriesRepository>();
 builder.Services.AddScoped<ISeriesService, SeriesService>();
+
+builder.Services.AddScoped<IVoiceoverRepository, VoiceoverRepository>();
 
 var app = builder.Build();
 
@@ -52,7 +51,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseCors(cors => cors.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseAuthorization();
 

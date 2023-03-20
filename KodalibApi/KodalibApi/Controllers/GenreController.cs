@@ -1,14 +1,14 @@
-﻿using KodalibApi.Interfaces.GenreInterfaces;
-using Kodalib.Service.Interfaces;
-using KodalibApi.Data.Models;
-using KodalibApi.Data.ViewModels.Genre;
+﻿using Kodalib.Service.Interfaces;
+using KodalibApi.Data.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KodalibApi.Controllers;
 
 
 [ApiController]
-[Route(("api/[controller]"))]
+[Route(("api/genres"))]
+[Produces("application/json")]
+[Consumes("application/json")] 
 public class GenreController : ControllerBase
 {
     private readonly IGenreService _genreService;
@@ -18,42 +18,10 @@ public class GenreController : ControllerBase
         _genreService = genreService;
     }
     
-    [HttpGet("GetGenres")]
-    public IEnumerable<GenreViewModel> GetCountries()
+    [HttpGet(Name = "GetGenres")]
+    public async Task<IBaseResponse> GetGenres()
     {
-        var responce = _genreService.GetGenres();
-        return responce.Data;
-    }
-    
-    [HttpGet("GetGenre/{id}")]
-    public GenreViewModel GetCountry(int id)
-    {
-        var responce = _genreService.GetGenre(id);
-        return responce.Data;
-    }
-    
-    [HttpGet("GetGenreByName/{name}")]
-    public GenreViewModel GetCountryByName(string name)
-    {
-        var responce = _genreService.GetGenreByName(name);
-        return responce.Data;
-    }
-
-    [HttpPost("CreateGenre")]
-    public void CreateCountry(string genreViewModelName)
-    {
-        _genreService.CreateGenre(genreViewModelName);
-    }
-
-    [HttpDelete("DeleteGenre")]
-    public void DeleteCountry(int id)
-    {
-        _genreService.DeleteGenre(id);
-    }
-
-    [HttpPut("UpdateGenre", Name = "UpdateGenre")]
-    public void UpdateGenre(int id, GenreViewModel genreViewModel)
-    {
-        _genreService.UpdateGenre(id, genreViewModel);
+        var response = await _genreService.GetGenres(HttpContext.RequestAborted);
+        return response;
     }
 }

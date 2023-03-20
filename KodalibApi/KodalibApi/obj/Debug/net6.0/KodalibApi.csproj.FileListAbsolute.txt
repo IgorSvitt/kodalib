@@ -9,8 +9,6 @@ C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Data.dll
-C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Data.pdb
 C:\Kodalib\KodalibApi\KodalibApi\obj\Debug\net6.0\KodalibApi.csproj.AssemblyReference.cache
 C:\Kodalib\KodalibApi\KodalibApi\obj\Debug\net6.0\KodalibApi.GeneratedMSBuildEditorConfig.editorconfig
 C:\Kodalib\KodalibApi\KodalibApi\obj\Debug\net6.0\KodalibApi.AssemblyInfoInputs.cache
@@ -261,3 +259,7 @@ C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Moqqer.dll
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\System.Net.Http.Formatting.dll
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\System.Web.Http.dll
 C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Dal.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Domain.dll
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Domain.pdb
+C:\Kodalib\KodalibApi\KodalibApi\bin\Debug\net6.0\KodalibApi.Dal.pdb

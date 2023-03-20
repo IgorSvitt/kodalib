@@ -1,8 +1,9 @@
-﻿using KodalibApi.Interfaces.CountryInterfaces;
-using KodalibApi.Data.Context;
+﻿using KodalibApi.Dal.Context;
+using KodalibApi.Interfaces.CountryInterfaces;
 using KodalibApi.Data.Models;
+using KodalibApi.Data.ViewModels;
 using KodalibApi.Data.ViewModels.Country;
-using KodalibApi.Data.ViewModels.Film;
+using KodalibApi.Data.ViewModels.CreateViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kodalib.Repository.CountryRepository;
@@ -22,21 +23,6 @@ public class CountryRepository : ICountryRepository
         Save();
     }
 
-    public async Task<Country> GetById(int id)
-    {
-        return await _context.Countries.FirstOrDefaultAsync(x => x.Id == id);
-    }
-
-    public Country GetByName(string name)
-    {
-        return  _context.Countries.FirstOrDefault(x => x.Name == name);
-    }
-
-    public async Task<List<Country>> Select()
-    {
-        return await _context.Countries.ToListAsync();
-    }
-
     public void Delete(Country entity)
     {
         _context.Countries.Remove(entity);
@@ -54,48 +40,49 @@ public class CountryRepository : ICountryRepository
         Save();
     }
 
-    public async Task<CountryViewModel> GetByNameFullDescription(string name)
+    public async Task<List<CountryViewModel>> GetCountries(CancellationToken cancellationToken)
     {
-        var countryViewModel = _context.Countries.Where(x => x.Name == name).Select(country => new CountryViewModel()
-        {
-            Id = country.Id,
-            Name = country.Name,
-            FilmTitle = country.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+        return await _context.Countries
+            .Select(c => new CountryViewModel()
             {
-                Id = film.FilmsId,
-                Title = film.Film.Title,
-            }).ToList()
-        }).FirstOrDefaultAsync();
+                Id = c.Id,
+                Name = c.Name
+            })
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<CountryViewModel?> GetCountryByName(string country, CancellationToken cancellationToken)
+    {
+        return await _context.Countries
+            .Where(x => x.Name.ToLower() == country.ToLower())
+            .Select(c => new CountryViewModel()
+            {
+                Id = c.Id,
+            }).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<IdViewModel?> GetCountryIdByName(string country, CancellationToken cancellationToken)
+    {
+        return await _context.Countries
+            .Where(x => x.Name.ToLower() == country.ToLower())
+            .Select(c => new IdViewModel()
+            {
+                Id = c.Id
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<IdViewModel> CreateCountry(string country, CancellationToken cancellationToken)
+    {
+        var data = new Country()
+        {
+            Name = country,
+        };
         
-        return await countryViewModel;
+        await _context.Countries.AddAsync(data, cancellationToken);
 
-    }
+        await _context.SaveChangesAsync(cancellationToken);
 
-    public async Task<CountryViewModel> GetByIdFullDescription(int id)
-    {
-        return await _context.Countries.Where(x => x.Id == id).Select(country => new CountryViewModel()
-        {
-            Id = country.Id,
-            Name = country.Name,
-            FilmTitle = country.FilmsList.Select(film => new FilmIdAndTitleViewModel()
-            {
-                Id = film.FilmsId,
-                Title = film.Film.Title,
-            }).ToList()
-        }).FirstOrDefaultAsync();
-    }
-
-    public async Task<List<CountryViewModel>> GetAllCountry()
-    {
-        return await _context.Countries.Select(country => new CountryViewModel()
-        {
-            Id = country.Id,
-            Name = country.Name,
-            FilmTitle = country.FilmsList.Select(film => new FilmIdAndTitleViewModel()
-            {
-                Id = film.FilmsId,
-                Title = film.Film.Title,
-            }).ToList()
-        }).ToListAsync();
+        return new IdViewModel() {Id = data.Id};
     }
 }

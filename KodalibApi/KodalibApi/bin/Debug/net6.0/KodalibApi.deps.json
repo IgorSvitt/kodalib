@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "KodalibApi/1.0.0": {
         "dependencies": {
-          "KodalibApi.Data": "1.0.0",
+          "KodalibApi.Domain": "1.0.0",
           "KodalibApi.Interfaces": "1.0.0",
           "KodalibApi.Repository": "1.0.0",
           "KodalibApi.Service": "1.0.0",
@@ -2339,7 +2339,16 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "KodalibApi.Data/1.0.0": {
+      "KodalibApi.Dal/1.0.0": {
+        "dependencies": {
+          "KodalibApi.Domain": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.11"
+        },
+        "runtime": {
+          "KodalibApi.Dal.dll": {}
+        }
+      },
+      "KodalibApi.Domain/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.11",
           "Moqqer": "2.0.111",
@@ -2347,12 +2356,12 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "6.0.7"
         },
         "runtime": {
-          "KodalibApi.Data.dll": {}
+          "KodalibApi.Domain.dll": {}
         }
       },
       "KodalibApi.Interfaces/1.0.0": {
         "dependencies": {
-          "KodalibApi.Data": "1.0.0",
+          "KodalibApi.Domain": "1.0.0",
           "Moqqer": "2.0.111"
         },
         "runtime": {
@@ -2371,7 +2380,8 @@
       },
       "KodalibApi.Service/1.0.0": {
         "dependencies": {
-          "KodalibApi.Data": "1.0.0",
+          "KodalibApi.Dal": "1.0.0",
+          "KodalibApi.Domain": "1.0.0",
           "KodalibApi.Interfaces": "1.0.0",
           "Moqqer": "2.0.111"
         },
@@ -3654,7 +3664,12 @@
       "path": "system.xml.xmldocument/4.3.0",
       "hashPath": "system.xml.xmldocument.4.3.0.nupkg.sha512"
     },
-    "KodalibApi.Data/1.0.0": {
+    "KodalibApi.Dal/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "KodalibApi.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

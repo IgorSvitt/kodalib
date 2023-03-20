@@ -1,7 +1,7 @@
-﻿using KodalibApi.Interfaces.GenreInterfaces;
-using KodalibApi.Data.Context;
+﻿using KodalibApi.Dal.Context;
+using KodalibApi.Interfaces.GenreInterfaces;
 using KodalibApi.Data.Models;
-using KodalibApi.Data.ViewModels.Film;
+using KodalibApi.Data.ViewModels;
 using KodalibApi.Data.ViewModels.Genre;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,21 +21,6 @@ public class GenreRepository: IGenreRepository
         Save();
     }
 
-    public async Task<Genre> GetById(int id)
-    {
-        return await _context.Genres.FirstOrDefaultAsync(x => x.Id == id);
-    }
-
-    public Genre GetByName(string name)
-    {
-        return  _context.Genres.FirstOrDefault(x => x.Name == name);
-    }
-
-    public async Task<List<Genre>> Select()
-    {
-        return await _context.Genres.ToListAsync();
-    }
-
     public void Delete(Genre entity)
     {
         _context.Genres.Remove(entity);
@@ -52,45 +37,49 @@ public class GenreRepository: IGenreRepository
         _context.Genres.Update(entity);
     }
 
-    public async Task<GenreViewModel> GetByNameFullDescription(string name)
+    public async Task<List<GenreViewModel>> GetGenres(CancellationToken cancellationToken)
     {
-        return await _context.Genres.Where(x => x.Name == name).Select(genre => new GenreViewModel()
-        {
-            Id = genre.Id,
-            Name = genre.Name,
-            FilmTitle = genre.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+        return await _context.Genres
+            .Select(g => new GenreViewModel()
             {
-                Id = film.FilmsId,
-                Title = film.Film.Title,
-            }).ToList()
-        }).FirstOrDefaultAsync();
+                Id = g.Id,
+                Name = g.Name
+            })
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<GenreViewModel> GetByIdFullDescription(int id)
+    public async Task<GenreViewModel?> GetGenreByName(string genre, CancellationToken cancellationToken)
     {
-        return await _context.Genres.Where(x => x.Id == id).Select(genre => new GenreViewModel()
-        {
-            Id = genre.Id,
-            Name = genre.Name,
-            FilmTitle = genre.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+        
+        return await _context.Genres
+            .Where(x => x.Name.ToLower() == genre.ToLower())
+            .Select(c => new GenreViewModel()
             {
-                Id = film.FilmsId,
-                Title = film.Film.Title,
-            }).ToList()
-        }).FirstOrDefaultAsync();
+                Id = c.Id,
+            }).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<List<GenreViewModel>> GetAllGenres()
+    public async Task<IdViewModel?> GetGenreIdByName(string genre, CancellationToken cancellationToken)
     {
-        return await _context.Genres.Select(genre => new GenreViewModel()
-        {
-            Id = genre.Id,
-            Name = genre.Name,
-            FilmTitle = genre.FilmsList.Select(film => new FilmIdAndTitleViewModel()
+        return await _context.Genres
+            .Where(x => x.Name.ToLower() == genre.ToLower())
+            .Select(c => new IdViewModel()
             {
-                Id = film.FilmsId,
-                Title = film.Film.Title,
-            }).ToList()
-        }).ToListAsync();
+                Id = c.Id,
+            }).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<IdViewModel> CreateGenre(string genre, CancellationToken cancellationToken)
+    {
+        var data = new Genre()
+        {
+            Name = genre,
+        };
+        
+        await _context.Genres.AddAsync(data, cancellationToken);
+
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return new IdViewModel() {Id = data.Id};
     }
 }
