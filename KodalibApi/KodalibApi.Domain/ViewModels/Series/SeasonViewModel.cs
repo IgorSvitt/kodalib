@@ -2,9 +2,9 @@
 
 public class SeasonViewModel
 {
-    public Guid? Id { get; set; }
+    public int? Id { get; set; }
 
-    public short NumberSeason { get; set; }
+    public int NumberSeason { get; set; }
 
     public List<EpisodesViewModel>? Episodes { get; set; }
 }

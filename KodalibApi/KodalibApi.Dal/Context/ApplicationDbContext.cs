@@ -24,8 +24,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<FilmCountry> FilmsCountriesEnumerable { get; set; }
     public DbSet<FilmGenre> FilmsGenresEnumerable { get; set; }
     public DbSet<Character> Characters { get; set; }
-    public DbSet<Writer> Writers { get; set; }
-    public DbSet<Director> Directors { get; set; }
+    public DbSet<WriterFilm> Writers { get; set; }
+    public DbSet<DirectorFilm> Directors { get; set; }
     public DbSet<Series> Series { get; set; }
     public DbSet<Season> Seasons { get; set; }
     public DbSet<Episodes> Episodes { get; set; }
@@ -53,9 +53,7 @@ public class ApplicationDbContext : DbContext
         
         modelBuilder.Entity<FilmGenre>()
             .HasKey(t => new {t.FilmId, t.GenreId});
-
-        modelBuilder.Entity<SeriesVoiceover>()
-            .HasKey(t => new {t.SeriesId, t.VoiceoverId});
+        
         
         modelBuilder.Entity<SeriesCountries>()
             .HasKey(t => new {t.SeriesId, t.CountryId});
@@ -66,10 +64,10 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Character>()
             .HasKey(t => new {t.FilmId, t.ActorId});
         
-        modelBuilder.Entity<Writer>()
+        modelBuilder.Entity<WriterFilm>()
             .HasKey(t => new {t.FilmId, t.WriterId});
         
-        modelBuilder.Entity<Director>()
+        modelBuilder.Entity<DirectorFilm>()
             .HasKey(t => new {t.DirectorId, t.FilmId});
         
         modelBuilder.Entity<CharacterSeries>()

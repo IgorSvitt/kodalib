@@ -24,12 +24,10 @@ public class Person
 
     // List of films by actors
     public List<Character>? Films { get; set; }
-    public List<Writer>? Writers { get; set; }
-    public List<Director>? Directors { get; set; }
+    public List<WriterFilm>? Writers { get; set; }
+    public List<DirectorFilm>? Directors { get; set; }
     
     public List<CharacterSeries>? Series { get; set; }
     public List<WriterSeries>? WriterSeries { get; set; }
     public List<DirectorSeries>? DirectorSeries { get; set; }
-    
-    
 }

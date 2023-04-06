@@ -13,6 +13,7 @@ public interface IFilmService
 {
     // Getting all movies
     Task<IBaseResponse> GetFilms(PageParameters pageParameters, FilmsFilters filmsFilters, CancellationToken cancellationToken);
+    Task<IBaseResponse> GetLastFilms(CancellationToken cancellationToken);
     Task<IBaseResponse> GetFilmById(int id, CancellationToken cancellationToken);
     Task<IBaseResponse> CreateFilm(CreateFilmViewModel film, CancellationToken cancellationToken);
     Task CreateFilms(List<CreateFilmViewModel> film, CancellationToken cancellationToken);

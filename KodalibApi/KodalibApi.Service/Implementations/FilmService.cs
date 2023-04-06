@@ -38,7 +38,8 @@ public class FilmService : IFilmService
         _voiceoverRepository = voiceoverRepository;
     }
 
-    public async Task<IBaseResponse> GetFilms(PageParameters pageParameters, FilmsFilters filmsFilters, CancellationToken cancellationToken)
+    public async Task<IBaseResponse> GetFilms(PageParameters pageParameters, FilmsFilters filmsFilters,
+        CancellationToken cancellationToken)
     {
         var baseResponse = new BaseResponse<PagedList<FilmViewModels>>();
 
@@ -54,6 +55,28 @@ public class FilmService : IFilmService
                     StatusCode = StatusCode.NotFound
                 };
             }
+
+            baseResponse.Data = films;
+            baseResponse.StatusCode = StatusCode.OK;
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new ErrorResponse()
+            {
+                Description = $"[GetFilms] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse> GetLastFilms(CancellationToken cancellationToken)
+    {
+        var baseResponse = new BaseResponse<List<FilmViewModels>>();
+
+        try
+        {
+            var films = await _filmRepository.GetLastFilms(cancellationToken);
 
             baseResponse.Data = films;
             baseResponse.StatusCode = StatusCode.OK;
@@ -313,148 +336,161 @@ public class FilmService : IFilmService
             using var transaction = new TransactionScope(TransactionScopeOption.Required,
                 new TransactionOptions {IsolationLevel = IsolationLevel.RepeatableRead},
                 TransactionScopeAsyncFlowOption.Enabled);
-            
+
             foreach (var film in films)
             {
-                //Country
-                var countries = new List<CountryViewModel>();
-                if (film.Countries != null)
+                try
                 {
-                    foreach (var country in film.Countries)
+                    //Country
+                    var countries = new List<CountryViewModel>();
+                    if (film.Countries != null)
                     {
-                        IdViewModel? countryId = null;
-
-                        countryId = await _countryRepository.GetCountryIdByName(country, cancellationToken)
-                                    ?? await _countryRepository.CreateCountry(country, cancellationToken);
-
-
-                        countries.Add(new CountryViewModel()
+                        foreach (var country in film.Countries)
                         {
-                            Id = countryId.Id,
-                            Name = country
-                        });
+                            IdViewModel? countryId = null;
+
+                            countryId = await _countryRepository.GetCountryIdByName(country, cancellationToken)
+                                        ?? await _countryRepository.CreateCountry(country, cancellationToken);
+
+
+                            countries.Add(new CountryViewModel()
+                            {
+                                Id = countryId.Id,
+                                Name = country
+                            });
+                        }
                     }
+
+                    //Genre
+                    var genres = new List<GenreViewModel>();
+                    if (film.Genres != null)
+                    {
+                        foreach (var genre in film.Genres)
+                        {
+                            IdViewModel? genreId = null;
+
+                            genreId = await _genreRepository.GetGenreIdByName(genre, cancellationToken)
+                                      ?? await _genreRepository.CreateGenre(genre, cancellationToken);
+
+                            if (!genres.Any(g => g.Id == genreId.Id))
+                            {
+                                genres.Add(new GenreViewModel()
+                                {
+                                    Id = genreId.Id,
+                                    Name = genre
+                                });
+                            }
+                        }
+                    }
+
+                    //Actor
+                    var actors = new List<CharacterViewModel>();
+                    if (film.Actors != null)
+                    {
+                        foreach (var actor in film.Actors)
+                        {
+                            IdViewModel? actorId = null;
+
+                            actorId = await _personRepository.GetPersonIdByName(actor, cancellationToken)
+                                      ?? await _personRepository.CreatePerson(actor, cancellationToken);
+
+                            actors.Add(new CharacterViewModel()
+                            {
+                                Id = actorId.Id,
+                                Name = actor
+                            });
+                        }
+                    }
+
+                    //Writer
+                    var writers = new List<CharacterViewModel>();
+                    if (film.Writers != null)
+                    {
+                        foreach (var writer in film.Writers)
+                        {
+                            IdViewModel? writerId = null;
+
+                            writerId = await _personRepository.GetPersonIdByName(writer, cancellationToken)
+                                       ?? await _personRepository.CreatePerson(writer, cancellationToken);
+
+                            writers.Add(new CharacterViewModel()
+                            {
+                                Id = writerId.Id,
+                                Name = writer
+                            });
+                        }
+                    }
+
+                    //Director
+                    var directors = new List<CharacterViewModel>();
+                    if (film.Directors != null)
+                    {
+                        foreach (var director in film.Directors)
+                        {
+                            IdViewModel? directorId = null;
+
+                            directorId = await _personRepository.GetPersonIdByName(director, cancellationToken)
+                                         ?? await _personRepository.CreatePerson(director, cancellationToken);
+
+                            directors.Add(new CharacterViewModel()
+                            {
+                                Id = directorId.Id,
+                                Name = director
+                            });
+                        }
+                    }
+
+                    //Voiceover
+                    var voiceovers = new List<VoiceoverFilmViewModel>();
+                    if (film.Voiceover != null)
+                    {
+                        foreach (var voiceover in film.Voiceover)
+                        {
+                            IdViewModel? voiceoverId = null;
+
+                            voiceoverId =
+                                await _voiceoverRepository.GetVoiceoverIdByName(voiceover.Name, cancellationToken)
+                                ?? await _voiceoverRepository.CreateVoiceover(voiceover.Name, cancellationToken);
+
+                            voiceovers.Add(new VoiceoverFilmViewModel()
+                            {
+                                Id = voiceoverId.Id,
+                                Voiceover = voiceover.Name,
+                                Link = voiceover.Link
+                            });
+                        }
+                    }
+
+                    FilmViewModels filmViewModels = new FilmViewModels()
+                    {
+                        Title = film.Title,
+                        Countries = countries,
+                        Genres = genres,
+                        Poster = film.Poster,
+                        Year = film.Year,
+                        Plot = film.Plot,
+                        YoutubeTrailer = film.YoutubeTrailer,
+                        KinopoiskRating = film.KinopoiskRating,
+                        KinopoiskId = film.KinopoiskId,
+                        Duration = film.Duration,
+                        Actors = actors,
+                        Directors = directors,
+                        Writers = writers,
+                        Voiceovers = voiceovers
+                    };
+
+                    var filmId = await _filmRepository.CreateFilm(filmViewModels, cancellationToken);
+                    baseResponse.Data = filmId;
+                    baseResponse.StatusCode = StatusCode.OK;
                 }
 
-                //Genre
-                var genres = new List<GenreViewModel>();
-                if (film.Genres != null)
+                catch (Exception e)
                 {
-                    foreach (var genre in film.Genres)
-                    {
-                        IdViewModel? genreId = null;
-
-                        genreId = await _genreRepository.GetGenreIdByName(genre, cancellationToken)
-                                  ?? await _genreRepository.CreateGenre(genre, cancellationToken);
-
-                        genres.Add(new GenreViewModel()
-                        {
-                            Id = genreId.Id,
-                            Name = genre
-                        });
-                    }
+                    Console.WriteLine(e);
+                    throw;
                 }
-
-                //Actor
-                var actors = new List<CharacterViewModel>();
-                if (film.Actors != null)
-                {
-                    foreach (var actor in film.Actors)
-                    {
-                        IdViewModel? actorId = null;
-
-                        actorId = await _personRepository.GetPersonIdByName(actor, cancellationToken)
-                                  ?? await _personRepository.CreatePerson(actor, cancellationToken);
-
-                        actors.Add(new CharacterViewModel()
-                        {
-                            Id = actorId.Id,
-                            Name = actor
-                        });
-                    }
-                }
-
-                //Writer
-                var writers = new List<CharacterViewModel>();
-                if (film.Writers != null)
-                {
-                    foreach (var writer in film.Writers)
-                    {
-                        IdViewModel? writerId = null;
-
-                        writerId = await _personRepository.GetPersonIdByName(writer, cancellationToken)
-                                   ?? await _personRepository.CreatePerson(writer, cancellationToken);
-
-                        writers.Add(new CharacterViewModel()
-                        {
-                            Id = writerId.Id,
-                            Name = writer
-                        });
-                    }
-                }
-
-                //Director
-                var directors = new List<CharacterViewModel>();
-                if (film.Directors != null)
-                {
-                    foreach (var director in film.Directors)
-                    {
-                        IdViewModel? directorId = null;
-
-                        directorId = await _personRepository.GetPersonIdByName(director, cancellationToken)
-                                     ?? await _personRepository.CreatePerson(director, cancellationToken);
-
-                        directors.Add(new CharacterViewModel()
-                        {
-                            Id = directorId.Id,
-                            Name = director
-                        });
-                    }
-                }
-
-                //Voiceover
-                var voiceovers = new List<VoiceoverFilmViewModel>();
-                if (film.Voiceover != null)
-                {
-                    foreach (var voiceover in film.Voiceover)
-                    {
-                        IdViewModel? voiceoverId = null;
-
-                        voiceoverId =
-                            await _voiceoverRepository.GetVoiceoverIdByName(voiceover.Name, cancellationToken)
-                            ?? await _voiceoverRepository.CreateVoiceover(voiceover.Name, cancellationToken);
-
-                        voiceovers.Add(new VoiceoverFilmViewModel()
-                        {
-                            Id = voiceoverId.Id,
-                            Voiceover = voiceover.Name,
-                            Link = voiceover.Link
-                        });
-                    }
-                }
-
-                FilmViewModels filmViewModels = new FilmViewModels()
-                {
-                    Title = film.Title,
-                    Countries = countries,
-                    Genres = genres,
-                    Poster = film.Poster,
-                    Year = film.Year,
-                    Plot = film.Plot,
-                    YoutubeTrailer = film.YoutubeTrailer,
-                    KinopoiskRating = film.KinopoiskRating,
-                    KinopoiskId = film.KinopoiskId,
-                    Duration = film.Duration,
-                    Actors = actors,
-                    Directors = directors,
-                    Writers = writers,
-                    Voiceovers = voiceovers
-                };
-
-                var filmId = await _filmRepository.CreateFilm(filmViewModels, cancellationToken);
-                baseResponse.Data = filmId;
-                baseResponse.StatusCode = StatusCode.OK;
             }
+
             transaction.Complete();
         }
         catch (Exception ex)

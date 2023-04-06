@@ -12,7 +12,7 @@ public class WriterSeries
     [Column("writer_id")]
     public int WriterId { get; set; }
 
-    public Person WriterPerson { get; set; }
+    public Person Writer { get; set; }
 
     public Series Series { get; set; }
 }

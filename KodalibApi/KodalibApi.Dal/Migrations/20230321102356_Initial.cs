@@ -224,8 +224,7 @@ namespace KodalibApi.Dal.Migrations
                 columns: table => new
                 {
                     film_id = table.Column<int>(type: "integer", nullable: false),
-                    director_id = table.Column<int>(type: "integer", nullable: false),
-                    DirectorPersonId = table.Column<int>(type: "integer", nullable: false)
+                    director_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -237,8 +236,8 @@ namespace KodalibApi.Dal.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_directors_films_person_DirectorPersonId",
-                        column: x => x.DirectorPersonId,
+                        name: "FK_directors_films_person_director_id",
+                        column: x => x.director_id,
                         principalTable: "person",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -249,8 +248,7 @@ namespace KodalibApi.Dal.Migrations
                 columns: table => new
                 {
                     film_id = table.Column<int>(type: "integer", nullable: false),
-                    writer_id = table.Column<int>(type: "integer", nullable: false),
-                    WriterPersonId = table.Column<int>(type: "integer", nullable: false)
+                    writer_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,8 +260,8 @@ namespace KodalibApi.Dal.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_writers_films_person_WriterPersonId",
-                        column: x => x.WriterPersonId,
+                        name: "FK_writers_films_person_writer_id",
+                        column: x => x.writer_id,
                         principalTable: "person",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -298,15 +296,14 @@ namespace KodalibApi.Dal.Migrations
                 columns: table => new
                 {
                     series_id = table.Column<int>(type: "integer", nullable: false),
-                    director_id = table.Column<int>(type: "integer", nullable: false),
-                    DirectorPersonId = table.Column<int>(type: "integer", nullable: false)
+                    director_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_director_series", x => new { x.director_id, x.series_id });
                     table.ForeignKey(
-                        name: "FK_director_series_person_DirectorPersonId",
-                        column: x => x.DirectorPersonId,
+                        name: "FK_director_series_person_director_id",
+                        column: x => x.director_id,
                         principalTable: "person",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -396,15 +393,14 @@ namespace KodalibApi.Dal.Migrations
                 columns: table => new
                 {
                     series_id = table.Column<int>(type: "integer", nullable: false),
-                    writer_id = table.Column<int>(type: "integer", nullable: false),
-                    WriterPersonId = table.Column<int>(type: "integer", nullable: false)
+                    writer_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_writer_series", x => new { x.series_id, x.writer_id });
                     table.ForeignKey(
-                        name: "FK_writer_series_person_WriterPersonId",
-                        column: x => x.WriterPersonId,
+                        name: "FK_writer_series_person_writer_id",
+                        column: x => x.writer_id,
                         principalTable: "person",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -445,6 +441,8 @@ namespace KodalibApi.Dal.Migrations
                 name: "series_voiceover",
                 columns: table => new
                 {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     series_id = table.Column<int>(type: "integer", nullable: false),
                     voiceover_id = table.Column<int>(type: "integer", nullable: false),
                     count_season = table.Column<int>(type: "integer", nullable: false),
@@ -452,7 +450,7 @@ namespace KodalibApi.Dal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_series_voiceover", x => new { x.series_id, x.voiceover_id });
+                    table.PrimaryKey("PK_series_voiceover", x => x.id);
                     table.ForeignKey(
                         name: "FK_series_voiceover_series_series_id",
                         column: x => x.series_id,
@@ -474,18 +472,16 @@ namespace KodalibApi.Dal.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     voiceover_id = table.Column<int>(type: "integer", nullable: false),
-                    VoiceoverSeriesId = table.Column<int>(type: "integer", nullable: false),
-                    VoiceoverId1 = table.Column<int>(type: "integer", nullable: false),
-                    NumberSeason = table.Column<int>(type: "integer", nullable: false)
+                    number_season = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_season", x => x.id);
                     table.ForeignKey(
-                        name: "FK_season_series_voiceover_VoiceoverSeriesId_VoiceoverId1",
-                        columns: x => new { x.VoiceoverSeriesId, x.VoiceoverId1 },
+                        name: "FK_season_series_voiceover_voiceover_id",
+                        column: x => x.voiceover_id,
                         principalTable: "series_voiceover",
-                        principalColumns: new[] { "series_id", "voiceover_id" },
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -521,19 +517,9 @@ namespace KodalibApi.Dal.Migrations
                 column: "actors_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_director_series_DirectorPersonId",
-                table: "director_series",
-                column: "DirectorPersonId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_director_series_series_id",
                 table: "director_series",
                 column: "series_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_directors_films_DirectorPersonId",
-                table: "directors_films",
-                column: "DirectorPersonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_directors_films_film_id",
@@ -566,9 +552,9 @@ namespace KodalibApi.Dal.Migrations
                 column: "voiceover_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_season_VoiceoverSeriesId_VoiceoverId1",
+                name: "IX_season_voiceover_id",
                 table: "season",
-                columns: new[] { "VoiceoverSeriesId", "VoiceoverId1" });
+                column: "voiceover_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_series_comment_CommentsId",
@@ -591,19 +577,24 @@ namespace KodalibApi.Dal.Migrations
                 column: "genres_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_series_voiceover_series_id",
+                table: "series_voiceover",
+                column: "series_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_series_voiceover_voiceover_id",
                 table: "series_voiceover",
                 column: "voiceover_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_writer_series_WriterPersonId",
+                name: "IX_writer_series_writer_id",
                 table: "writer_series",
-                column: "WriterPersonId");
+                column: "writer_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_writers_films_WriterPersonId",
+                name: "IX_writers_films_writer_id",
                 table: "writers_films",
-                column: "WriterPersonId");
+                column: "writer_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

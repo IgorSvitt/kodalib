@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using KodalibApi.Data.Models.FIlmTables;
 using KodalibApi.Data.Models.VoiceoverTable;
 
@@ -7,6 +8,10 @@ namespace KodalibApi.Data.Models.SeriesTable;
 [Table("series_voiceover")]
 public class SeriesVoiceover
 {
+    [Key]
+    [Column("id")]
+    public int Id { get; set; }
+    
     [Column("series_id")] 
     public int SeriesId { get; set; }
     public Series Series { get; set; }

@@ -1,5 +1,6 @@
 ﻿using GenelogyApi.Domain.ViewModels.Pages;
 using Kodalib.Service.Interfaces;
+using KodalibApi.Data.Filters;
 using KodalibApi.Data.Response;
 using KodalibApi.Data.ViewModels.CreateViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,16 @@ public class SeriesController : ControllerBase
     }
     
     [HttpGet(Name = "GetSeries")]
-    public async Task<IBaseResponse> GetSeries([FromQuery] PageParameters pageParameters)
+    public async Task<IBaseResponse> GetSeries([FromQuery] PageParameters pageParameters,  [FromQuery] FilmsFilters filmsFilters)
     {
-        var response = await _seriesService.GetSeries(pageParameters, HttpContext.RequestAborted);
+        var response = await _seriesService.GetSeries(pageParameters, filmsFilters, HttpContext.RequestAborted);
+        return response;
+    }
+    
+    [HttpGet("last", Name = "GetLastSeries")]
+    public async Task<IBaseResponse> GetLastSeries()
+    {
+        var response = await _seriesService.GetLastSeries(HttpContext.RequestAborted);
         return response;
     }
     
@@ -37,5 +45,12 @@ public class SeriesController : ControllerBase
     public async Task CreateFilms(List<CreateSeriesViewModel> series)
     {
         await _seriesService.CreateSeries(series, HttpContext.RequestAborted);
+    }
+    
+    [HttpGet("last-episodes", Name = "LastEpisodes")]
+    public async Task<IBaseResponse> LastEpisodes()
+    {
+        var response = await _seriesService.GetLastEpisodes(HttpContext.RequestAborted);
+        return response;
     }
 }

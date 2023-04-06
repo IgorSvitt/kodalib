@@ -2,7 +2,7 @@
 
 public class EpisodesViewModel
 {
-    public Guid? Id { get; set; }
+    public int? Id { get; set; }
     
     public short NumberEpisode { get; set; }
     

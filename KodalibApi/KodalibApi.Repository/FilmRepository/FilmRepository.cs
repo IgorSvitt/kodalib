@@ -53,6 +53,9 @@ public class FilmRepository : IFilmRepository
             .Where(filmsFilters.Year == null
                 ? f => true
                 : f => f.Year == filmsFilters.Year)
+            .Where(filmsFilters.Title == null
+            ? f => true
+            : f => f.Title.ToLower().Contains(filmsFilters.Title.ToLower()))
             .Select(f => new FilmViewModels()
             {
                 Id = f.Id,
@@ -84,12 +87,12 @@ public class FilmRepository : IFilmRepository
                 Writers = f.Writers.Select(a => new CharacterViewModel()
                 {
                     Id = a.WriterId,
-                    Name = a.WriterPerson.Name,
+                    Name = a.Writer.Name,
                 }).ToList(),
                 Directors = f.Directors.Select(a => new CharacterViewModel()
                 {
                     Id = a.DirectorId,
-                    Name = a.DirectorPerson.Name,
+                    Name = a.Director.Name,
                 }).ToList(),
                 Voiceovers = f.Voiceovers.Select(v => new VoiceoverFilmViewModel()
                 {
@@ -97,7 +100,19 @@ public class FilmRepository : IFilmRepository
                     Link = v.Link,
                     Voiceover = v.Voiceover.Name
                 }).ToList(),
-            }), pageParameters.PageNumber, pageParameters.PageSize, cancellationToken);
+            }).OrderByDescending(r => r.KinopoiskRating), pageParameters.PageNumber, pageParameters.PageSize, cancellationToken);
+    }
+
+    public async Task<List<FilmViewModels>> GetLastFilms(CancellationToken cancellationToken)
+    {
+        return await _context.Films.OrderByDescending(x => x.Id)
+            .Take(10)
+            .Select(film => new FilmViewModels()
+            {
+                Id = film.Id,
+                Title = film.Title,
+                Poster = film.Poster
+            }).ToListAsync(cancellationToken);
     }
 
     public async Task<FilmViewModels?> GetFilmById(int id, CancellationToken cancellationToken)
@@ -135,12 +150,12 @@ public class FilmRepository : IFilmRepository
                 Writers = f.Writers.Select(a => new CharacterViewModel()
                 {
                     Id = a.WriterId,
-                    Name = a.WriterPerson.Name,
+                    Name = a.Writer.Name,
                 }).ToList(),
                 Directors = f.Directors.Select(a => new CharacterViewModel()
                 {
                     Id = a.DirectorId,
-                    Name = a.DirectorPerson.Name,
+                    Name = a.Director.Name,
                 }).ToList(),
                 Voiceovers = f.Voiceovers.Select(v => new VoiceoverFilmViewModel()
                 {
@@ -172,11 +187,11 @@ public class FilmRepository : IFilmRepository
             {
                 GenreId = g.Id
             }).ToList(),
-            Directors = film.Directors.Select(d => new Director()
+            Directors = film.Directors.Select(d => new DirectorFilm()
             {
                 DirectorId = d.Id
             }).ToList(),
-            Writers = film.Writers.Select(w => new Writer()
+            Writers = film.Writers.Select(w => new WriterFilm()
             {
                 WriterId = w.Id
             }).ToList(),

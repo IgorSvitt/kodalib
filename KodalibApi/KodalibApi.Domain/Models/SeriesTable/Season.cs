@@ -15,6 +15,7 @@ public class Season
     public int VoiceoverId { get; set; }
     public SeriesVoiceover Voiceover { get; set; }
 
+    [Column("number_season")]
     public int NumberSeason { get; set; }
 
     public List<Episodes> Episodes { get; set; }

@@ -20,6 +20,6 @@ public class Episodes
     public string Image { get; set; }
     
     [Column("season_id")]
-    public int? SeasonId { get; set; }
+    public int SeasonId { get; set; }
     public Season Season { get; set; }
 }

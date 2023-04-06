@@ -12,7 +12,7 @@ public class DirectorSeries
     [Column("director_id")]
     public int DirectorId { get; set; }
 
-    public Person DirectorPerson { get; set; }
+    public Person Director { get; set; }
 
     public Series Series { get; set; }
 }

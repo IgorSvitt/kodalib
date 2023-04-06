@@ -27,6 +27,13 @@ public class FilmController : ControllerBase
         return response;
     }
     
+    [HttpGet("last", Name = "GetLastFilms")]
+    public async Task<IBaseResponse> GetLastFilms()
+    {
+        var response = await _filmService.GetLastFilms(HttpContext.RequestAborted);
+        return response;
+    }
+    
     [HttpGet("{id}",Name = "GetFilmsById")]
     public async Task<IBaseResponse> GetFilmsById(int id)
     {

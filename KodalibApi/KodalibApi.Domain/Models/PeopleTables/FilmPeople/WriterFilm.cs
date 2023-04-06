@@ -4,7 +4,7 @@ using KodalibApi.Data.Models.FIlmTables;
 namespace KodalibApi.Data.Models.PeopleTables.FilmPeople;
 
 [Table("writers_films")]
-public class Writer
+public class WriterFilm
 {
     [Column("film_id")]
     public int FilmId { get; set; }
@@ -12,7 +12,7 @@ public class Writer
     [Column("writer_id")]
     public int WriterId { get; set; }
 
-    public Person WriterPerson { get; set; }
+    public Person Writer { get; set; }
 
     public Film Film { get; set; }
 }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KodalibApi.Dal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230318065121_Initial")]
+    [Migration("20230321102356_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -259,7 +259,7 @@ namespace KodalibApi.Dal.Migrations
                     b.ToTable("character");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.Director", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.DirectorFilm", b =>
                 {
                     b.Property<int>("DirectorId")
                         .HasColumnType("integer")
@@ -269,19 +269,14 @@ namespace KodalibApi.Dal.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("film_id");
 
-                    b.Property<int>("DirectorPersonId")
-                        .HasColumnType("integer");
-
                     b.HasKey("DirectorId", "FilmId");
-
-                    b.HasIndex("DirectorPersonId");
 
                     b.HasIndex("FilmId");
 
                     b.ToTable("directors_films");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.FilmPeople.Writer", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.FilmPeople.WriterFilm", b =>
                 {
                     b.Property<int>("FilmId")
                         .HasColumnType("integer")
@@ -291,12 +286,9 @@ namespace KodalibApi.Dal.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("writer_id");
 
-                    b.Property<int>("WriterPersonId")
-                        .HasColumnType("integer");
-
                     b.HasKey("FilmId", "WriterId");
 
-                    b.HasIndex("WriterPersonId");
+                    b.HasIndex("WriterId");
 
                     b.ToTable("writers_films");
                 });
@@ -354,12 +346,7 @@ namespace KodalibApi.Dal.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("series_id");
 
-                    b.Property<int>("DirectorPersonId")
-                        .HasColumnType("integer");
-
                     b.HasKey("DirectorId", "SeriesId");
-
-                    b.HasIndex("DirectorPersonId");
 
                     b.HasIndex("SeriesId");
 
@@ -376,12 +363,9 @@ namespace KodalibApi.Dal.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("writer_id");
 
-                    b.Property<int>("WriterPersonId")
-                        .HasColumnType("integer");
-
                     b.HasKey("SeriesId", "WriterId");
 
-                    b.HasIndex("WriterPersonId");
+                    b.HasIndex("WriterId");
 
                     b.ToTable("writer_series");
                 });
@@ -430,21 +414,16 @@ namespace KodalibApi.Dal.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("NumberSeason")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("number_season");
 
                     b.Property<int>("VoiceoverId")
                         .HasColumnType("integer")
                         .HasColumnName("voiceover_id");
 
-                    b.Property<int>("VoiceoverId1")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VoiceoverSeriesId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("VoiceoverSeriesId", "VoiceoverId1");
+                    b.HasIndex("VoiceoverId");
 
                     b.ToTable("season");
                 });
@@ -540,13 +519,12 @@ namespace KodalibApi.Dal.Migrations
 
             modelBuilder.Entity("KodalibApi.Data.Models.SeriesTable.SeriesVoiceover", b =>
                 {
-                    b.Property<int>("SeriesId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("series_id");
+                        .HasColumnName("id");
 
-                    b.Property<int>("VoiceoverId")
-                        .HasColumnType("integer")
-                        .HasColumnName("voiceover_id");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CountEpisodes")
                         .HasColumnType("integer")
@@ -556,7 +534,17 @@ namespace KodalibApi.Dal.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("count_season");
 
-                    b.HasKey("SeriesId", "VoiceoverId");
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("integer")
+                        .HasColumnName("series_id");
+
+                    b.Property<int>("VoiceoverId")
+                        .HasColumnType("integer")
+                        .HasColumnName("voiceover_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SeriesId");
 
                     b.HasIndex("VoiceoverId");
 
@@ -696,11 +684,11 @@ namespace KodalibApi.Dal.Migrations
                     b.Navigation("Film");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.Director", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.DirectorFilm", b =>
                 {
-                    b.HasOne("KodalibApi.Data.Models.PeopleTables.Person", "DirectorPerson")
+                    b.HasOne("KodalibApi.Data.Models.PeopleTables.Person", "Director")
                         .WithMany("Directors")
-                        .HasForeignKey("DirectorPersonId")
+                        .HasForeignKey("DirectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -710,12 +698,12 @@ namespace KodalibApi.Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DirectorPerson");
+                    b.Navigation("Director");
 
                     b.Navigation("Film");
                 });
 
-            modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.FilmPeople.Writer", b =>
+            modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.FilmPeople.WriterFilm", b =>
                 {
                     b.HasOne("KodalibApi.Data.Models.FIlmTables.Film", "Film")
                         .WithMany("Writers")
@@ -723,15 +711,15 @@ namespace KodalibApi.Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KodalibApi.Data.Models.PeopleTables.Person", "WriterPerson")
+                    b.HasOne("KodalibApi.Data.Models.PeopleTables.Person", "Writer")
                         .WithMany("Writers")
-                        .HasForeignKey("WriterPersonId")
+                        .HasForeignKey("WriterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Film");
 
-                    b.Navigation("WriterPerson");
+                    b.Navigation("Writer");
                 });
 
             modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.SeriesPeople.CharacterSeries", b =>
@@ -755,9 +743,9 @@ namespace KodalibApi.Dal.Migrations
 
             modelBuilder.Entity("KodalibApi.Data.Models.PeopleTables.SeriesPeople.DirectorSeries", b =>
                 {
-                    b.HasOne("KodalibApi.Data.Models.PeopleTables.Person", "DirectorPerson")
+                    b.HasOne("KodalibApi.Data.Models.PeopleTables.Person", "Director")
                         .WithMany("DirectorSeries")
-                        .HasForeignKey("DirectorPersonId")
+                        .HasForeignKey("DirectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -767,7 +755,7 @@ namespace KodalibApi.Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DirectorPerson");
+                    b.Navigation("Director");
 
                     b.Navigation("Series");
                 });
@@ -780,15 +768,15 @@ namespace KodalibApi.Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KodalibApi.Data.Models.PeopleTables.Person", "WriterPerson")
+                    b.HasOne("KodalibApi.Data.Models.PeopleTables.Person", "Writer")
                         .WithMany("WriterSeries")
-                        .HasForeignKey("WriterPersonId")
+                        .HasForeignKey("WriterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Series");
 
-                    b.Navigation("WriterPerson");
+                    b.Navigation("Writer");
                 });
 
             modelBuilder.Entity("KodalibApi.Data.Models.SeriesTable.Episodes", b =>
@@ -804,7 +792,7 @@ namespace KodalibApi.Dal.Migrations
                 {
                     b.HasOne("KodalibApi.Data.Models.SeriesTable.SeriesVoiceover", "Voiceover")
                         .WithMany("Seasons")
-                        .HasForeignKey("VoiceoverSeriesId", "VoiceoverId1")
+                        .HasForeignKey("VoiceoverId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

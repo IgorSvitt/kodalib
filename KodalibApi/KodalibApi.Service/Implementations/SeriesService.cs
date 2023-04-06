@@ -2,6 +2,7 @@
 using GenelogyApi.Domain.ViewModels.Pages;
 using Kodalib.Service.Interfaces;
 using KodalibApi.Dal.Context;
+using KodalibApi.Data.Filters;
 using KodalibApi.Data.Models;
 using KodalibApi.Data.Models.FilmTables;
 using KodalibApi.Data.Models.FIlmTables;
@@ -42,13 +43,13 @@ public class SeriesService : ISeriesService
         _voiceoverRepository = voiceoverRepository;
     }
 
-    public async Task<IBaseResponse> GetSeries(PageParameters pageParameters, CancellationToken cancellationToken)
+    public async Task<IBaseResponse> GetSeries(PageParameters pageParameters, FilmsFilters filmsFilters, CancellationToken cancellationToken)
     {
         var baseResponse = new BaseResponse<PagedList<SeriesViewModel>>();
 
         try
         {
-            var series = await _seriesRepository.GetSeries(pageParameters, cancellationToken);
+            var series = await _seriesRepository.GetSeries(pageParameters, filmsFilters, cancellationToken);
 
             if (series == null || series.CurrentPage > series.TotalPages)
             {
@@ -73,7 +74,29 @@ public class SeriesService : ISeriesService
         }
     }
 
-    public async Task<IBaseResponse> GetSeriesById(int id, CancellationToken cancellationToken)
+    public async Task<IBaseResponse> GetLastSeries(CancellationToken cancellationToken)
+    {
+        var baseResponse = new BaseResponse<List<SeriesViewModel>>();
+
+        try
+        {
+            var series = await _seriesRepository.GetLastSeries(cancellationToken);
+
+            baseResponse.Data = series;
+            baseResponse.StatusCode = StatusCode.OK;
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new ErrorResponse()
+            {
+                Description = $"[GetSeries] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse> GetSeriesById(int id,  CancellationToken cancellationToken)
     {
         var baseResponse = new BaseResponse<SeriesViewModel>();
 
@@ -113,150 +136,165 @@ public class SeriesService : ISeriesService
             using var transaction = new TransactionScope(TransactionScopeOption.Required,
                 new TransactionOptions {IsolationLevel = IsolationLevel.RepeatableRead},
                 TransactionScopeAsyncFlowOption.Enabled);
-            
+
             foreach (var s in series)
             {
-                //Country
-                var countries = new List<CountryViewModel>();
-                if (s.Countries != null)
+                try
                 {
-                    foreach (var country in s.Countries)
+                    //Country
+                    var countries = new List<CountryViewModel>();
+                    if (s.Countries != null)
                     {
-                        IdViewModel? countryId = null;
-
-                        countryId = await _countryRepository.GetCountryIdByName(country, cancellationToken)
-                                    ?? await _countryRepository.CreateCountry(country, cancellationToken);
-
-
-                        countries.Add(new CountryViewModel()
+                        foreach (var country in s.Countries)
                         {
-                            Id = countryId.Id,
-                            Name = country
-                        });
-                    }
-                }
+                            IdViewModel? countryId = null;
 
-                //Genre
-                var genres = new List<GenreViewModel>();
-                if (s.Genres != null)
-                {
-                    foreach (var genre in s.Genres)
+                            countryId = await _countryRepository.GetCountryIdByName(country, cancellationToken)
+                                        ?? await _countryRepository.CreateCountry(country, cancellationToken);
+
+
+                            countries.Add(new CountryViewModel()
+                            {
+                                Id = countryId.Id,
+                                Name = country
+                            });
+                        }
+                    }
+
+                    //Genre
+                    var genres = new List<GenreViewModel>();
+                    if (s.Genres != null)
                     {
-                        IdViewModel? genreId = null;
-
-                        genreId = await _genreRepository.GetGenreIdByName(genre, cancellationToken)
-                                  ?? await _genreRepository.CreateGenre(genre, cancellationToken);
-
-                        genres.Add(new GenreViewModel()
+                        foreach (var genre in s.Genres)
                         {
-                            Id = genreId.Id,
-                            Name = genre
-                        });
-                    }
-                }
+                            IdViewModel? genreId = null;
 
-                //Actor
-                var actors = new List<CharacterViewModel>();
-                if (s.Actors != null)
-                {
-                    foreach (var actor in s.Actors)
+                            genreId = await _genreRepository.GetGenreIdByName(genre, cancellationToken)
+                                      ?? await _genreRepository.CreateGenre(genre, cancellationToken);
+
+                            if (genres.All(g => g.Id != genreId.Id))
+                            {
+                                genres.Add(new GenreViewModel()
+                                {
+                                    Id = genreId.Id,
+                                    Name = genre
+                                });
+                            }
+                        }
+                    }
+
+                    //Actor
+                    var actors = new List<CharacterViewModel>();
+                    if (s.Actors != null)
                     {
-                        IdViewModel? actorId = null;
-
-                        actorId = await _personRepository.GetPersonIdByName(actor, cancellationToken)
-                                  ?? await _personRepository.CreatePerson(actor, cancellationToken);
-
-                        actors.Add(new CharacterViewModel()
+                        foreach (var actor in s.Actors)
                         {
-                            Id = actorId.Id,
-                            Name = actor
-                        });
-                    }
-                }
+                            IdViewModel? actorId = null;
 
-                //Writer
-                var writers = new List<CharacterViewModel>();
-                if (s.Writers != null)
-                {
-                    foreach (var writer in s.Writers)
+                            actorId = await _personRepository.GetPersonIdByName(actor, cancellationToken)
+                                      ?? await _personRepository.CreatePerson(actor, cancellationToken);
+
+                            actors.Add(new CharacterViewModel()
+                            {
+                                Id = actorId.Id,
+                                Name = actor
+                            });
+                        }
+                    }
+
+                    //Writer
+                    var writers = new List<CharacterViewModel>();
+                    if (s.Writers != null)
                     {
-                        IdViewModel? writerId = null;
-
-                        writerId = await _personRepository.GetPersonIdByName(writer, cancellationToken)
-                                   ?? await _personRepository.CreatePerson(writer, cancellationToken);
-
-                        writers.Add(new CharacterViewModel()
+                        foreach (var writer in s.Writers)
                         {
-                            Id = writerId.Id,
-                            Name = writer
-                        });
-                    }
-                }
+                            IdViewModel? writerId = null;
 
-                //Director
-                var directors = new List<CharacterViewModel>();
-                if (s.Directors != null)
-                {
-                    foreach (var director in s.Directors)
+                            writerId = await _personRepository.GetPersonIdByName(writer, cancellationToken)
+                                       ?? await _personRepository.CreatePerson(writer, cancellationToken);
+
+                            writers.Add(new CharacterViewModel()
+                            {
+                                Id = writerId.Id,
+                                Name = writer
+                            });
+                        }
+                    }
+
+                    //Director
+                    var directors = new List<CharacterViewModel>();
+                    if (s.Directors != null)
                     {
-                        IdViewModel? directorId = null;
-
-                        directorId = await _personRepository.GetPersonIdByName(director, cancellationToken)
-                                     ?? await _personRepository.CreatePerson(director, cancellationToken);
-
-                        directors.Add(new CharacterViewModel()
+                        foreach (var director in s.Directors)
                         {
-                            Id = directorId.Id,
-                            Name = director
-                        });
-                    }
-                }
+                            IdViewModel? directorId = null;
 
-                //Voiceover
-                var voiceovers = new List<SeriesVoiceoverViewModel>();
-                if (s.Voiceover != null)
-                {
-                    foreach (var voiceover in s.Voiceover)
+                            directorId = await _personRepository.GetPersonIdByName(director, cancellationToken)
+                                         ?? await _personRepository.CreatePerson(director, cancellationToken);
+
+                            directors.Add(new CharacterViewModel()
+                            {
+                                Id = directorId.Id,
+                                Name = director
+                            });
+                        }
+                    }
+
+                    //Voiceover
+                    var voiceovers = new List<SeriesVoiceoverViewModel>();
+                    if (s.Voiceover != null)
                     {
-                        IdViewModel? voiceoverId = null;
-
-                        voiceoverId =
-                            await _voiceoverRepository.GetVoiceoverIdByName(voiceover.Name, cancellationToken)
-                            ?? await _voiceoverRepository.CreateVoiceover(voiceover.Name, cancellationToken);
-
-                        voiceovers.Add(new SeriesVoiceoverViewModel()
+                        foreach (var voiceover in s.Voiceover)
                         {
-                            Id = voiceoverId.Id,
-                            Voiceover = voiceover.Name,
-                            CountEpisodes = voiceover.CountEpisodes,
-                            CountSeasons = voiceover.CountSeason,
-                            Seasons = voiceover.Season
-                        });
+                            IdViewModel? voiceoverId = null;
+
+                            voiceoverId =
+                                await _voiceoverRepository.GetVoiceoverIdByName(voiceover.Name, cancellationToken)
+                                ?? await _voiceoverRepository.CreateVoiceover(voiceover.Name, cancellationToken);
+
+                            voiceovers.Add(new SeriesVoiceoverViewModel()
+                            {
+                                Id = voiceoverId.Id,
+                                Voiceover = voiceover.Name,
+                                CountEpisodes = voiceover.CountEpisodes,
+                                CountSeasons = voiceover.CountSeason,
+                                Seasons = voiceover.Season
+                            });
+                        }
                     }
+
+                    SeriesViewModel filmViewModels = new SeriesViewModel()
+                    {
+                        Title = s.Title,
+                        Countries = countries,
+                        Genres = genres,
+                        Poster = s.Poster,
+                        Year = s.Year,
+                        Plot = s.Plot,
+                        YoutubeTrailer = s.YoutubeTrailer,
+                        KinopoiskRating = s.KinopoiskRating,
+                        KinopoiskId = s.KinopoiskId,
+                        Duration = s.Duration,
+                        Actors = actors,
+                        Directors = directors,
+                        Writers = writers,
+                        Voiceovers = voiceovers
+                    };
+
+                    var seriesId = await _seriesRepository.CreateSeries(filmViewModels, cancellationToken);
+                    baseResponse.Data = seriesId;
+                    baseResponse.StatusCode = StatusCode.OK;
                 }
-
-                SeriesViewModel filmViewModels = new SeriesViewModel()
+                catch (Exception ex)
                 {
-                    Title = s.Title,
-                    Countries = countries,
-                    Genres = genres,
-                    Poster = s.Poster,
-                    Year = s.Year,
-                    Plot = s.Plot,
-                    YoutubeTrailer = s.YoutubeTrailer,
-                    KinopoiskRating = s.KinopoiskRating,
-                    KinopoiskId = s.KinopoiskId,
-                    Duration = s.Duration,
-                    Actors = actors,
-                    Directors = directors,
-                    Writers = writers,
-                    Voiceovers = voiceovers
-                };
-
-                var seriesId = await _seriesRepository.CreateSeries(filmViewModels, cancellationToken);
-                baseResponse.Data = seriesId;
-                baseResponse.StatusCode = StatusCode.OK;
+                    return new ErrorResponse()
+                    {
+                        Description = $"[CreateFilm] : {ex.Message}",
+                        StatusCode = StatusCode.InternalServerError
+                    };
+                }
             }
+
             transaction.Complete();
             return baseResponse;
         }
@@ -265,6 +303,28 @@ public class SeriesService : ISeriesService
             return new ErrorResponse()
             {
                 Description = $"[CreateFilm] : {ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse> GetLastEpisodes(CancellationToken cancellationToken)
+    {
+        var baseResponse = new BaseResponse<List<EpisodeViewModel>>();
+
+        try
+        {
+            var series = await _seriesRepository.GetLastEpisodes(cancellationToken);
+
+            baseResponse.Data = series;
+            baseResponse.StatusCode = StatusCode.OK;
+            return baseResponse;
+        }
+        catch (Exception ex)
+        {
+            return new ErrorResponse()
+            {
+                Description = $"[GetSeries] : {ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }
