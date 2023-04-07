@@ -1,15 +1,21 @@
 version: '3.9'
 
 services:
-  koda:
+  back:
     build:
       context: ./KodalibApi
     ports:
-      - "80:80"
+      - "81:80"
     restart: always
     depends_on:
       - db
-    
+
+  front:
+    build:
+      context: ./kodalibfront
+    ports:
+      - "80:80"
+    restart: always
 
   db:
     image: postgres:15.2-alpine
@@ -20,6 +26,6 @@ services:
       - "5432:5432"
     volumes: 
       - db:/var/lib/postgresql/data
-
+  
 volumes:
     db:
