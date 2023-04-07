@@ -262,6 +262,8 @@ public class SeriesService : ISeriesService
                             });
                         }
                     }
+                    
+                    if (s.KinopoiskRating == "undefined") s.KinopoiskRating = "";
 
                     SeriesViewModel filmViewModels = new SeriesViewModel()
                     {

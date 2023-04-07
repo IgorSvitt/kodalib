@@ -293,6 +293,8 @@ public class FilmService : IFilmService
                 }
             }
 
+            
+            
             FilmViewModels filmViewModels = new FilmViewModels()
             {
                 Title = film.Title,
@@ -460,6 +462,8 @@ public class FilmService : IFilmService
                             });
                         }
                     }
+
+                    if (film.KinopoiskRating == "undefined") film.KinopoiskRating = "";
 
                     FilmViewModels filmViewModels = new FilmViewModels()
                     {
