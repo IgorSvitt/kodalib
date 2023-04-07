@@ -5,13 +5,21 @@ services:
     build:
       context: ./KodalibApi
     ports:
-     - "80:80"
+      - "80:80"
     restart: always
     depends_on:
       - db
+    
 
   db:
     image: postgres:15.2-alpine
     environment:
       - POSTGRES_PASSWORD=monvormo
     restart: always
+    ports:
+      - "5432:5432"
+    volumes: 
+      - db:/var/lib/postgresql/data
+
+volumes:
+    db:
