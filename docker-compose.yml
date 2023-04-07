@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  koda:
+    build:
+      context: ./KodalibApi
+    ports:
+     - "80:80"
+    restart: always
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15.2-alpine
+    environment:
+      - POSTGRES_PASSWORD=monvormo
+    restart: always
