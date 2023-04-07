@@ -151,7 +151,7 @@ export const series = {
 
     actions: {
         async getSerialApi({commit}, id) {
-            await axios.get("http://5.44.46.158/api/series/" + id)
+            await axios.get("http://5.44.46.158:81/api/series/" + id)
                 .then(response => {
                     console.log(response.data.data.voiceovers)
                     commit("setId", response.data.data.id)
@@ -173,7 +173,7 @@ export const series = {
         },
         async getSeriesApi({ commit }, { page, country, genre, year, title }) {
             try {
-                let url = `http://5.44.46.158/api/series?PageSize=16&PageNumber=${page}`;
+                let url = `http://5.44.46.158:81/api/series?PageSize=16&PageNumber=${page}`;
                 if (country) {
                     url += `&Country=${country}`;
                 }

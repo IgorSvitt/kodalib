@@ -24,7 +24,7 @@ export default {
 
     onMounted(async () => {
       isLoading.value = true
-      await axios.get("http://5.44.46.158/api/films")
+      await axios.get("http://5.44.46.158:81/api/films")
           .then(response => {
             information.value = response.data.data.items
             isLoading.value = false

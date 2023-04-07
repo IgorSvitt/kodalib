@@ -23,7 +23,7 @@ export const genres = {
 
     actions: {
         async getGenresApi({ commit }) {
-            const response = await axios.get("http://5.44.46.158/api/genres");
+            const response = await axios.get("http://5.44.46.158:81/api/genres");
             commit("setGenres", response.data.data);
         },
     },

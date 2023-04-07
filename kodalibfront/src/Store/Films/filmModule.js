@@ -143,7 +143,7 @@ export const films = {
 
     actions: {
         async getFilmApi({commit}, id) {
-            await axios.get("http://5.44.46.158/api/films/" + id)
+            await axios.get("http://5.44.46.158:81/api/films/" + id)
                 .then(response => {
                     console.log(response.data.data)
                     commit("setId", response.data.data.id)
@@ -165,7 +165,7 @@ export const films = {
         },
         async getFilmsApi({ commit }, { page, country, genre, year, title }) {
             try {
-                let url = `http://5.44.46.158/api/films?PageSize=16&PageNumber=${page}`;
+                let url = `http://5.44.46.158:81/api/films?PageSize=16&PageNumber=${page}`;
                 if (country) {
                     url += `&Country=${country}`;
                 }
