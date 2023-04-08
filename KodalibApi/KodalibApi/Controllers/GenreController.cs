@@ -1,5 +1,6 @@
 ﻿using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Response;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KodalibApi.Controllers;
@@ -9,6 +10,7 @@ namespace KodalibApi.Controllers;
 [Route(("api/genres"))]
 [Produces("application/json")]
 [Consumes("application/json")] 
+[EnableCors("MyPolicy")]
 public class GenreController : ControllerBase
 {
     private readonly IGenreService _genreService;

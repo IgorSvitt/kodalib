@@ -24,7 +24,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddCors();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyPolicy",
+        policy =>
+        {
+            policy.WithOrigins("https://kodalib.ru",
+                    "http://kodalib.ru",
+                    "https://localhost")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 builder.Services.AddScoped<IFilmRepository, FilmRepository>();
 builder.Services.AddScoped<IFilmService, FilmService>();
@@ -60,11 +72,11 @@ catch (Exception ex)
 
 // if (app.Environment.IsDevelopment())
 // {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 // }
 
-app.UseCors(cors => cors.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseCors();
 
 app.UseAuthorization();
 

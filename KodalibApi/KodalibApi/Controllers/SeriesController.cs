@@ -3,6 +3,7 @@ using Kodalib.Service.Interfaces;
 using KodalibApi.Data.Filters;
 using KodalibApi.Data.Response;
 using KodalibApi.Data.ViewModels.CreateViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KodalibApi.Controllers;
@@ -11,6 +12,7 @@ namespace KodalibApi.Controllers;
 [Route("api/series")]
 [Produces("application/json")]
 [Consumes("application/json")]
+[EnableCors("MyPolicy")]
 public class SeriesController : ControllerBase
 {
     private readonly ISeriesService _seriesService;
