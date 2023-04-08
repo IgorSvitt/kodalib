@@ -31,8 +31,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins("https://kodalib.ru",
-                    "http://kodalib.ru",
-                    "https://localhost")
+                    "http://kodalib.ru")
                 .AllowAnyMethod()
                 .AllowAnyHeader();
         });
@@ -76,7 +75,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 // }
 
-app.UseCors();
+app.UseCors("MyPolicy");
 
 app.UseAuthorization();
 
