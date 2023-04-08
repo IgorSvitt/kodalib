@@ -31,7 +31,7 @@ export default {
 
       const config = ({
         method: "post",
-        url: "http://5.44.46.158:81/api/films/films",
+        url: "http://localhost:7248/api/films/films",
         data: dataFilms.value,
       })
       console.log(config)

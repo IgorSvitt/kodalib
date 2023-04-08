@@ -293,7 +293,8 @@ public class FilmService : IFilmService
                 }
             }
 
-            
+            if (film.KinopoiskRating == "undefined")
+                film.KinopoiskRating = "";
             
             FilmViewModels filmViewModels = new FilmViewModels()
             {
