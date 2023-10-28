@@ -31,7 +31,7 @@ export default {
 
       const config = ({
         method: "post",
-        url: "http://localhost:7248/api/films/films",
+        url: "https://localhost:7248/api/films/films",
         data: dataFilms.value,
       })
       console.log(config)
@@ -39,10 +39,16 @@ export default {
     }
 
     function getFilms() {
-      axios.get(url.value).then((responce) => {
-        films.value = responce.data.results;
-        getFilm()
-      });
+      if (url.value != null) {
+        axios.get(url.value).then((responce) => {
+          films.value = responce.data.results;
+          getFilm()
+          url.value = responce.data.next_page
+          console.log(url.value)
+          getFilms()
+        });
+      }
+
     }
 
     function getFilm() {
@@ -81,12 +87,13 @@ export default {
           film.value.kinopoiskRating = films.value[i].material_data.kinopoisk_rating
           film.value.voiceover.push({"name": films.value[i].translation.title, "link": films.value[i].link})
 
-          if(film.value.kinopoiskId !== undefined){
-            axios.get(`https://api.kinopoisk.dev/v1/movie/${film.value.kinopoiskId}`,  {
+          if (film.value.kinopoiskId !== undefined) {
+            axios.get(`https://api.kinopoisk.dev/v1/movie/${film.value.kinopoiskId}`, {
               headers: {
                 'accept': 'application/json',
                 'X-API-KEY': 'SADHXV0-EXY49EN-NTJYCE4-JVRGGEP'
-              }})
+              }
+            })
                 .then(responce => {
                   for (let j = 0; j < responce.data.videos.trailers.length; j++) {
                     if (responce.data.videos.trailers[j].site === "youtube") {
@@ -141,10 +148,16 @@ export default {
 
 
     function getSeries() {
-      axios.get(url.value).then((responce) => {
-        series.value = responce.data.results;
-        getSerial()
-      });
+
+      if (url.value !== null) {
+        axios.get(url.value).then((responce) => {
+          series.value = responce.data.results;
+          getSerial()
+          url.value = responce.data.next_page
+          console.log(url.value)
+          getSeries()
+        });
+      }
     }
 
     function addSeries() {
@@ -187,9 +200,12 @@ export default {
           for (let j = 0; j < series.value[i].material_data.countries.length; j++) {
             serial.value.countries.push(series.value[i].material_data.countries[j])
           }
-          for (let j = 0; j < series.value[i].material_data.all_genres.length; j++) {
-            serial.value.genres.push(series.value[i].material_data.all_genres[j])
+          if(series.value[i].material_data.all_genres){
+            for (let j = 0; j < series.value[i].material_data.all_genres.length; j++) {
+              serial.value.genres.push(series.value[i].material_data.all_genres[j])
+            }
           }
+
           serial.value.poster = series.value[i].material_data.poster_url
           serial.value.kinopoiskRating = series.value[i].material_data.kinopoisk_rating
           var countSeason = 0;
@@ -242,7 +258,7 @@ export default {
             "year": serial.value.year,
             "duration": String(serial.value.duration),
             "plot": serial.value.plot,
-            "kinopoiskRating": String(serial.value.ratingKinopoisk),
+            "kinopoiskRating": String(serial.value.kinopoiskRating),
             "youtubeTrailer": serial.value.youtubeTrailer,
             "countries": serial.value.countries,
             "genres": serial.value.genres,

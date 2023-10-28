@@ -37,7 +37,7 @@ export default {
     onMounted(async () => {
       isLoading.value = true
       await store.dispatch("films/getFilmApi", route.params.id)
-      isLoading.value = false
+        isLoading.value = false
       information.value = store.state.films.film
 
       if (information.value && information.value.title) {
